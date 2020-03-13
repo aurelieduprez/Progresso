@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-function Example() {
+class Example extends Component{
+    render(){
     return (
         <div className="container">
             <div className="row justify-content-center">
@@ -14,7 +15,7 @@ function Example() {
                 </div>
             </div>
         </div>
-    );
+    )};
 }
 
 export default Example;
