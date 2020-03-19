@@ -6,16 +6,46 @@ var todoItems = [];
 class TodoList extends React.Component {
 
   render() {
-    var items = this.props.items.map((item, index) => {
+    if (this.props.mode == "all") {
+      var items = this.props.items.map((item, index) => {
+        return (
+          <div id="todolist">
+            <TodoListItem key={index} item={item} index={index} removeItem={this.props.removeItem} markTodoDone={this.props.markTodoDone} />
+          </div>
+        );
+      });
       return (
-        <div id="todolist">
-          <TodoListItem key={index} item={item} index={index} removeItem={this.props.removeItem} markTodoDone={this.props.markTodoDone} />
-        </div>
+        <ul className="list-group"> {items} </ul>
       );
-    });
-    return (
-      <ul className="list-group"> {items} </ul>
-    );
+    }
+    else if (this.props.mode == "DoneOnly") {
+      var items = this.props.items.map((item, index) => {
+        if (item.done) {
+          return (
+            <div id="todolist">
+              <TodoListItem key={index} item={item} index={index} removeItem={this.props.removeItem} markTodoDone={this.props.markTodoDone} />
+            </div>
+          );
+        }
+      });
+      return (
+        <ul className="list-group"> {items} </ul>
+      );
+    }
+    else if (this.props.mode == "TodoOnly") {
+      var items = this.props.items.map((item, index) => {
+        if (!item.done) {
+          return (
+            <div id="todolist">
+              <TodoListItem key={index} item={item} index={index} removeItem={this.props.removeItem} markTodoDone={this.props.markTodoDone} />
+            </div>
+          );
+        }
+      });
+      return (
+        <ul className="list-group"> {items} </ul>
+      );
+    }
   }
 }
 
@@ -42,13 +72,13 @@ class TodoListItem extends React.Component {
           <h2>{this.props.item.value}</h2>
         }
         {this.props.item.title == undefined &&
-        <li className="list-group-item ">
-          <div className={todoClass}>
+          <li className="list-group-item ">
+            <div className={todoClass}>
               {this.props.item.value}
-                <button className="glyphicon glyphicon-ok icon" aria-hidden="true" onClick={this.onClickDone}>done</button>
-                <button type="button" className="close" onClick={this.onClickDelete}>&times;</button>
-          </div>
-        </li>
+              <button className="glyphicon glyphicon-ok icon" aria-hidden="true" onClick={this.onClickDone}>done</button>
+              <button type="button" className="close" onClick={this.onClickDelete}>&times;</button>
+            </div>
+          </li>
         }
       </>
     );
@@ -89,13 +119,30 @@ class TodoListTitle extends React.Component {
   }
 }
 
+class TodoListModeButton extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div id="ModeButtonDiv">
+        <button onClick={()=>{this.props.changeMode("all")}}>All</button>
+        <button onClick={()=>{this.props.changeMode("TodoOnly")}}>TodoOnly</button>
+        <button onClick={()=>{this.props.changeMode("DoneOnly")}}>DoneOnly</button>
+      </div>
+    )
+
+
+  }
+}
+
 class SaveTodoList extends React.Component {
   constructor(props) {
     super(props);
   }
   render() {
     return (
-    <button onClick={this.props.save}>Save</button>
+      <button onClick={this.props.save}>Save</button>
     )
   }
 }
@@ -108,11 +155,16 @@ class TodoApp extends React.Component {
     this.removeItem = this.removeItem.bind(this);
     this.markTodoDone = this.markTodoDone.bind(this);
     this.saveItem = this.saveItem.bind(this);
-    this.state = { todoItems: todoItems };
+    this.changeMode = this.changeMode.bind(this);
+    this.state = { todoItems: todoItems, mode: "all" };
   }
 
-  saveItem(){
+  saveItem() {
     console.log(this.state.todoItems)
+  }
+
+  changeMode(NewMode) {
+    this.setState({ mode: NewMode });
   }
 
   addItem(todoItem) {
@@ -136,9 +188,9 @@ class TodoApp extends React.Component {
     todo.done ? todoItems.push(todo) : todoItems.unshift(todo);
     this.setState({ todoItems: todoItems });
   }
-  componentDidMount(){
-    if(todoItems.length == 0){
-      todoItems.push({ index: 1, value: "Done", title: true });
+  componentDidMount() {
+    if (todoItems.length == 0) {
+      todoItems.push({ index: 1, value: "Done", title: true , done: true});
       this.setState({ todoItems: todoItems });
     }
   }
@@ -147,8 +199,14 @@ class TodoApp extends React.Component {
     return (
       <div id="main">
         <TodoListTitle name="list-name" />
-        <h2>Todo</h2>
-        <TodoList items={this.props.initItems} removeItem={this.removeItem} markTodoDone={this.markTodoDone} />
+        <TodoListModeButton changeMode={this.changeMode} />
+        {this.state.mode == "all" &&
+          <h2>Todo</h2>
+        }
+        {this.state.mode == "TodoOnly" &&
+          <h2>Todo</h2>
+        }
+        <TodoList mode={this.state.mode} items={this.props.initItems} removeItem={this.removeItem} markTodoDone={this.markTodoDone} />
         <NewTodo addItem={this.addItem} />
         <SaveTodoList save={this.saveItem} />
       </div>
