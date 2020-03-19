@@ -147,6 +147,18 @@ class SaveTodoList extends React.Component {
   }
 }
 
+class DeleteAllDoneButton extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <button onClick={()=>{this.props.removeAllDoneItem()}}>deleteAllDone</button>
+    )
+  }
+}
+
+
 class TodoApp extends React.Component {
   // Define attribute & function of TodoApp
   constructor(props) {
@@ -156,6 +168,7 @@ class TodoApp extends React.Component {
     this.markTodoDone = this.markTodoDone.bind(this);
     this.saveItem = this.saveItem.bind(this);
     this.changeMode = this.changeMode.bind(this);
+    this.removeAllDoneItem = this.removeAllDoneItem.bind(this);
     this.state = { todoItems: todoItems, mode: "all" };
   }
 
@@ -179,6 +192,21 @@ class TodoApp extends React.Component {
     todoItems.splice(itemIndex, 1);
     this.setState({ todoItems: todoItems });
   }
+
+  removeAllDoneItem() {
+    console.log("remove all called")
+    console.log(" i = "+i+"todoItems length = "+ todoItems.length)
+    console.log("todoitem : "+todoItems)
+    for(var i = 0; i < todoItems.length ; i++){
+      console.log("for : "+i)
+      console.log("todoItems[i] : "+todoItems[i])
+      if(todoItems[i].done == true && todoItems[i].title == undefined){
+        todoItems.splice(i , 1)
+      }
+    }
+    this.setState({ todoItems: todoItems });
+  }
+
   markTodoDone(itemIndex) {
     // delete items
     var todo = todoItems[itemIndex];
@@ -206,6 +234,7 @@ class TodoApp extends React.Component {
         {this.state.mode == "TodoOnly" &&
           <h2>Todo</h2>
         }
+        <DeleteAllDoneButton removeAllDoneItem={this.removeAllDoneItem} />
         <TodoList mode={this.state.mode} items={this.props.initItems} removeItem={this.removeItem} markTodoDone={this.markTodoDone} />
         <NewTodo addItem={this.addItem} />
         <SaveTodoList save={this.saveItem} />
