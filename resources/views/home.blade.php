@@ -7,11 +7,7 @@
             <div class="card">
                 <div class="card">
                     <div class="card-header">My TODO-list</div>
-                    <div class="card-body">
-                    <div>exemple 1 </div>
-                    </div>
-                    <div class="card-body">
-                    <div>exemple 2 </div>
+                    <div class="card-body" id="todolist-preview" >
                     </div>
                 </div>
 

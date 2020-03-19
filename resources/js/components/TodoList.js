@@ -274,5 +274,6 @@ class TodoApp extends React.Component {
     );
   }
 }
-
+if(document.getElementById('todo-list')){
 ReactDOM.render(<TodoApp initItems={todoItems} />, document.getElementById('todo-list'));
+}

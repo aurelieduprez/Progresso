@@ -14,3 +14,4 @@ require('./bootstrap');
 
 require('./components/Example');
 require('./components/TodoList')
+require('./components/TodoList_preview')
