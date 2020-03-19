@@ -19,7 +19,6 @@
                     <div class="card-header">Create new TODO-list</div>
 
                     <div class="card-body">
-                    <div id="todo-list"></div>
                 </div>
         </div>
     </div>
