@@ -126,9 +126,9 @@ class TodoListModeButton extends React.Component {
   render() {
     return (
       <div id="ModeButtonDiv">
-        <button onClick={()=>{this.props.changeMode("all")}}>All</button>
-        <button onClick={()=>{this.props.changeMode("TodoOnly")}}>TodoOnly</button>
-        <button onClick={()=>{this.props.changeMode("DoneOnly")}}>DoneOnly</button>
+        <button onClick={() => { this.props.changeMode("all") }}>All</button>
+        <button onClick={() => { this.props.changeMode("TodoOnly") }}>TodoOnly</button>
+        <button onClick={() => { this.props.changeMode("DoneOnly") }}>DoneOnly</button>
       </div>
     )
 
@@ -153,7 +153,18 @@ class DeleteAllDoneButton extends React.Component {
   }
   render() {
     return (
-      <button onClick={()=>{this.props.removeAllDoneItem()}}>deleteAllDone</button>
+      <button onClick={() => { this.props.removeAllDoneItem() }}>deleteAllDone</button>
+    )
+  }
+}
+
+class UncheckALL extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <button onClick={() => { this.props.UncheckALL() }}>UncheckALL</button>
     )
   }
 }
@@ -169,6 +180,7 @@ class TodoApp extends React.Component {
     this.saveItem = this.saveItem.bind(this);
     this.changeMode = this.changeMode.bind(this);
     this.removeAllDoneItem = this.removeAllDoneItem.bind(this);
+    this.UncheckALL = this.UncheckALL.bind(this);
     this.state = { todoItems: todoItems, mode: "all" };
   }
 
@@ -195,16 +207,35 @@ class TodoApp extends React.Component {
 
   removeAllDoneItem() {
     console.log("remove all called")
-    console.log(" i = "+i+"todoItems length = "+ todoItems.length)
-    console.log("todoitem : "+todoItems)
-    for(var i = 0; i < todoItems.length ; i++){
-      console.log("for : "+i)
-      console.log("todoItems[i] : "+todoItems[i])
-      if(todoItems[i].done == true && todoItems[i].title == undefined){
-        todoItems.splice(i , 1)
+    console.log(" i = " + i + "todoItems length = " + todoItems.length)
+    console.log("todoitem : " + todoItems)
+    for (var i = 0; i < todoItems.length; i++) {
+      console.log("for : " + i)
+      console.log("todoItems[i] : " + todoItems[i])
+      if (todoItems[i].done == true && todoItems[i].title == undefined) {
+        todoItems.splice(i, 1)
       }
     }
     this.setState({ todoItems: todoItems });
+  }
+
+  UncheckALL() {
+    console.log("remove all called")
+    console.log(" i = " + i + "todoItems length = " + todoItems.length)
+    console.log("todoitem : " + todoItems)
+    for (var i = 0; i < todoItems.length; i++) {
+      console.log("for : " + i)
+      console.log("todoItems[i] : " + todoItems[i])
+      if (todoItems[i].done == true && todoItems[i].title == undefined) {
+        let todo = todoItems[i]
+        todoItems.splice(i, 1);
+        // insert a new one with same value at the end of the array
+        todo.done = false;
+        todoItems.unshift(todo);
+        this.setState({ todoItems: todoItems });
+      }
+    }
+    // this.setState({ todoItems: todoItems });
   }
 
   markTodoDone(itemIndex) {
@@ -218,7 +249,7 @@ class TodoApp extends React.Component {
   }
   componentDidMount() {
     if (todoItems.length == 0) {
-      todoItems.push({ index: 1, value: "Done", title: true , done: true});
+      todoItems.push({ index: 1, value: "Done", title: true, done: true });
       this.setState({ todoItems: todoItems });
     }
   }
@@ -234,6 +265,7 @@ class TodoApp extends React.Component {
         {this.state.mode == "TodoOnly" &&
           <h2>Todo</h2>
         }
+        <UncheckALL UncheckALL={this.UncheckALL} />
         <DeleteAllDoneButton removeAllDoneItem={this.removeAllDoneItem} />
         <TodoList mode={this.state.mode} items={this.props.initItems} removeItem={this.removeItem} markTodoDone={this.markTodoDone} />
         <NewTodo addItem={this.addItem} />
