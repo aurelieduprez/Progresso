@@ -89,6 +89,17 @@ class TodoListTitle extends React.Component {
   }
 }
 
+class SaveTodoList extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+    <button onClick={this.props.save}>Save</button>
+    )
+  }
+}
+
 class TodoApp extends React.Component {
   // Define attribute & function of TodoApp
   constructor(props) {
@@ -96,8 +107,14 @@ class TodoApp extends React.Component {
     this.addItem = this.addItem.bind(this);
     this.removeItem = this.removeItem.bind(this);
     this.markTodoDone = this.markTodoDone.bind(this);
+    this.saveItem = this.saveItem.bind(this);
     this.state = { todoItems: todoItems };
   }
+
+  saveItem(){
+    console.log(this.state.todoItems)
+  }
+
   addItem(todoItem) {
     todoItems.unshift({
       index: todoItems.length + 1,
@@ -133,6 +150,7 @@ class TodoApp extends React.Component {
         <h2>Todo</h2>
         <TodoList items={this.props.initItems} removeItem={this.removeItem} markTodoDone={this.markTodoDone} />
         <NewTodo addItem={this.addItem} />
+        <SaveTodoList save={this.saveItem} />
       </div>
     );
   }
