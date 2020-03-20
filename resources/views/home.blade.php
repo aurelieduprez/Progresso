@@ -12,9 +12,7 @@
                 </div>
 
                 <div class="card">
-                    <div class="card-header">Create new TODO-list</div>
-
-                    <div class="card-body">
+                <button onclick="window.location='{{ url("todolist") }}'" >Create new TODO-list</button>
                 </div>
         </div>
     </div>
