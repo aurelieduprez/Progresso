@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateToDoListUsersTablesTable extends Migration
+class CreateToDoListsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class CreateToDoListUsersTablesTable extends Migration
      */
     public function up()
     {
-        Schema::create('to_do_list_users_tables', function (Blueprint $table) {
+        Schema::create('to_do_lists', function (Blueprint $table) {
             $table->id();
+            $table->date('creation');
+            $table->date('closed');
+            $table->boolean('state');
+            $table->text('title');
             $table->timestamps();
         });
     }
@@ -26,6 +30,6 @@ class CreateToDoListUsersTablesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('to_do_list_users_tables');
+        Schema::dropIfExists('to_do_lists');
     }
 }

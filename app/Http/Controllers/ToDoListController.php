@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\ToDoListItemsTable;
+use App\ToDoList;
 use Illuminate\Http\Request;
 
-class ToDoListItemsTableController extends Controller
+class ToDoListController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class ToDoListItemsTableController extends Controller
      */
     public function index()
     {
-        //
+        return view('todolist');
     }
 
     /**
@@ -41,10 +41,10 @@ class ToDoListItemsTableController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\ToDoListItemsTable  $toDoListItemsTable
+     * @param  \App\ToDoList  $toDoList
      * @return \Illuminate\Http\Response
      */
-    public function show(ToDoListItemsTable $toDoListItemsTable)
+    public function show(ToDoList $toDoList)
     {
         //
     }
@@ -52,10 +52,10 @@ class ToDoListItemsTableController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\ToDoListItemsTable  $toDoListItemsTable
+     * @param  \App\ToDoList  $toDoList
      * @return \Illuminate\Http\Response
      */
-    public function edit(ToDoListItemsTable $toDoListItemsTable)
+    public function edit(ToDoList $toDoList)
     {
         //
     }
@@ -64,10 +64,10 @@ class ToDoListItemsTableController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ToDoListItemsTable  $toDoListItemsTable
+     * @param  \App\ToDoList  $toDoList
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ToDoListItemsTable $toDoListItemsTable)
+    public function update(Request $request, ToDoList $toDoList)
     {
         //
     }
@@ -75,10 +75,10 @@ class ToDoListItemsTableController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\ToDoListItemsTable  $toDoListItemsTable
+     * @param  \App\ToDoList  $toDoList
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ToDoListItemsTable $toDoListItemsTable)
+    public function destroy(ToDoList $toDoList)
     {
         //
     }

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ToDoListUsersTable extends Model
+class ToDoListItem extends Model
 {
     //
 }

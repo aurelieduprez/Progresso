@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\ToDoListTable;
+use App\ToDoListUser;
 use Illuminate\Http\Request;
 
-class ToDoListTableController extends Controller
+class ToDoListUserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class ToDoListTableController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\ToDoListTable  $toDoListTable
+     * @param  \App\ToDoListUser  $toDoListUser
      * @return \Illuminate\Http\Response
      */
-    public function show(ToDoListTable $toDoListTable)
+    public function show(ToDoListUser $toDoListUser)
     {
         //
     }
@@ -52,10 +52,10 @@ class ToDoListTableController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\ToDoListTable  $toDoListTable
+     * @param  \App\ToDoListUser  $toDoListUser
      * @return \Illuminate\Http\Response
      */
-    public function edit(ToDoListTable $toDoListTable)
+    public function edit(ToDoListUser $toDoListUser)
     {
         //
     }
@@ -64,10 +64,10 @@ class ToDoListTableController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ToDoListTable  $toDoListTable
+     * @param  \App\ToDoListUser  $toDoListUser
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ToDoListTable $toDoListTable)
+    public function update(Request $request, ToDoListUser $toDoListUser)
     {
         //
     }
@@ -75,10 +75,10 @@ class ToDoListTableController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\ToDoListTable  $toDoListTable
+     * @param  \App\ToDoListUser  $toDoListUser
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ToDoListTable $toDoListTable)
+    public function destroy(ToDoListUser $toDoListUser)
     {
         //
     }

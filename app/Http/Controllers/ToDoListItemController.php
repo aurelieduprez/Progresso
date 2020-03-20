@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\ToDoListUsersTable;
+use App\ToDoListItem;
 use Illuminate\Http\Request;
 
-class ToDoListUsersTableController extends Controller
+class ToDoListItemController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class ToDoListUsersTableController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\ToDoListUsersTable  $toDoListUsersTable
+     * @param  \App\ToDoListItem  $toDoListItem
      * @return \Illuminate\Http\Response
      */
-    public function show(ToDoListUsersTable $toDoListUsersTable)
+    public function show(ToDoListItem $toDoListItem)
     {
         //
     }
@@ -52,10 +52,10 @@ class ToDoListUsersTableController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\ToDoListUsersTable  $toDoListUsersTable
+     * @param  \App\ToDoListItem  $toDoListItem
      * @return \Illuminate\Http\Response
      */
-    public function edit(ToDoListUsersTable $toDoListUsersTable)
+    public function edit(ToDoListItem $toDoListItem)
     {
         //
     }
@@ -64,10 +64,10 @@ class ToDoListUsersTableController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\ToDoListUsersTable  $toDoListUsersTable
+     * @param  \App\ToDoListItem  $toDoListItem
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ToDoListUsersTable $toDoListUsersTable)
+    public function update(Request $request, ToDoListItem $toDoListItem)
     {
         //
     }
@@ -75,10 +75,10 @@ class ToDoListUsersTableController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\ToDoListUsersTable  $toDoListUsersTable
+     * @param  \App\ToDoListItem  $toDoListItem
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ToDoListUsersTable $toDoListUsersTable)
+    public function destroy(ToDoListItem $toDoListItem)
     {
         //
     }
