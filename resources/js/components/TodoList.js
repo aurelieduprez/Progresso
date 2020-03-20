@@ -260,13 +260,22 @@ class TodoApp extends React.Component {
         <TodoListTitle name="list-name" />
         <TodoListModeButton changeMode={this.changeMode} />
         {this.state.mode == "all" &&
-          <h2>Todo</h2>
+          <>
+            <h2>Todo</h2>
+            <UncheckALL UncheckALL={this.UncheckALL} />
+            <DeleteAllDoneButton removeAllDoneItem={this.removeAllDoneItem} />
+          </>
         }
         {this.state.mode == "TodoOnly" &&
           <h2>Todo</h2>
         }
-        <UncheckALL UncheckALL={this.UncheckALL} />
-        <DeleteAllDoneButton removeAllDoneItem={this.removeAllDoneItem} />
+        {this.state.mode == "DoneOnly" &&
+          <>
+            <UncheckALL UncheckALL={this.UncheckALL} />
+            <DeleteAllDoneButton removeAllDoneItem={this.removeAllDoneItem} />
+          </>
+        }
+
         <TodoList mode={this.state.mode} items={this.props.initItems} removeItem={this.removeItem} markTodoDone={this.markTodoDone} />
         <NewTodo addItem={this.addItem} />
         <SaveTodoList save={this.saveItem} />
@@ -274,6 +283,6 @@ class TodoApp extends React.Component {
     );
   }
 }
-if(document.getElementById('todo-list')){
-ReactDOM.render(<TodoApp initItems={todoItems} />, document.getElementById('todo-list'));
+if (document.getElementById('todo-list')) {
+  ReactDOM.render(<TodoApp initItems={todoItems} />, document.getElementById('todo-list'));
 }
