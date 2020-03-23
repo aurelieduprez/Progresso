@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import {Button,Input} from'reactstrap'
 var todoItems = [];
 
 class TodoList extends React.Component {
@@ -75,8 +75,8 @@ class TodoListItem extends React.Component {
           <li className="list-group-item ">
             <div className={todoClass}>
               {this.props.item.value}
-              <button className="glyphicon glyphicon-ok icon" aria-hidden="true" onClick={this.onClickDone}>done</button>
-              <button type="button" className="close" onClick={this.onClickDelete}>&times;</button>
+              <Button className="glyphicon glyphicon-ok icon" aria-hidden="true" onClick={this.onClickDone}>done</Button>
+              <Button type="button" className="close" onClick={this.onClickDelete}>&times;</Button>
             </div>
           </li>
         }
@@ -126,9 +126,9 @@ class TodoListModeButton extends React.Component {
   render() {
     return (
       <div id="ModeButtonDiv">
-        <button onClick={() => { this.props.changeMode("all") }}>All</button>
-        <button onClick={() => { this.props.changeMode("TodoOnly") }}>TodoOnly</button>
-        <button onClick={() => { this.props.changeMode("DoneOnly") }}>DoneOnly</button>
+        <Button onClick={() => { this.props.changeMode("all") }}>All</Button>
+        <Button onClick={() => { this.props.changeMode("TodoOnly") }}>TodoOnly</Button>
+        <Button onClick={() => { this.props.changeMode("DoneOnly") }}>DoneOnly</Button>
       </div>
     )
 
@@ -142,7 +142,7 @@ class SaveTodoList extends React.Component {
   }
   render() {
     return (
-      <button onClick={this.props.save}>Save</button>
+      <Button onClick={this.props.save}>Save</Button>
     )
   }
 }
@@ -153,7 +153,7 @@ class DeleteAllDoneButton extends React.Component {
   }
   render() {
     return (
-      <button onClick={() => { this.props.removeAllDoneItem() }}>deleteAllDone</button>
+      <Button onClick={() => { this.props.removeAllDoneItem() }}>deleteAllDone</Button>
     )
   }
 }
@@ -164,7 +164,7 @@ class UncheckALL extends React.Component {
   }
   render() {
     return (
-      <button onClick={() => { this.props.UncheckALL() }}>UncheckALL</button>
+      <Button onClick={() => { this.props.UncheckALL() }}>UncheckALL</Button>
     )
   }
 }
