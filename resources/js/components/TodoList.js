@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Button,Input} from'reactstrap'
+import { Button, Input } from 'reactstrap'
 import Axios from 'axios';
 var todoItems = [];
 
@@ -116,7 +116,7 @@ class NewTodo extends React.Component {
 class TodoListTitle extends React.Component {
 
   render() {
-    return <h1>{this.props.name}</h1>;
+    return (<Input value={this.props.title} onChange={e => this.props.handleChangeTitle(e.target.value)}></Input>)
   }
 }
 
@@ -175,6 +175,8 @@ class TodoApp extends React.Component {
   // Define attribute & function of TodoApp
   constructor(props) {
     super(props);
+    this.title = this.props.title
+    this.handleChangeTitle = this.handleChangeTitle.bind(this);
     this.addItem = this.addItem.bind(this);
     this.removeItem = this.removeItem.bind(this);
     this.markTodoDone = this.markTodoDone.bind(this);
@@ -182,21 +184,35 @@ class TodoApp extends React.Component {
     this.changeMode = this.changeMode.bind(this);
     this.removeAllDoneItem = this.removeAllDoneItem.bind(this);
     this.UncheckALL = this.UncheckALL.bind(this);
-    this.state = { todoItems: todoItems, mode: "all" };
+    this.state = { todoItems: todoItems, mode: "all", ListName: "Titre" };
   }
 
   saveItem() {
     Axios({
       method: 'post',
       url: 'http://127.0.0.1:8000/api/ToDoList',
-      data: { title: 'pd',
-      state: '1',
-      closed: '12-03-22'},
+      data: {
+        title: this.state.ListName,
+        state: '1',
+        closed: '12-03-22'
+      },
       headers: {}
-    });
+    })
+      .then(function (response) {
+        // handle success
+        console.log(response);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
     console.log(this.state.todoItems)
   }
 
+  handleChangeTitle(title) {
+    console.log(title)
+    this.setState({ ListName: title });
+  }
   changeMode(NewMode) {
     this.setState({ mode: NewMode });
   }
@@ -266,7 +282,7 @@ class TodoApp extends React.Component {
   render() {
     return (
       <div id="main">
-        <TodoListTitle name="list-name" />
+        <TodoListTitle handleChangeTitle={this.handleChangeTitle} title={this.state.ListName} />
         <TodoListModeButton changeMode={this.changeMode} />
         {this.state.mode == "all" &&
           <>
