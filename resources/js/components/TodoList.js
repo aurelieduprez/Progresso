@@ -116,7 +116,7 @@ class NewTodo extends React.Component {
 class TodoListTitle extends React.Component {
 
   render() {
-    return (<Input value={this.props.title} onChange={e => this.props.handleChangeTitle(e.target.value)}></Input>)
+    return (<Input placeholder={"titre"} value={this.props.title} onChange={e => this.props.handleChangeTitle(e.target.value)}></Input>)
   }
 }
 
@@ -175,6 +175,8 @@ class TodoApp extends React.Component {
   // Define attribute & function of TodoApp
   constructor(props) {
     super(props);
+    this.isNew = true;
+    this.TodoListID;
     this.handleChangeTitle = this.handleChangeTitle.bind(this);
     this.addItem = this.addItem.bind(this);
     this.removeItem = this.removeItem.bind(this);
@@ -183,25 +185,46 @@ class TodoApp extends React.Component {
     this.changeMode = this.changeMode.bind(this);
     this.removeAllDoneItem = this.removeAllDoneItem.bind(this);
     this.UncheckALL = this.UncheckALL.bind(this);
-    this.state = { todoItems: todoItems, mode: "all", ListName: "Titre" };
+    this.state = { todoItems: todoItems, mode: "all", ListName: "" };
   }
 
   saveItem() {
-    Axios({
-      method: 'post',
-      url: 'http://127.0.0.1:8000/api/ToDoList',
-      data: {
-        title: this.state.ListName,
-        state: '1',
-        closed: '12-03-22'
-      },
-      headers: {}
-    })
-    console.log(this.state.todoItems)
+    if (this.isNew) {
+      Axios({
+        method: 'post',
+        url: 'http://127.0.0.1:8000/api/ToDoList',
+        data: {
+          title: this.state.ListName,
+          state: '1',
+          closed: '12-03-22'
+        },
+        headers: {}
+      })
+    }
+    else {
+      if (this.state.ListName !== "") {
+        Axios({
+          method: 'put',
+          url: 'http://127.0.0.1:8000/api/ToDoList/' + this.TodoListID,
+          data: {
+            title: this.state.ListName,
+            state: '1',
+            closed: '12-03-22'
+          },
+          headers: {}
+        })
+      }
+    }
   }
 
+  componentDidUpdate() {
+    if (!this.isNew) {
+      this.saveItem()
+    }
+  }
+
+
   handleChangeTitle(title) {
-    console.log(title)
     this.setState({ ListName: title });
   }
   changeMode(NewMode) {
@@ -263,24 +286,24 @@ class TodoApp extends React.Component {
     todo.done ? todoItems.push(todo) : todoItems.unshift(todo);
     this.setState({ todoItems: todoItems });
   }
+
   async componentDidMount() {
     var pageURL = window.location.href;
     var lastURLSegment = pageURL.substr(pageURL.lastIndexOf('/') + 1);
-    if(lastURLSegment == "new"){ // if it's a new todo list
+    this.TodoListID = lastURLSegment
+    if (lastURLSegment == "new") { // if it's a new todo list
       todoItems.push({ index: 1, value: "Done", title: true, done: true });
       this.setState({ todoItems: todoItems });
     }
-    else{
-    let TodoListID = lastURLSegment
-    var todolist = await Axios({
-      method: 'get',
-      url: 'http://127.0.0.1:8000/api/ToDoList/'+TodoListID,
-    })
-    
-    // update todolist title 
-    this.setState({ ListName: todolist.data.title });
-    console.log(todolist)
-  }
+    else {
+      this.isNew = false; // change isNew boolean
+      var todolist = await Axios({
+        method: 'get',
+        url: 'http://127.0.0.1:8000/api/ToDoList/' + this.TodoListID,
+      })
+      // update todolist title 
+      this.setState({ ListName: todolist.data.title });
+    }
   }
 
   render() {
