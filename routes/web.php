@@ -21,4 +21,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/todolist', 'ToDoListController@index');
+Route::get('/todolist/{url}', 'ToDoListController@index');
