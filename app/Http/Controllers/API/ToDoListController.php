@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\ToDoList;
 
 class ToDoListController extends Controller
 {
@@ -25,7 +26,13 @@ class ToDoListController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        ToDoList::create([
+
+            'title' => $request->input('title'),
+            'state' => $request->input('state'),
+            'closed' => $request->input('closed'),
+        ]);
+        return response()->json(["title" => $request->input('title')], 200); 
     }
 
     /**
