@@ -40,9 +40,8 @@ class TodoApp extends React.Component {
         },
         headers: {}
       })
-      console.log(promise)
-      //alert("List Saved ! ")
-     // document.location.href = "/todolist/"+ promise.data.id;
+      alert("List Saved ! ")
+     document.location.href = "/todolist/"+ promise.data.id;
     }
     else {
       if (this.state.ListName !== "") {

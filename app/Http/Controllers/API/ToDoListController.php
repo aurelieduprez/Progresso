@@ -26,13 +26,12 @@ class ToDoListController extends Controller
      */
     public function store(Request $request)
     {
-        ToDoList::create([
-
+        $todo = ToDoList::create([
             'title' => $request->input('title'),
             'state' => $request->input('state'),
             'closed' => $request->input('closed'),
         ]);
-        return response()->json(["title" => $request->input('title')], 200); 
+        return response()->json(["id" => $todo->id], 200); 
     }
 
     /**
