@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Button,Input} from'reactstrap'
+import Axios from 'axios';
 var todoItems = [];
 
 class TodoList extends React.Component {
@@ -185,6 +186,14 @@ class TodoApp extends React.Component {
   }
 
   saveItem() {
+    Axios({
+      method: 'post',
+      url: 'http://127.0.0.1:8000/api/ToDoList',
+      data: { title: 'pd',
+      state: '1',
+      closed: '12-03-22'},
+      headers: {}
+    });
     console.log(this.state.todoItems)
   }
 
