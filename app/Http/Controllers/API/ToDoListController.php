@@ -43,7 +43,8 @@ class ToDoListController extends Controller
      */
     public function show($id)
     {
-        //
+        $myToDoList = ToDoList::find($id);   
+        return $myToDoList;
     }
 
     /**
@@ -55,7 +56,12 @@ class ToDoListController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $myToDoList = ToDoList::find($id);
+        $myToDoList->title = $request->input('title');
+        $myToDoList->state = $request->input('state');
+        $myToDoList->closed = $request->input('closed');
+        $myToDoList->save();
+        return response()->json(["title" => $request->input('title')], 200); 
     }
 
     /**
@@ -66,6 +72,8 @@ class ToDoListController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $myToDoList = ToDoList::find($id);
+        $myToDoList->delete();
+        return true; 
     }
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\ToDoListUser;
+
 class ToDoListUserController extends Controller
 {
     /**
@@ -25,7 +27,12 @@ class ToDoListUserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        ToDoList::create([
+            'user_id' => $request->input('user_id'),
+            'role' => $request->input('role'),
+            'to_do_list_id' => $request->input('to_do_list_id'),
+        ]);
+        return response()->json(["user_id" => $request->input('user_id')], 200); 
     }
 
     /**
@@ -36,7 +43,8 @@ class ToDoListUserController extends Controller
      */
     public function show($id)
     {
-        //
+        $myToDoListUser = ToDoListUser::find($id);   
+        return $myToDoListUser;
     }
 
     /**
@@ -48,7 +56,12 @@ class ToDoListUserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $myToDoListUser = ToDoList::find($id);
+        $myToDoListUser->title = $request->input('user_id');
+        $myToDoListUser->state = $request->input('to_do_list_id');
+        $myToDoListUser->closed = $request->input('role');
+        $myToDoListUser->save();
+        return response()->json(["user_id" => $request->input('user_id')], 200); 
     }
 
     /**
@@ -59,6 +72,8 @@ class ToDoListUserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $myToDoListUser = ToDoListUser::find($id);
+        $myToDoListuser->delete();
+        return true; 
     }
 }
