@@ -287,7 +287,7 @@ class TodoApp extends React.Component {
     this.setState({ todoItems: todoItems });
   }
 
-  async componentDidMount() {
+  async componentWillMount() {
     var pageURL = window.location.href;
     var lastURLSegment = pageURL.substr(pageURL.lastIndexOf('/') + 1);
     this.TodoListID = lastURLSegment
@@ -310,6 +310,9 @@ class TodoApp extends React.Component {
     return (
       <div id="main">
         <TodoListTitle handleChangeTitle={this.handleChangeTitle} title={this.state.ListName} />
+        {!this.isNew && 
+        <Button>DELETE</Button>
+        }
         <TodoListModeButton changeMode={this.changeMode} />
         {this.state.mode == "all" &&
           <>
@@ -330,7 +333,9 @@ class TodoApp extends React.Component {
 
         <TodoList mode={this.state.mode} items={this.props.initItems} removeItem={this.removeItem} markTodoDone={this.markTodoDone} />
         <NewTodo addItem={this.addItem} />
+        {this.isNew && 
         <SaveTodoList save={this.saveItem} />
+        }
       </div>
     );
   }
