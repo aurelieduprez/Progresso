@@ -268,17 +268,21 @@ class TodoApp extends React.Component {
   }
 
   removeAllDoneItem() {
-    console.log("remove all called")
-    console.log(" i = " + i + "todoItems length = " + todoItems.length)
-    console.log("todoitem : " + todoItems)
+    let todoItems_list = this.state.todoItems
+    var Done_nb = 0; // number of done task to delete
+    let Done_index; // index in the list of the first done item
     for (var i = 0; i < todoItems.length; i++) {
-      console.log("for : " + i)
-      console.log("todoItems[i] : " + todoItems[i])
-      if (todoItems[i].done == true && todoItems[i].title == undefined) {
-        todoItems.splice(i, 1)
+      console.log(" i = " + i + "todoItems length = " + todoItems_list.length)
+      if (todoItems_list[i].done == true && todoItems_list[i].title == undefined) {
+        Done_nb++;
+      }
+      if(todoItems_list[i].title){ // if is done title
+        Done_index = i + 1 ; // first done task is 1 index after the title
       }
     }
-    this.setState({ todoItems: todoItems });
+    if(Done_nb > 0) // if there at least one done task to delete
+        todoItems_list.splice(Done_index, Done_nb) // delete all done task
+    this.setState({ todoItems: todoItems_list });
   }
 
   UncheckALL() {
