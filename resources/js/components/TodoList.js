@@ -164,13 +164,13 @@ class DeleteListButton extends React.Component {
     super(props);
   }
 
-  async removeList(){
+  async removeList() {
     // waiting the list is deleted
     let promise = await Axios({
       method: 'delete',
-      url: 'http://127.0.0.1:8000/api/ToDoList/'+ this.props.TodoListID,
+      url: 'http://127.0.0.1:8000/api/ToDoList/' + this.props.TodoListID,
       headers: {}
-    }) 
+    })
     // redirect user to /home
     document.location.href = "/home";
   }
@@ -324,6 +324,10 @@ class TodoApp extends React.Component {
         method: 'get',
         url: 'http://127.0.0.1:8000/api/ToDoList/' + this.TodoListID,
       })
+      if (todolist.data === "") { // if there isn't a todolist with this id
+        // redirect user to /todolist/new
+        document.location.href = "/todolist/new";
+      }
       // update todolist title 
       this.setState({ ListName: todolist.data.title });
     }
@@ -333,8 +337,8 @@ class TodoApp extends React.Component {
     return (
       <div id="main">
         <TodoListTitle handleChangeTitle={this.handleChangeTitle} title={this.state.ListName} />
-        {!this.isNew && 
-        <DeleteListButton TodoListID={this.TodoListID}></DeleteListButton>
+        {!this.isNew &&
+          <DeleteListButton TodoListID={this.TodoListID}></DeleteListButton>
         }
         <TodoListModeButton changeMode={this.changeMode} />
         {this.state.mode == "all" &&
@@ -356,8 +360,8 @@ class TodoApp extends React.Component {
 
         <TodoList mode={this.state.mode} items={this.props.initItems} removeItem={this.removeItem} markTodoDone={this.markTodoDone} />
         <NewTodo addItem={this.addItem} />
-        {this.isNew && 
-        <SaveTodoList save={this.saveItem} />
+        {this.isNew &&
+          <SaveTodoList save={this.saveItem} />
         }
       </div>
     );
