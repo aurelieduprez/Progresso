@@ -310,7 +310,7 @@ class TodoApp extends React.Component {
     this.setState({ todoItems: todoItems });
   }
 
-  async componentWillMount() {
+  async UNSAFE_componentWillMount() {
     var pageURL = window.location.href;
     var lastURLSegment = pageURL.substr(pageURL.lastIndexOf('/') + 1);
     this.TodoListID = lastURLSegment
