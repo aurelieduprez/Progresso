@@ -1,198 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Button, Input } from 'reactstrap'
+import TodoListTitle from './sub_components/TodoListTitle'
+import DeleteListButton from './sub_components/DeleteListButton'
+import TodoListModeButton from './sub_components/TodoListModeButton'
+import UncheckALL from './sub_components/UncheckALL'
+import DeleteAllDoneButton from './sub_components/DeleteAllDoneButton'
+import TodoList from './sub_components/TodoList'
+import NewTodo from './sub_components/NewTodo'
+import SaveTodoList from './sub_components/SaveTodoList'
 import Axios from 'axios';
 var todoItems = [];
-
-class TodoList extends React.Component {
-
-  render() {
-    if (this.props.mode == "all") {
-      var items = this.props.items.map((item, index) => {
-        return (
-          <div id="todolist">
-            <TodoListItem key={index} item={item} index={index} removeItem={this.props.removeItem} markTodoDone={this.props.markTodoDone} />
-          </div>
-        );
-      });
-      return (
-        <ul className="list-group"> {items} </ul>
-      );
-    }
-    else if (this.props.mode == "DoneOnly") {
-      var items = this.props.items.map((item, index) => {
-        if (item.done) {
-          return (
-            <div id="todolist">
-              <TodoListItem key={index} item={item} index={index} removeItem={this.props.removeItem} markTodoDone={this.props.markTodoDone} />
-            </div>
-          );
-        }
-      });
-      return (
-        <ul className="list-group"> {items} </ul>
-      );
-    }
-    else if (this.props.mode == "TodoOnly") {
-      var items = this.props.items.map((item, index) => {
-        if (!item.done) {
-          return (
-            <div id="todolist">
-              <TodoListItem key={index} item={item} index={index} removeItem={this.props.removeItem} markTodoDone={this.props.markTodoDone} />
-            </div>
-          );
-        }
-      });
-      return (
-        <ul className="list-group"> {items} </ul>
-      );
-    }
-  }
-}
-
-class TodoListItem extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onClickDelete = this.onClickDelete.bind(this);
-    this.onClickDone = this.onClickDone.bind(this);
-  }
-  onClickDelete() {
-    var index = parseInt(this.props.index);
-    this.props.removeItem(index);
-  }
-  onClickDone() {
-    var index = parseInt(this.props.index);
-    this.props.markTodoDone(index);
-  }
-  render() {
-    var todoClass = this.props.item.done ?
-      "done" : "undone";
-    return (
-      <>
-        {this.props.item.title != undefined &&
-          <h2>{this.props.item.value}</h2>
-        }
-        {this.props.item.title == undefined &&
-          <li className="list-group-item ">
-            <div className={todoClass}>
-              {this.props.item.value}
-              <Button className="glyphicon glyphicon-ok icon" aria-hidden="true" onClick={this.onClickDone}>done</Button>
-              <Button type="button" className="close" onClick={this.onClickDelete}>&times;</Button>
-            </div>
-          </li>
-        }
-      </>
-    );
-  }
-}
-
-class NewTodo extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onSubmit = this.onSubmit.bind(this);
-  }
-  componentDidMount() {
-    this.refs.itemName.focus();
-  }
-  onSubmit(event) {
-    event.preventDefault();
-    var newItemValue = this.refs.itemName.value;
-
-    if (newItemValue) {
-      this.props.addItem({ newItemValue });
-      this.refs.NewItemForm.reset();
-    }
-  }
-  render() {
-    return (
-      <form ref="NewItemForm" onSubmit={this.onSubmit} className="form-inline">
-        <input type="text" ref="itemName" className="form-control" placeholder="add a new todo..." />
-        <button type="submit" className="btn btn-default">Add</button>
-      </form>
-    );
-  }
-}
-
-class TodoListTitle extends React.Component {
-
-  render() {
-    return (<Input placeholder={"titre"} value={this.props.title} onChange={e => this.props.handleChangeTitle(e.target.value)}></Input>)
-  }
-}
-
-class TodoListModeButton extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return (
-      <div id="ModeButtonDiv">
-        <Button onClick={() => { this.props.changeMode("all") }}>All</Button>
-        <Button onClick={() => { this.props.changeMode("TodoOnly") }}>TodoOnly</Button>
-        <Button onClick={() => { this.props.changeMode("DoneOnly") }}>DoneOnly</Button>
-      </div>
-    )
-
-
-  }
-}
-
-class SaveTodoList extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return (
-      <Button onClick={this.props.save}>Save</Button>
-    )
-  }
-}
-
-class DeleteAllDoneButton extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return (
-      <Button onClick={() => { this.props.removeAllDoneItem() }}>deleteAllDone</Button>
-    )
-  }
-}
-
-class DeleteListButton extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  async removeList() {
-    // waiting the list is deleted
-    let promise = await Axios({
-      method: 'delete',
-      url: 'http://127.0.0.1:8000/api/ToDoList/' + this.props.TodoListID,
-      headers: {}
-    })
-    // redirect user to /home
-    document.location.href = "/home";
-  }
-
-  render() {
-    return (
-      <Button onClick={() => { this.removeList() }}>Delete list</Button>
-    )
-  }
-}
-
-class UncheckALL extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return (
-      <Button onClick={() => { this.props.UncheckALL() }}>UncheckALL</Button>
-    )
-  }
-}
-
 
 class TodoApp extends React.Component {
   // Define attribute & function of TodoApp
@@ -211,9 +28,9 @@ class TodoApp extends React.Component {
     this.state = { todoItems: todoItems, mode: "all", ListName: "" };
   }
 
-  saveItem() {
+  async saveItem() {
     if (this.isNew) {
-      Axios({
+      let promise = await Axios({
         method: 'post',
         url: 'http://127.0.0.1:8000/api/ToDoList',
         data: {
@@ -223,6 +40,9 @@ class TodoApp extends React.Component {
         },
         headers: {}
       })
+      console.log(promise)
+      //alert("List Saved ! ")
+     // document.location.href = "/todolist/"+ promise.data.id;
     }
     else {
       if (this.state.ListName !== "") {

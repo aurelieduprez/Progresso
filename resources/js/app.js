@@ -13,5 +13,5 @@ require('./bootstrap');
  */
 
 require('./components/Example');
-require('./components/TodoList')
+require('./components/TodoApp/TodoApp')
 require('./components/TodoList_preview')
