@@ -6,9 +6,13 @@ class TodoListPreviewItem extends Component {
     constructor(props) {
         super(props);
     }
+
+    redirectToList(id){
+        document.location.href = "/todolist/"+ id;
+    }
     render() {
         return (
-            <div className="card-body">
+            <div className="card" onClick={() => this.redirectToList(this.props.data.id)} style={{cursor:'pointer'}}>
                 <h1>{this.props.data.ListName}</h1>
                 <h2>{this.props.data.TodoNumber} Todos</h2>
             </div>
@@ -20,11 +24,18 @@ class TodoListPreviewItem extends Component {
 class TodoListPreview extends Component {
     constructor(props) {
         super(props);
+        this.state = { todoLists: [] };
     }
+    UNSAFE_componentWillMount(){
+        let TodoLists = [{ TodoNumber: 5, ListName: "Course" },{ TodoNumber: 7, ListName: "online-survey" }]
+        // get todolist info here
+        this.setState({ todoLists: TodoLists });
+    }
+
     render() {
         var items = [];
-        for (var i = 0;i<this.props.data.length;i++){
-            items.push({id: i,data: this.props.data[i]})
+        for (var i = 0;i<this.state.todoLists.length;i++){
+            items.push({id: i,data: this.state.todoLists[i]})
         }
         console.log(items)
         return (
@@ -37,8 +48,8 @@ class TodoListPreview extends Component {
 
 export default TodoListPreview;
 
-var data = [{ TodoNumber: 5, ListName: "Course" },{ TodoNumber: 7, ListName: "online-survey" }]
+
 
 if (document.getElementById('todolist-preview')) {
-    ReactDOM.render(<TodoListPreview data={data} />, document.getElementById('todolist-preview'));
+    ReactDOM.render(<TodoListPreview />, document.getElementById('todolist-preview'));
 }
