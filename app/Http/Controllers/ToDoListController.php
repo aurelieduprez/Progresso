@@ -12,9 +12,12 @@ class ToDoListController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+
     public function index()
     {
-        return view('todolist');
+        return view ('todolist');
     }
 
     /**
@@ -22,10 +25,12 @@ class ToDoListController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create() {
+
+
+
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -46,7 +51,7 @@ class ToDoListController extends Controller
      */
     public function show(ToDoList $toDoList)
     {
-        //
+        return 'zebi';
     }
 
     /**
@@ -82,4 +87,7 @@ class ToDoListController extends Controller
     {
         //
     }
+
+
+
 }

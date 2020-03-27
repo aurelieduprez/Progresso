@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\ToDoListItem;
+use App\ToDoList;
 
 class ToDoListItemController extends Controller
 {
@@ -26,7 +27,7 @@ class ToDoListItemController extends Controller
      */
     public function store(Request $request)
     {
-        ToDoList::create([
+        ToDoListItem::create([
             'to_do_list_id' => $request->input('to_do_lidt_id'),
             'state' => $request->input('state'),
             'content' => $request->input('content'),

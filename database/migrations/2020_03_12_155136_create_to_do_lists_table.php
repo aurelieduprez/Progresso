@@ -15,9 +15,10 @@ class CreateToDoListsTable extends Migration
     {
         Schema::create('to_do_lists', function (Blueprint $table) {
             $table->id();
-            $table->date('closed');
-            $table->boolean('state');
+            $table->boolean('closed')->default(false);
             $table->text('title');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

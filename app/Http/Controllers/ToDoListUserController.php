@@ -14,7 +14,7 @@ class ToDoListUserController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
