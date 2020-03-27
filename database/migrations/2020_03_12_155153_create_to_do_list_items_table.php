@@ -17,7 +17,7 @@ class CreateToDoListItemsTable extends Migration
             $table->id();
             $table->boolean('state');
             $table->unsignedBigInteger('to_do_list_id');
-            $table->foreign('to_do_list_id')->references('id')->on('to_do_lists');
+            $table->foreign('to_do_list_id')->references('id')->on('to_do_lists')->onDelete('cascade');
             $table->text('content');
             $table->timestamps();
         });

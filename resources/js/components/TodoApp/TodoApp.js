@@ -35,10 +35,8 @@ class TodoApp extends React.Component {
         url: 'http://127.0.0.1:8000/api/ToDoList',
         data: {
           title: this.state.ListName,
-          state: '1',
-          closed: '12-03-22'
+          closed: '0'
         },
-        headers: {}
       })
       alert("List Saved ! ")
      document.location.href = "/todolist/"+ promise.data.id;
@@ -50,10 +48,8 @@ class TodoApp extends React.Component {
           url: 'http://127.0.0.1:8000/api/ToDoList/' + this.TodoListID,
           data: {
             title: this.state.ListName,
-            state: '1',
-            closed: '12-03-22'
+            closed: '0'
           },
-          headers: {}
         })
       }
     }
@@ -143,11 +139,14 @@ class TodoApp extends React.Component {
     }
     else {
       this.isNew = false; // change isNew boolean
+      try{
       var todolist = await Axios({
         method: 'get',
         url: 'http://127.0.0.1:8000/api/ToDoList/' + this.TodoListID,
       })
-      if (todolist.data === "") { // if there isn't a todolist with this id
+      console.log(todolist.data)
+      }
+      catch(e){ // if request fail
         // redirect user to /todolist/new
         document.location.href = "/todolist/new";
       }

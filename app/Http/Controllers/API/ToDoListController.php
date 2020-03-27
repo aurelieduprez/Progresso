@@ -1,13 +1,27 @@
 <?php
 
 namespace App\Http\Controllers\API;
+use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\ToDoList;
+use App\User;
 
 class ToDoListController extends Controller
 {
+
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,8 +29,21 @@ class ToDoListController extends Controller
      */
     public function index()
     {
-        //
+        $list = Auth::user()->todolists;   
+        return response()->json($list, 200);
     }
+
+    public function find($id)
+    {
+        $todolist = ToDoList::find($id);
+        if ( $todolist == NULL){
+            return response('', 404);
+        }
+        return response()->json($todolist, 200);
+    }
+
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -24,15 +51,17 @@ class ToDoListController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+
+    public function create(Request $request)
     {
         $todo = ToDoList::create([
             'title' => $request->input('title'),
-            'state' => $request->input('state'),
-            'closed' => $request->input('closed'),
+            'closed' => false,
+            'user_id' => Auth::id()
         ]);
-        return response()->json(["id" => $todo->id], 200); 
+        return response()->json($todo, 200);
     }
+
 
     /**
      * Display the specified resource.
@@ -56,11 +85,13 @@ class ToDoListController extends Controller
     public function update(Request $request, $id)
     {
         $myToDoList = ToDoList::find($id);
+        if ( $myToDoList == NULL){
+            return response('', 404);
+        }
         $myToDoList->title = $request->input('title');
-        $myToDoList->state = $request->input('state');
         $myToDoList->closed = $request->input('closed');
         $myToDoList->save();
-        return response()->json(["title" => $request->input('title')], 200); 
+        return response()->json($myToDoList, 200); 
     }
 
     /**
@@ -69,10 +100,17 @@ class ToDoListController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $myToDoList = ToDoList::find($id);
+        if ( $myToDoList == NULL){
+            return response('', 404);
+        }
         $myToDoList->delete();
-        return true; 
+        return response(''); 
     }
+
+
+
+
 }

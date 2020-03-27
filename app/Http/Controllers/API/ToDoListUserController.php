@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\ToDoListUser;
-
+//use App\User;
 class ToDoListUserController extends Controller
 {
     /**
@@ -43,7 +43,7 @@ class ToDoListUserController extends Controller
      */
     public function show($id)
     {
-        $myToDoListUser = ToDoListUser::find($id);   
+        $myToDoListUser = ToDoListUser::find(id);   
         return $myToDoListUser;
     }
 

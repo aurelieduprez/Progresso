@@ -14,7 +14,7 @@ class ToDoListItemController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
