@@ -11,8 +11,7 @@ class DeleteListButton extends React.Component {
       // waiting the list is deleted
       let promise = await Axios({
         method: 'delete',
-        url: 'http://127.0.0.1:8000/api/ToDoList/' + this.props.TodoListID,
-        headers: {}
+        url: 'http://127.0.0.1:8000/api/ToDoList/' + this.props.TodoListID
       })
       // redirect user to /home
       document.location.href = "/home";
