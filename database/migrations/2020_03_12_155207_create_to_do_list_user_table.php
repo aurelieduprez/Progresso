@@ -13,7 +13,7 @@ class CreateToDoListUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('to_do_list_users', function (Blueprint $table) {
+        Schema::create('to_do_list_user', function (Blueprint $table) {
 
             $table->id();
             $table->unsignedBigInteger('user_id');

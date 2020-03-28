@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class ToDoListUser extends Model
 {
+
+
+    protected $table = 'to_do_list_user';
+    
     protected $fillable = ['user_id', 'to_do_list_id', 'role'];
     public function todolistusers()
     {
@@ -13,10 +17,11 @@ class ToDoListUser extends Model
 
     }
 
-
     public function users()
     {
         return $this->belongsTo('App\User');
     }
+
+
 
 }
