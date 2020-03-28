@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\ToDoListUser;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 //use App\User;
 class ToDoListUserController extends Controller
@@ -28,9 +29,10 @@ class ToDoListUserController extends Controller
      */
     public function create(Request $request)
     {
+
         ToDoListUser::create([
             'user_id' =>  Auth::user(),
-            'to_do_list_id' => $request->input('to_do_list_id'),
+            'to_do_list_id' => $request->input('to_do_list_id')
         ]);
         return response(true, 200); 
     }
@@ -76,4 +78,5 @@ class ToDoListUserController extends Controller
         $myToDoListuser->delete();
         return true; 
     }
+
 }

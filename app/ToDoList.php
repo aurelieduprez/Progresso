@@ -7,7 +7,7 @@ use App\ToDoListItem;
 
 class ToDoList extends Model
 {
-    protected $fillable = ['title', 'state', 'closed', 'user_id' ];
+    protected $fillable = ['title', 'closed', 'user_id' ];
 
       public function items()
     {
