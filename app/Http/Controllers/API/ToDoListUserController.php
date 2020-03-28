@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\ToDoListUser;
+use Illuminate\Support\Facades\Auth;
 //use App\User;
 class ToDoListUserController extends Controller
 {
@@ -27,12 +28,11 @@ class ToDoListUserController extends Controller
      */
     public function store(Request $request)
     {
-        ToDoList::create([
-            'user_id' => $request->input('user_id'),
-            'role' => $request->input('role'),
+        ToDoListUser::create([
+            'user_id' =>  Auth::user(),
             'to_do_list_id' => $request->input('to_do_list_id'),
         ]);
-        return response()->json(["user_id" => $request->input('user_id')], 200); 
+        return response(true, 200); 
     }
 
     /**
