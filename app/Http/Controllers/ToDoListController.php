@@ -51,7 +51,6 @@ class ToDoListController extends Controller
      */
     public function show(ToDoList $toDoList)
     {
-        return 'zebi';
     }
 
     /**
