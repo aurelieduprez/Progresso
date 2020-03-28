@@ -46,9 +46,19 @@ class TodoListPreview extends Component {
         this.state = { todoLists: [] };
         this.removeList = this.removeList.bind(this);
     }
-    UNSAFE_componentWillMount(){
-        let TodoLists = [{ TodoNumber: 5, ListName: "Course" },{ TodoNumber: 7, ListName: "online-survey" }]
+    async UNSAFE_componentWillMount(){
+       // let TodoLists = [{ TodoNumber: 5, ListName: "Course" },{ TodoNumber: 7, ListName: "online-survey" }]
         // get todolist info here
+        try{
+        var todolist = await Axios({
+            method: 'get',
+            url: 'http://127.0.0.1:8000/api/ToDoList/',
+          })
+          console.log(todolist)
+        }
+        catch(e){
+            console.log(e)
+        }
         this.setState({ todoLists: TodoLists });
     }
 
