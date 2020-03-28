@@ -29,10 +29,9 @@ class ToDoListItemController extends Controller
     {
         ToDoListItem::create([
             'to_do_list_id' => $request->input('to_do_lidt_id'),
-            'state' => $request->input('state'),
             'content' => $request->input('content'),
         ]);
-        return response()->json(["conten" => $request->input('content')], 200); 
+        return response()->json(["content" => $request->input('content')], 200); 
     }
 
     /**
@@ -59,7 +58,6 @@ class ToDoListItemController extends Controller
     public function update(Request $request, $id)
     {
         $myToDoListItem = ToDoListItem::find($id);
-        $myToDoListItem->state = $request->input('state');
         $myToDoListItem->closed = $request->input('content');
         $myToDoListItem->save();
         return response()->json(["content" => $request->input('content')], 200); 
