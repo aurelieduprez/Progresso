@@ -30,16 +30,26 @@ class TodoApp extends React.Component {
 
   async saveItem() {
     if (this.isNew) {
-      let promise = await Axios({
+      let createList_promise = await Axios({
         method: 'post',
-        url: 'http://127.0.0.1:8000/api/ToDoList',
+        url: '/api/ToDoList',
         data: {
           title: this.state.ListName,
           closed: '0'
         },
       })
-      alert("List Saved ! ")
-     document.location.href = "/todolist/"+ promise.data.id;
+      console.log(createList_promise)
+      try{
+      let createRole_promise = await Axios({
+        method: 'post',
+        url: '/api/ToDoListUser',
+        data: {
+          to_do_list_id: createList_promise.data.id},
+      })
+    }
+    catch(e){console.log(e)}
+     /* alert("List Saved ! ")
+     document.location.href = "/todolist/"+ createList_promise.data.id;*/
     }
     else {
       if (this.state.ListName !== "") {
