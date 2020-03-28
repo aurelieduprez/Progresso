@@ -50,7 +50,7 @@ class TodoListPreview extends Component {
        // let TodoLists = [{ TodoNumber: 5, ListName: "Course" },{ TodoNumber: 7, ListName: "online-survey" }]
         // get todolist info here
         try{
-        var todolist = await Axios({
+        var todolist_promise = await Axios({
             method: 'get',
             url: 'http://127.0.0.1:8000/api/ToDoList/',
           })
@@ -58,6 +58,10 @@ class TodoListPreview extends Component {
         }
         catch(e){
             console.log(e)
+        }
+        let TodoLists = []
+        for(var i = 0; i < todolist_promise.data.length; i++){
+            TodoLists.push({TodoNumber: 0, ListName: todolist_promise.data[i].title , id: todolist_promise.data[i].id })
         }
         this.setState({ todoLists: TodoLists });
     }

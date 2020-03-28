@@ -48,8 +48,7 @@ class TodoApp extends React.Component {
       })
     }
     catch(e){console.log(e)}
-     /* alert("List Saved ! ")
-     document.location.href = "/todolist/"+ createList_promise.data.id;*/
+     document.location.href = "/todolist/"+ createList_promise.data.id;
     }
     else {
       if (this.state.ListName !== "") {
