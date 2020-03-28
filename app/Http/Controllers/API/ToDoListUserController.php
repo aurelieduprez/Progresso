@@ -31,7 +31,7 @@ class ToDoListUserController extends Controller
     {
 
         ToDoListUser::create([
-            'user_id' =>  Auth::user(),
+            'user_id' =>  Auth::user()->id,
             'to_do_list_id' => $request->input('to_do_list_id')
         ]);
         return response(true, 200); 

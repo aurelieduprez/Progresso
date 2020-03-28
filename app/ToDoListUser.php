@@ -10,6 +10,13 @@ class ToDoListUser extends Model
     public function todolistusers()
     {
         return $this->belongsTo('App\ToDoList');
+
+    }
+
+
+    public function users()
+    {
         return $this->belongsTo('App\User');
     }
+
 }
