@@ -63,12 +63,13 @@ class ToDoListController extends Controller
         
         $request_object = (object) $request->input('content');
                 
-
+        for ($i = 1; $i < count($request->input('content')); $i++) {
         ToDoListItem::create([
             'to_do_list_id' => $todo->id,
-            'content' => ((object) $request_object->{0})->value,
-            'state' => ((object) $request_object->{0})->done
+            'content' => ((object) $request_object->{$i})->value,
+            'state' => ((object) $request_object->{$i})->done
         ]);
+        }
         return response()->json($todo, 200);
     }
 
@@ -101,6 +102,9 @@ class ToDoListController extends Controller
         $myToDoList->title = $request->input('title');
         $myToDoList->closed = $request->input('closed');
         $myToDoList->save();
+
+
+
         return response()->json($myToDoList, 200); 
     }
 
