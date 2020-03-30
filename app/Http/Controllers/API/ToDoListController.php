@@ -30,17 +30,26 @@ class ToDoListController extends Controller
      */
     public function index()
     {
-        $list = Auth::user()->todolists;   
+        $list = Auth::user()->todolists;
         return response()->json($list, 200);
     }
 
     public function find($id)
     {
         $todolist = ToDoList::find($id);
-        if ( $todolist == NULL){
+
+        $items = ToDoListItem::where('to_do_list_id', $id)->get();
+
+        $toreturn =
+            [
+              "title"   => $todolist->title,
+              "todo" => $items
+            ];
+
+        if ( $todolist == NULL || $items == NULL){
             return response('', 404);
         }
-        return response()->json($todolist, 200);
+        return response($toreturn, 200);
     }
 
 
@@ -63,12 +72,14 @@ class ToDoListController extends Controller
         
         $request_object = (object) $request->input('content');
                 
-        for ($i = 1; $i < count($request->input('content')); $i++) {
-        ToDoListItem::create([
-            'to_do_list_id' => $todo->id,
-            'content' => ((object) $request_object->{$i})->value,
-            'state' => ((object) $request_object->{$i})->done
-        ]);
+        for ($i = 0; $i < count($request->input('content')); $i++) {
+            if(!property_exists(((object) $request_object->{$i}), 'title')) {
+            ToDoListItem::create([
+                'to_do_list_id' => $todo->id,
+                'content' => ((object) $request_object->{$i})->value,
+                'state' => ((object) $request_object->{$i})->done
+            ]);
+            }
         }
         return response()->json($todo, 200);
     }
@@ -103,6 +114,15 @@ class ToDoListController extends Controller
         $myToDoList->closed = $request->input('closed');
         $myToDoList->save();
 
+        $myItems = ToDoListItem::where('to_do_list_id', $id);
+        if ( $myItems == NULL){
+            return response("", 404);
+        }
+        for ($i = 1; $i < count(array($myItems)); $i++) {
+            $myItems->{$i}->value = $request->input('content');
+            $myItems->{$i}->state = $request->input('state');
+            $myItems->{$i}->save();
+        }
 
 
         return response()->json($myToDoList, 200); 

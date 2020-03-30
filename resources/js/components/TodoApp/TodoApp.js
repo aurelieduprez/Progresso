@@ -40,16 +40,18 @@ class TodoApp extends React.Component {
         },
       })
       console.log(createList_promise)
-      try{
-      let createRole_promise = await Axios({
-        method: 'post',
-        url: '/api/ToDoListUser',
-        data: {
-          to_do_list_id: createList_promise.data.id},
-      })
-    }
-    catch(e){console.log(e)}
-     document.location.href = "/todolist/"+ createList_promise.data.id;
+      try {
+        let createRole_promise = await Axios({
+          method: 'post',
+          url: '/api/ToDoListUser',
+          data: {
+            to_do_list_id: createList_promise.data.id
+          },
+        })
+      }
+      catch (e) { console.log(e) }
+      console.log(this.state.todoItems)
+      document.location.href = "/todolist/" + createList_promise.data.id;
     }
     else {
       if (this.state.ListName !== "") {
@@ -102,12 +104,12 @@ class TodoApp extends React.Component {
       if (todoItems_list[i].done == true && todoItems_list[i].title == undefined) {
         Done_nb++;
       }
-      if(todoItems_list[i].title){ // if is done title
-        Done_index = i + 1 ; // first done task is 1 index after the title
+      if (todoItems_list[i].title) { // if is done title
+        Done_index = i + 1; // first done task is 1 index after the title
       }
     }
-    if(Done_nb > 0) // if there at least one done task to delete
-        todoItems_list.splice(Done_index, Done_nb) // delete all done task
+    if (Done_nb > 0) // if there at least one done task to delete
+      todoItems_list.splice(Done_index, Done_nb) // delete all done task
     this.setState({ todoItems: todoItems_list });
   }
 
@@ -150,19 +152,44 @@ class TodoApp extends React.Component {
     }
     else {
       this.isNew = false; // change isNew boolean
-      try{
-      var todolist = await Axios({
-        method: 'get',
-        url: 'http://127.0.0.1:8000/api/ToDoList/' + this.TodoListID,
-      })
-      console.log(todolist.data)
+      try {
+        var todolist = await Axios({
+          method: 'get',
+          url: 'http://127.0.0.1:8000/api/ToDoList/' + this.TodoListID,
+        })
+        console.log(todolist.data)
       }
-      catch(e){ // if request fail
+      catch (e) { // if request fail
         // redirect user to /todolist/new
         document.location.href = "/todolist/new";
       }
+      // setup vars
+      var contentList = [] // list of our content to push to todoItems state
+      var todos_data = todolist.data.todo; // shortcut for easier reading
+
+      // check for any not done todo
+      for (let i = 0; i < todos_data.length; i++) {
+        if (todos_data[i].state == 0) { // if the current item isn't done
+          let item = { index: i, value: todos_data[i].content, done: todos_data[i].state } 
+          todoItems.push(item); // add it to the todoItems array (state)
+        }
+      }
+      // add "done" separator to the todoItems array (state)
+      todoItems.push({ index: contentList.length + 1, value: "Done", title: "true", done: "true" }); 
+
+      // check for any done todo
+      for (let i = 0; i < todos_data.length; i++) {
+        let index = i + contentList.length;
+        if (todos_data[i].state == 1) {// if the current item is done
+          let item = { index: index, value: todos_data[i].content, done: todos_data[i].state }
+          todoItems.push(item); // add it to the todoItems array (state)
+        }
+      }
+
       // update todolist title 
       this.setState({ ListName: todolist.data.title });
+      //  update todolist content 
+      this.setState({ todoItems: todoItems });
     }
   }
 
