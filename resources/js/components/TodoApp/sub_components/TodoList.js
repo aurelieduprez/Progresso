@@ -6,7 +6,7 @@ class TodoList extends React.Component {
       if (this.props.mode == "all") {
         var items = this.props.items.map((item, index) => {
           return (
-            <div id="todolist">
+            <div id="todo">
               <TodoListItem key={index} item={item} index={index} removeItem={this.props.removeItem} markTodoDone={this.props.markTodoDone} />
             </div>
           );
@@ -19,7 +19,7 @@ class TodoList extends React.Component {
         var items = this.props.items.map((item, index) => {
           if (item.done) {
             return (
-              <div id="todolist">
+              <div id="todo">
                 <TodoListItem key={index} item={item} index={index} removeItem={this.props.removeItem} markTodoDone={this.props.markTodoDone} />
               </div>
             );
@@ -33,7 +33,7 @@ class TodoList extends React.Component {
         var items = this.props.items.map((item, index) => {
           if (!item.done) {
             return (
-              <div id="todolist">
+              <div id="todo">
                 <TodoListItem key={index} item={item} index={index} removeItem={this.props.removeItem} markTodoDone={this.props.markTodoDone} />
               </div>
             );

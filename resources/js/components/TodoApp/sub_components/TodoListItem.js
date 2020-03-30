@@ -24,7 +24,7 @@ class TodoListItem extends React.Component {
             <h2>{this.props.item.value}</h2>
           }
           {this.props.item.title == undefined &&
-            <li className="list-group-item ">
+            <li className="list-group-item card">
               <div className={todoClass}>
                 {this.props.item.value}
                 <Button className="glyphicon glyphicon-ok icon" aria-hidden="true" onClick={this.onClickDone}>done</Button>
