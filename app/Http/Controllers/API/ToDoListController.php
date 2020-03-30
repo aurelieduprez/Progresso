@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\ToDoListItem;
 use App\ToDoList;
 use App\User;
 
@@ -58,6 +59,15 @@ class ToDoListController extends Controller
             'title' => $request->input('title'),
             'closed' => false,
             'user_id' => Auth::id()
+        ]);
+        
+        $request_object = (object) $request->input('content');
+                
+
+        ToDoListItem::create([
+            'to_do_list_id' => $todo->id,
+            'content' => ((object) $request_object->{0})->value,
+            'state' => ((object) $request_object->{0})->done
         ]);
         return response()->json($todo, 200);
     }

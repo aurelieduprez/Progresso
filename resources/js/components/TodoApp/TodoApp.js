@@ -35,7 +35,8 @@ class TodoApp extends React.Component {
         url: '/api/ToDoList',
         data: {
           title: this.state.ListName,
-          closed: '0'
+          closed: '0',
+          content: this.state.todoItems
         },
       })
       console.log(createList_promise)
@@ -57,7 +58,8 @@ class TodoApp extends React.Component {
           url: 'http://127.0.0.1:8000/api/ToDoList/' + this.TodoListID,
           data: {
             title: this.state.ListName,
-            closed: '0'
+            closed: '0',
+            content: this.state.todoItems
           },
         })
       }
