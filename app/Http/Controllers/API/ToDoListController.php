@@ -114,18 +114,23 @@ class ToDoListController extends Controller
         $myToDoList->closed = $request->input('closed');
         $myToDoList->save();
 
-        $myItems = ToDoListItem::where('to_do_list_id', $id);
+        $myItems = ToDoListItem::where('to_do_list_id', $id)->get();
         if ( $myItems == NULL){
             return response("", 404);
+
         }
-        for ($i = 1; $i < count(array($myItems)); $i++) {
-            $myItems->{$i}->value = $request->input('content');
-            $myItems->{$i}->state = $request->input('state');
-            $myItems->{$i}->save();
+
+        $request_object = (object) $request->input('content');
+        for ($i = 0; $i < count($myItems); $i++) {
+            if(!property_exists(((object) $request_object->{$i}), 'title')) {
+            $myItems{$i}->content =((object) $request_object->{$i})->value;
+            $myItems{$i}->state = ((object) $request_object->{$i})->done;
+            $myItems{$i}->save();
+            }
         }
 
 
-        return response()->json($myToDoList, 200); 
+        return response()->json($myItems, 200); 
     }
 
     /**
