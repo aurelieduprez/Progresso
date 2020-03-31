@@ -82,12 +82,22 @@ class TodoApp extends React.Component {
     this.setState({ mode: NewMode });
   }
 
-  addItem(todoItem) {
+  async addItem(todoItem) {
     todoItems.unshift({
       index: todoItems.length + 1,
       value: todoItem.newItemValue,
       done: false
     });
+
+    let createItem_promise = await Axios({
+      method: 'post',
+      url: '/api/ToDoList/'+this.TodoListID+'/items',
+      data: {
+        id:this.TodoListID,
+        content: todoItem.newItemValue
+      },
+    })
+
     this.setState({ todoItems: todoItems });
   }
   removeItem(itemIndex) {
@@ -216,6 +226,7 @@ class TodoApp extends React.Component {
             <UncheckALL UncheckALL={this.UncheckALL} />
             <DeleteAllDoneButton removeAllDoneItem={this.removeAllDoneItem} />
           </>
+
         }
 
         <TodoList mode={this.state.mode} items={this.props.initItems} removeItem={this.removeItem} markTodoDone={this.markTodoDone} />

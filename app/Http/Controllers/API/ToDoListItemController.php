@@ -27,12 +27,14 @@ class ToDoListItemController extends Controller
      */
     public function store(Request $request)
     {
-        ToDoListItem::create([
-            'to_do_list_id' => $request->input('to_do_lidt_id'),
-            'content' => $request->input('content'),
-            'state' => '0'
-        ]);
-        return response()->json(["content" => $request->input('content')], 200); 
+
+            ToDoListItem::create([
+                'to_do_list_id' => $request->input('id'),
+                'content' => $request->input('content'),
+                'state' => "0"
+            ]);
+
+        return response()->json($request, 200); 
     }
 
     /**
