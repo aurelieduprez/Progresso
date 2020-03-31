@@ -18,7 +18,7 @@ class ToDoListUserController extends Controller
      */
     public function GetId(Request $request)
     {
-        $myToDoListUser = User::where('name', $request->input('name'))->first();   
+        $myToDoListUser = User::where('email', $request->input('email'))->first();   
         return response($myToDoListUser,200);
     }
 

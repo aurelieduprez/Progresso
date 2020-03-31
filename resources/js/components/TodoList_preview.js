@@ -13,15 +13,15 @@ class TodoListPreviewItem extends Component {
     }
 
     async AddCollaborator(id) {
-        var CollaboratorName = this.refs.CollaboratorName.value;
+        var CollaboratorEmail = this.refs.CollaboratorEmail.value;
 
-        console.log("name : " + CollaboratorName + " todolist id : " + id)
+        console.log("email : " + CollaboratorEmail + " todolist id : " + id)
         try {
             let GetId_promise = await Axios({
                 method: 'post',
                 url: 'api/ToDoListUser/get',
                 data: {
-                    name: CollaboratorName
+                    email: CollaboratorEmail
                 },
             })
             console.log("result1 : " + GetId_promise.data.id)
@@ -75,7 +75,11 @@ class TodoListPreviewItem extends Component {
                     <h2>{this.props.data.TodoNumber} Todos</h2>
                 </div>
                 <span>
-                    <input type="text" ref="CollaboratorName" className="form-control" placeholder="add a new collaborator..." />
+                    <input type="text" ref="CollaboratorEmail" className="form-control" placeholder="add a new collaborator..." />
+                    <input type="radio" name="CollaboratorSetting" value="readOnly"/>
+                    <label for="readOnly">Read Only</label>
+                    <input type="radio"  name="CollaboratorSetting" value="edit" />
+                    <label for="edit">edit rights</label>
                     <Button onClick={() => this.AddCollaborator(this.props.data.id)}>Add Collaborator </Button>
                 </span>
                 <Button onClick={() => this.DeleteList(this.props.data.id)}> Delete </Button>
