@@ -34,13 +34,15 @@ class ToDoListUserController extends Controller
         if($request->has('user_id')){
             ToDoListUser::create([
                 'user_id' =>  $request->input('user_id'),
-                'to_do_list_id' => $request->input('to_do_list_id')
+                'to_do_list_id' => $request->input('to_do_list_id'),
+                'role' => $request->input('role')
             ]);
         }
         else{
         ToDoListUser::create([
             'user_id' =>  Auth::user()->id,
-            'to_do_list_id' => $request->input('to_do_list_id')
+            'to_do_list_id' => $request->input('to_do_list_id'),
+            'role' => $request->input('role')
         ]);
         }
         return response($request, 200); 
@@ -67,8 +69,8 @@ class ToDoListUserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $myToDoListUser = ToDoListUser::where('to_do_list_id', $id)->where('user_id', $request->input('user_id'))->get();
-        $myToDoListUser-> $request->input('role');
+        $myToDoListUser = ToDoListUser::where('to_do_list_id', $id)->where('user_id', $request->input('user_id'))->first();
+        $myToDoListUser->role =  $request->input('role');
         $myToDoListUser->save();
         return response(true, 200); 
     }

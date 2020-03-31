@@ -14,6 +14,7 @@ class TodoListPreviewItem extends Component {
 
     async AddCollaborator(id) {
         var CollaboratorEmail = this.refs.CollaboratorEmail.value;
+        var CollaboratorRole = this.refs.CollaboratorRole.checked;
 
         console.log("email : " + CollaboratorEmail + " todolist id : " + id)
         try {
@@ -25,18 +26,63 @@ class TodoListPreviewItem extends Component {
                 },
             })
             console.log("result1 : " + GetId_promise.data.id)
+            console.log("role : " + CollaboratorRole)
 
-            if (GetId_promise.data.id != undefined) {
-                let createRole_promise = await Axios({
-                    method: 'post',
-                    url: '/api/ToDoListUser',
-                    data: {
-                        to_do_list_id: id,
-                        user_id: GetId_promise.data.id
-                    },
+            if (!CollaboratorRole) {
+                CollaboratorRole = 1;
+            }
+            else {
+                CollaboratorRole = 2;
+            }
+
+            if (GetId_promise.data.id != undefined) { // if user exist
+
+                let GetRoleList_promise = await Axios({
+                    method: 'get',
+                    url: 'api/ToDoListUser/' + id,
                 })
-                console.log("result2 : " + createRole_promise.data)
-                alert("Collaborator added ! ")
+
+                let AlreadyHaveRole = false;
+                let currentRole;
+                for (var i = 0; i < GetRoleList_promise.data.length; i++) {
+                    if (GetRoleList_promise.data[i].user_id == GetId_promise.data.id) {
+                        console.log("Have Role")
+                        AlreadyHaveRole = true;
+                        currentRole = GetRoleList_promise.data[i].role
+                        break;
+                    }
+                }
+
+                if (!AlreadyHaveRole) {
+                    let createRole_promise = await Axios({
+                        method: 'post',
+                        url: '/api/ToDoListUser',
+                        data: {
+                            to_do_list_id: id,
+                            user_id: GetId_promise.data.id,
+                            role: CollaboratorRole
+                        },
+                    })
+                    alert("Collaborator added ! ")
+                    console.log("result2 : " + createRole_promise.data)
+                }
+                else {
+                    if (currentRole != CollaboratorRole) {
+                        let ChangeRole_promise = await Axios({
+                            method: 'put',
+                            url: '/api/ToDoListUser/' + id,
+                            data: {
+                                user_id: GetId_promise.data.id,
+                                role: CollaboratorRole
+                            },
+                        })
+                        alert("Collaborator added ! ")
+                        console.log("result2 : " + ChangeRole_promise.data)
+                    }
+                    else{
+                        alert("Collaborator has already this role ! ")
+                    }
+                }
             }
             else {
                 alert("User do not exist !")
@@ -76,9 +122,9 @@ class TodoListPreviewItem extends Component {
                 </div>
                 <span>
                     <input type="text" ref="CollaboratorEmail" className="form-control" placeholder="add a new collaborator..." />
-                    <input type="radio" name="CollaboratorSetting" value="readOnly"/>
+                    <input type="radio" name="CollaboratorSetting" value="readOnly" defaultChecked />
                     <label for="readOnly">Read Only</label>
-                    <input type="radio"  name="CollaboratorSetting" value="edit" />
+                    <input type="radio" ref="CollaboratorRole" name="CollaboratorSetting" value="edit" />
                     <label for="edit">edit rights</label>
                     <Button onClick={() => this.AddCollaborator(this.props.data.id)}>Add Collaborator </Button>
                 </span>

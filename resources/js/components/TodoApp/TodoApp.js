@@ -45,7 +45,8 @@ class TodoApp extends React.Component {
           method: 'post',
           url: '/api/ToDoListUser',
           data: {
-            to_do_list_id: createList_promise.data.id
+            to_do_list_id: createList_promise.data.id,
+            role :"3"
           },
         })
       }
