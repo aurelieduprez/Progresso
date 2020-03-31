@@ -16,9 +16,10 @@ class ToDoListUserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function GetId(Request $request)
     {
-        //
+        $myToDoListUser = User::where('name', $request->input('name'))->first();   
+        return response($myToDoListUser,200);
     }
 
     /**
@@ -30,11 +31,19 @@ class ToDoListUserController extends Controller
     public function create(Request $request)
     {
 
+        if($request->has('user_id')){
+            ToDoListUser::create([
+                'user_id' =>  $request->input('user_id'),
+                'to_do_list_id' => $request->input('to_do_list_id')
+            ]);
+        }
+        else{
         ToDoListUser::create([
             'user_id' =>  Auth::user()->id,
             'to_do_list_id' => $request->input('to_do_list_id')
         ]);
-        return response(true, 200); 
+        }
+        return response($request, 200); 
     }
 
     /**

@@ -57,6 +57,7 @@ Route::namespace('API')->group(function () {
 
 
         //Routes todolist users controller
+    Route::post('api/ToDoListUser/get', 'ToDoListUserController@GetId');
     Route::post('api/ToDoListUser', 'ToDoListUserController@create');
     Route::delete('api/ToDoListUser/{id}', 'ToDoListUserController@destroy');
     Route::get('api/ToDoListUser', 'ToDoListUserController@show');
