@@ -27,7 +27,12 @@ class TodoListItem extends React.Component {
             <li className="list-group-item card">
               <div className={todoClass}>
                 {this.props.item.value}
+                {this.props.item.done &&
+                <Button className="glyphicon glyphicon-ok icon" aria-hidden="true" onClick={this.onClickDone}>undone</Button>
+                }
+                {!this.props.item.done &&
                 <Button className="glyphicon glyphicon-ok icon" aria-hidden="true" onClick={this.onClickDone}>done</Button>
+                }
                 <Button type="button" className="close" onClick={this.onClickDelete}>&times;</Button>
               </div>
             </li>
