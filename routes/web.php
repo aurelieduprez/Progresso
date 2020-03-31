@@ -39,6 +39,7 @@ Route::get('/items', function(){
 
 Route::namespace('API')->group(function () {
 
+        //Routes todolist controller
     Route::get('api/ToDoList', 'ToDoListController@index');
     Route::get('api/ToDoList/{id}', 'ToDoListController@find');
     Route::post('api/ToDoList', 'ToDoListController@create');
@@ -48,11 +49,18 @@ Route::namespace('API')->group(function () {
 
     //Route::apiResource('ToDoListItem', 'api\ToDoListItemController');
     //Route::get('api/ToDoList/{id]/items', 'ToDoListItemController@index');
+        //Routes todolist items controller
     Route::post('api/ToDoList/{id}/items', 'ToDoListItemController@store');
     Route::put('api/ToDoList/{id}/items', 'ToDoListItemController@update');
     Route::delete('api/ToDoList/items/{id_item}', 'ToDoListItemController@destroy');
+
+
+
+        //Routes todolist users controller
     Route::post('api/ToDoListUser', 'ToDoListUserController@create');
     Route::delete('api/ToDoListUser/{id}', 'ToDoListUserController@destroy');
+    Route::get('api/ToDoListUser', 'ToDoListUserController@show');
+    Route::put('api/ToDoListUser/{id}', 'ToDoListUserController@update');
 
     //Route::apiResource('ToDoListUser', 'api\ToDoListUserController');
 });

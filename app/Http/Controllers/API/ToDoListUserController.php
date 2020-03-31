@@ -45,7 +45,7 @@ class ToDoListUserController extends Controller
      */
     public function show($id)
     {
-        $myToDoListUser = ToDoListUser::find(id);   
+        $myToDoListUser = ToDoListUser::where('to_do_list_id', $id)->get();   
         return $myToDoListUser;
     }
 
@@ -58,12 +58,10 @@ class ToDoListUserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $myToDoListUser = ToDoList::find($id);
-        $myToDoListUser->title = $request->input('user_id');
-        $myToDoListUser->state = $request->input('to_do_list_id');
-        $myToDoListUser->closed = $request->input('role');
+        $myToDoListUser = ToDoListUser::where('to_do_list_id', $id)->where('user_id', $request->input('user_id'))->get();
+        $myToDoListUser-> $request->input('role');
         $myToDoListUser->save();
-        return response()->json(["user_id" => $request->input('user_id')], 200); 
+        return response(true, 200); 
     }
 
     /**
