@@ -79,7 +79,7 @@ class TodoListPreviewItem extends Component {
                         alert("Collaborator added ! ")
                         console.log("result2 : " + ChangeRole_promise.data)
                     }
-                    else{
+                    else {
                         alert("Collaborator has already this role ! ")
                     }
                 }
@@ -149,14 +149,25 @@ class TodoListPreview extends Component {
                 method: 'get',
                 url: 'http://127.0.0.1:8000/api/ToDoList/',
             })
-            console.log(todolist)
         }
         catch (e) {
             console.log(e)
         }
         let TodoLists = []
+        console.warn(todolist_promise.data)
         for (var i = 0; i < todolist_promise.data.length; i++) {
-            TodoLists.push({ TodoNumber: 0, ListName: todolist_promise.data[i].title, id: todolist_promise.data[i].id })
+            var todolist_info = await Axios({
+                method: 'get',
+                url: 'http://127.0.0.1:8000/api/ToDoList/' + todolist_promise.data[i].id,
+            })
+            console.warn("id " + todolist_promise.data[i].id + " obj: " + todolist_info)
+            var todo_number = 0;
+            for (var j = 0; j < todolist_info.data.todo.length; j++) {
+                if (todolist_info.data.todo[j].state == 0) { // if the current item isn't done
+                    todo_number++;
+                }
+            }
+            TodoLists.push({ TodoNumber: todo_number, ListName: todolist_promise.data[i].title, id: todolist_promise.data[i].id })
         }
         this.setState({ todoLists: TodoLists });
     }
