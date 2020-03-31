@@ -83,29 +83,46 @@ class TodoApp extends React.Component {
   }
 
   async addItem(todoItem) {
-    todoItems.unshift({
-      index: todoItems.length + 1,
-      value: todoItem.newItemValue,
-      done: false
-    });
 
-    let createItem_promise = await Axios({
-      method: 'post',
-      url: '/api/ToDoList/'+this.TodoListID+'/items',
-      data: {
-        id:this.TodoListID,
-        content: todoItem.newItemValue
-      },
-    })
+    if (!this.isNew) {
+      var createItem_promise = await Axios({
+        method: 'post',
+        url: '/api/ToDoList/' + this.TodoListID + '/items',
+        data: {
+          id: this.TodoListID,
+          content: todoItem.newItemValue
+        },
+      })
+      todoItems.unshift({
+        id: createItem_promise.data,
+        index: todoItems.length + 1,
+        value: todoItem.newItemValue,
+        done: false
+      });
+    }
+    else {
+      todoItems.unshift({
+        index: todoItems.length + 1,
+        value: todoItem.newItemValue,
+        done: false
+      });
+    }
 
     this.setState({ todoItems: todoItems });
   }
-  removeItem(itemIndex) {
+  async removeItem(itemIndex) {
+    if (!this.isNew) {
+      var deleteItem_promise = await Axios({
+        method: 'delete',
+        url: 'http://127.0.0.1:8000/api/ToDoList/items/' + todoItems[itemIndex].id,
+      })
+    }
+    console.warn(todoItems[itemIndex].id)
     todoItems.splice(itemIndex, 1);
     this.setState({ todoItems: todoItems });
   }
 
-  removeAllDoneItem() {
+  async removeAllDoneItem() {
     let todoItems_list = this.state.todoItems
     var Done_nb = 0; // number of done task to delete
     let Done_index; // index in the list of the first done item
@@ -119,7 +136,15 @@ class TodoApp extends React.Component {
       }
     }
     if (Done_nb > 0) // if there at least one done task to delete
-      todoItems_list.splice(Done_index, Done_nb) // delete all done task
+      for (var i = 0; i < Done_nb; i++) {
+        if (!this.isNew) {
+          var deleteItem_promise = await Axios({
+            method: 'delete',
+            url: 'http://127.0.0.1:8000/api/ToDoList/items/' + todoItems[Done_index+i].id,
+          })
+        }
+      }
+    todoItems_list.splice(Done_index, Done_nb) // delete all done task
     this.setState({ todoItems: todoItems_list });
   }
 
@@ -180,18 +205,18 @@ class TodoApp extends React.Component {
       // check for any not done todo
       for (let i = 0; i < todos_data.length; i++) {
         if (todos_data[i].state == 0) { // if the current item isn't done
-          let item = { index: i, value: todos_data[i].content, done: todos_data[i].state } 
+          let item = { id: todos_data[i].id, index: i, value: todos_data[i].content, done: todos_data[i].state }
           todoItems.push(item); // add it to the todoItems array (state)
         }
       }
       // add "done" separator to the todoItems array (state)
-      todoItems.push({ index: contentList.length + 1, value: "Done", title: "true", done: "true" }); 
+      todoItems.push({ index: contentList.length + 1, value: "Done", title: "true", done: "true" });
 
       // check for any done todo
       for (let i = 0; i < todos_data.length; i++) {
         let index = i + contentList.length;
         if (todos_data[i].state == 1) {// if the current item is done
-          let item = { index: index, value: todos_data[i].content, done: todos_data[i].state }
+          let item = { id: todos_data[i].id, index: index, value: todos_data[i].content, done: todos_data[i].state }
           todoItems.push(item); // add it to the todoItems array (state)
         }
       }

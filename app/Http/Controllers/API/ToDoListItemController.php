@@ -28,13 +28,13 @@ class ToDoListItemController extends Controller
     public function store(Request $request)
     {
 
-            ToDoListItem::create([
+           $item =  ToDoListItem::create([
                 'to_do_list_id' => $request->input('id'),
                 'content' => $request->input('content'),
                 'state' => "0"
             ]);
 
-        return response()->json($request, 200); 
+        return response()->json($item->id, 200); 
     }
 
     /**
@@ -75,8 +75,8 @@ class ToDoListItemController extends Controller
      */
     public function destroy($id)
     {
-        $myToDoListItem = ToDoListItem::find($id);
+        $myToDoListItem = ToDoListItem::where('id',$id);
         $myToDoListItem->delete();
-        return true; 
+        return response(true,200); 
     }
 }

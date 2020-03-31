@@ -4,10 +4,11 @@ class TodoList extends React.Component {
 
     render() {
       if (this.props.mode == "all") {
+        console.error(this.props.items)
         var items = this.props.items.map((item, index) => {
           return (
             <div id="todo">
-              <TodoListItem key={index} item={item} index={index} removeItem={this.props.removeItem} markTodoDone={this.props.markTodoDone} />
+              <TodoListItem key={index} item={item}  index={index} removeItem={this.props.removeItem} markTodoDone={this.props.markTodoDone} />
             </div>
           );
         });
