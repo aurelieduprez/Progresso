@@ -52,6 +52,7 @@ Route::namespace('API')->group(function () {
     Route::put('api/ToDoList/{id}/items', 'ToDoListItemController@update');
     Route::delete('api/ToDoList/items/{id_item}', 'ToDoListItemController@destroy');
     Route::post('api/ToDoListUser', 'ToDoListUserController@create');
+    Route::delete('api/ToDoListUser/{id}', 'ToDoListUserController@destroy');
 
     //Route::apiResource('ToDoListUser', 'api\ToDoListUserController');
 });

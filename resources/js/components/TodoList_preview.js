@@ -15,10 +15,15 @@ class TodoListPreviewItem extends Component {
     async DeleteList(id){
         // waiting the list is deleted
     try{
-      let promise = await Axios({
+       // waiting the list is deleted
+       let delete_list = await Axios({
         method: 'delete',
-        url: 'http://127.0.0.1:8000/api/ToDoList/' + id,
-        headers: {}
+        url: 'http://127.0.0.1:8000/api/ToDoList/' + id
+      })
+
+      let delete_roles = await Axios({
+        method: 'delete',
+        url: 'http://127.0.0.1:8000/api/ToDoListUser/' + id
       })
     }
     catch(e){

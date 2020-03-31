@@ -74,9 +74,9 @@ class ToDoListUserController extends Controller
      */
     public function destroy($id)
     {
-        $myToDoListUser = ToDoListUser::find($id);
+        $myToDoListuser = ToDoListUser::where('to_do_list_id',$id);
         $myToDoListuser->delete();
-        return true; 
+        return response(true,200); 
     }
 
 }
