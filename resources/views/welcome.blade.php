@@ -8,78 +8,76 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        <link href="{{ asset('css/app.css') }}"  rel="stylesheet">
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
 
+        <div class="theme-switch-wrapper">
+            <label class="theme-switch" for="checkbox">
+                <input type="checkbox" id="checkbox" />
+                <div class="slider round"></div>
+            </label>
+            <p class="text-switch">Dark Mode</p>
+        </div>
+
+        @if (Route::has('login'))
+                <div class="links">
+                    @auth
+                        <span id="boxHome">
+                            <a href="{{ url('/home') }}" class="welcome-link">Home</a>
+                        </span>
+                    @else
+                        <span id="boxLogin">
+                            <a href="{{ route('login') }}" class="welcome-link">Login</a>    
+                        </span>
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
+                        <span id="boxRegister">
+                            <a href="{{ route('register') }}" class="welcome-link">Register</a>
+                        </span>
                         @endif
                     @endauth
                 </div>
             @endif
-                <div id="example"></div>
+
+            <div class = "boxTitle">
+                <div class="title">
+                    Progresso
+                </div>
+                <div class="subtitle">
+                    for your easy to-do lists
+                </div>
             </div>
         </div>
+
+
+
+        <script>
+            const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+
+            toggleSwitch.addEventListener('change', switchTheme, false);
+
+            function switchTheme(e) {
+                if (e.target.checked) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                }
+                else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                }    
+            }
+
+            const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+
+            if (currentTheme) {
+                document.documentElement.setAttribute('data-theme', currentTheme);
+
+                if (currentTheme === 'dark') {
+                    toggleSwitch.checked = true;
+                }
+            }
+        </script>
     </body>
 </html>
