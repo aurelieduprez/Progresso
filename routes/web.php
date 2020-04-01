@@ -45,7 +45,7 @@ Route::namespace('API')->group(function () {
     Route::post('api/ToDoList', 'ToDoListController@create');
     Route::put('api/ToDoList/{id}', 'ToDoListController@update');
     Route::delete('api/ToDoList/{id}', 'ToDoListController@destroy');
-
+    Route::get('api/ToDoList/{id}/user', 'ToDoListUserController@GetUsers');
 
     //Route::apiResource('ToDoListItem', 'api\ToDoListItemController');
     //Route::get('api/ToDoList/{id]/items', 'ToDoListItemController@index');
@@ -63,13 +63,10 @@ Route::namespace('API')->group(function () {
     Route::get('api/ToDoListUser/{id}', 'ToDoListUserController@show');
     Route::put('api/ToDoListUser/{id}', 'ToDoListUserController@update');
 
-    //Route::apiResource('ToDoListUser', 'api\ToDoListUserController');
 
-    //Route email sign up
     Route::post('api/sendMail/1','MailController@emailSignup');
-
-    //Route email invitation
     Route::post('api/sendMail/2', 'MailController@emailInvitation'); 
+    
 });
 
 

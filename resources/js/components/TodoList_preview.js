@@ -3,13 +3,78 @@ import ReactDOM from 'react-dom';
 import { Button } from 'reactstrap';
 import Axios from 'axios';
 
+class TodoListCollaboratorItem extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { role: "0", index: "0" }
+    }
+
+    async changeRole(TodoListID, UserID, role) {
+        
+        let ChangeRole_promise = await Axios({
+            method: 'put',
+            url: '/api/ToDoListUser/' + TodoListID,
+            data: {
+                user_id: UserID,
+                role: role
+            },
+        })
+        if (role == "0") {
+            this.props.removeCollab(this.state.index);
+        }
+        else {
+            this.setState({ role: role })
+        }
+    }
+
+    componentWillMount() {
+        this.setState({ role: this.props.role, index: this.props.index })
+    }
+
+    render() {
+        var role_text
+        switch (this.state.role) {
+            case "1":
+                role_text = "read right";
+                break;
+            case "2":
+                role_text = "write/read right";
+                break;
+            default:
+                role_text = "error please refresh..."
+        }
+
+        return (
+            <span>
+                <h4>{this.props.name} has {role_text}</h4>
+                {this.state.role == 1 &&
+                    <Button onClick={() => { this.changeRole(this.props.todolistid, this.props.userid, "2") }}>Give write right</Button>
+                }
+                {this.state.role == 2 &&
+                    <Button onClick={() => { this.changeRole(this.props.todolistid, this.props.userid, "1") }}>Remove write right</Button>
+                }
+                <Button onClick={() => { this.changeRole(this.props.todolistid, this.props.userid, "0") }}>Remove collaborator</Button>
+            </span>
+        )
+    }
+
+}
+
 class TodoListPreviewItem extends Component {
     constructor(props) {
         super(props);
+        this.state = { CollabLists: [] };
+        this.removeCollab = this.removeCollab.bind(this);
     }
 
     redirectToList(id) {
         document.location.href = "/todolist/" + id;
+    }
+
+    removeCollab(index) {
+        let CollabLists = this.state.CollabLists
+        CollabLists.splice(index, 1);
+        this.setState({ CollabLists: CollabLists });
     }
 
     async AddCollaborator(id) {
@@ -70,6 +135,7 @@ class TodoListPreviewItem extends Component {
                         },
                     })
                     alert("Collaborator added ! ") // success
+                    window.location.reload()
                 }
                 else { // if he did have a role in this todolist
                     if (currentRole != CollaboratorRole) { // check if he has the same role that we want to add to him
@@ -83,6 +149,7 @@ class TodoListPreviewItem extends Component {
                             },
                         })
                         alert("Collaborator added ! ") // success
+                        window.location.reload()
                     }
                     else {
                         // alert user that the collaborator he want to add has already this role
@@ -121,7 +188,31 @@ class TodoListPreviewItem extends Component {
         }
 
     }
+
+    async componentWillMount() {
+        var TodolistUser = await Axios({
+            method: 'get',
+            url: 'http://127.0.0.1:8000/api/ToDoList/' + this.props.data.id + '/user'
+        })
+        let default_index = 0;
+        var TodolistUser_clean = [];
+        for (var i = 0; i < TodolistUser.data.length; i++) {
+            if (TodolistUser.data[i].role != "3" && TodolistUser.data[i].role != "0") { // do not display the owner of the list and people that got removed
+                TodolistUser_clean.push({ data: TodolistUser.data[i] })
+            }
+        }
+        for (var i = 0; i < TodolistUser_clean.length; i++) {
+            let CollabLists = this.state.CollabLists;
+            CollabLists.push({ index: i, data: TodolistUser_clean[i].data })
+            this.setState({ CollabLists: CollabLists })
+        }
+    }
+
     render() {
+        var items = [];
+        for (var i = 0; i < this.state.CollabLists.length; i++) {
+            items.push({ index: i, data: this.state.CollabLists[i].data })
+        }
         return (
             <div className="card">
                 <div className="card-body" onClick={() => this.redirectToList(this.props.data.id)} style={{ cursor: 'pointer' }}>
@@ -135,8 +226,14 @@ class TodoListPreviewItem extends Component {
                     <input type="radio" ref="CollaboratorRole" name={"CollaboratorSetting" + this.props.index} value="edit" />
                     <label for="edit">Read/Write</label>
                     <Button onClick={() => this.AddCollaborator(this.props.data.id)}>Add Collaborator </Button>
+
+                    {items.map(TodoListCollaboratorItems =>
+                        <TodoListCollaboratorItem index={TodoListCollaboratorItems.index} key={TodoListCollaboratorItems.index}
+                            removeCollab={this.removeCollab} userid={TodoListCollaboratorItems.data.user_id} todolistid={this.props.data.id}
+                            name={TodoListCollaboratorItems.data.name} role={TodoListCollaboratorItems.data.role} />)}
+
                 </span>
-                <Button onClick={() => this.DeleteList(this.props.data.id)}> Delete </Button>
+                <Button onClick={() => this.DeleteList(this.props.data.id)}> Delete this list </Button>
             </div>
         )
     };
