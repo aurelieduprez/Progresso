@@ -30,12 +30,13 @@ class TodoListItem extends React.Component {
           <li className="list-group-item card">
             <div className={todoClass}>
               {this.props.item.value}
-              {this.props.item.done &&
+              {this.props.item.done == 1 &&
                 <Button className="glyphicon glyphicon-ok icon" aria-hidden="true" onClick={this.onClickDone}>undone</Button>
               }
-              {!this.props.item.done &&
+              {this.props.item.done == 0 &&
                 <Button className="glyphicon glyphicon-ok icon" aria-hidden="true" onClick={this.onClickDone}>done</Button>
               }
+
               <Button type="button" className="close" onClick={this.onClickDelete}>&times;</Button>
             </div>
           </li>

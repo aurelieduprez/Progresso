@@ -226,11 +226,8 @@ class TodoApp extends React.Component {
           todoItems.push(item); // add it to the todoItems array (state)
         }
       }
-
-      // update todolist title 
-      this.setState({ ListName: todolist.data.title });
-      //  update todolist content 
-      this.setState({ todoItems: todoItems });
+      // update todolist title & todolist content 
+      this.setState({ ListName: todolist.data.title , todoItems: todoItems });
     }
   }
 
