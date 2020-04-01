@@ -67,7 +67,7 @@ class ToDoListUserController extends Controller
 
         for($i = 0; $i < count ($myToDoListUser) ; $i++){
         $user = User::where('id',$myToDoListUser[$i]->user_id)->first();
-        $profile = ["name"=>$user->name,"role"=>$myToDoListUser[$i]->role];
+        $profile = ["user_id"=>$myToDoListUser[$i]->user_id,"name"=>$user->name,"role"=>$myToDoListUser[$i]->role];
         array_push($toreturn,$profile);
         }
 

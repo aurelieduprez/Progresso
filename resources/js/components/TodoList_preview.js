@@ -8,7 +8,9 @@ class TodoListCollaboratorItem extends Component {
         super(props);
     }
 
-    async changeRole(TodoListID,UserID,role){
+    async changeRole(TodoListID, UserID, role) {
+
+        console.log(TodoListID, UserID, role)
 
         let ChangeRole_promise = await Axios({
             method: 'put',
@@ -19,14 +21,14 @@ class TodoListCollaboratorItem extends Component {
             },
         })
     }
-    
+
     render() {
 
-        
+
 
         var role_text
 
-        switch(this.props.role){
+        switch (this.props.role) {
             case "1":
                 role_text = "read right";
                 break;
@@ -35,17 +37,17 @@ class TodoListCollaboratorItem extends Component {
                 break;
         }
 
-        
+
         return (
             <span>
-            <h4>{this.props.name} has {role_text}</h4>
-            {this.props.role == 1&&
-            <Button onClick={this.changeRole(this.props.todolistid,this.props.userid,"2")}>Give write right</Button>
-            }
-            {this.props.role == 2&&
-            <Button onClick={this.changeRole(this.props.todolistid,this.props.userid,"1")}>Remove write right</Button>
-            }
-             <Button onClick={this.changeRole(this.props.todolistid,this.props.userid,"0")}>Remove collaborator</Button>
+                <h4>{this.props.name} has {role_text}</h4>
+                {this.props.role == 1 &&
+                    <Button onClick={() => {this.changeRole(this.props.todolistid, this.props.userid, "2")}}>Give write right</Button>
+                }
+                {this.props.role == 2 &&
+                    <Button onClick={() => {this.changeRole(this.props.todolistid, this.props.userid, "1")}}>Remove write right</Button>
+                }
+                <Button onClick={() => {this.changeRole(this.props.todolistid, this.props.userid, "0")}}>Remove collaborator</Button>
             </span>
         )
     }
@@ -55,6 +57,7 @@ class TodoListCollaboratorItem extends Component {
 class TodoListPreviewItem extends Component {
     constructor(props) {
         super(props);
+        this.items = [];
     }
 
     redirectToList(id) {
@@ -170,15 +173,23 @@ class TodoListPreviewItem extends Component {
         }
 
     }
-    render() {
-        var TodolistUser = [{ name: "pd",user_id: "1" , role: "2" }, { name: "le roi",user_id: "1", role: "3" }] // debug list
 
-        var items = [];
-        for (var i = 0; i < TodolistUser.length; i++) {
-            if (TodolistUser[i].role != "3") { // do not display the owner of the list
-                items.push({ id: i, data: TodolistUser[i] })
+    async componentWillMount() {
+        var TodolistUser = await Axios({
+            method: 'get',
+            url: 'http://127.0.0.1:8000/api/ToDoList/' + this.props.data.id + '/user'
+        })
+        
+        for (var i = 0; i < TodolistUser.data.length; i++) {
+            if (TodolistUser.data[i].role != "3" && TodolistUser.data[i].role != "0" ) { // do not display the owner of the list and people that got removed
+                this.items.push({key: i, data: TodolistUser.data[i] })
             }
         }
+        console.log("i : "+i+ "longueur liste : "+TodolistUser.data.length+"truc de merde : "+this.items)
+
+    }
+
+    render() {
         return (
             <div className="card">
                 <div className="card-body" onClick={() => this.redirectToList(this.props.data.id)} style={{ cursor: 'pointer' }}>
@@ -192,9 +203,9 @@ class TodoListPreviewItem extends Component {
                     <input type="radio" ref="CollaboratorRole" name={"CollaboratorSetting" + this.props.index} value="edit" />
                     <label for="edit">Read/Write</label>
                     <Button onClick={() => this.AddCollaborator(this.props.data.id)}>Add Collaborator </Button>
-                    {items.map(TodoListCollaboratorItems => <TodoListCollaboratorItem key={TodoListCollaboratorItems.id} 
-                    userid={TodoListCollaboratorItems.data.user_id} todolistid={this.props.id} name={TodoListCollaboratorItems.data.name} 
-                    role={TodoListCollaboratorItems.data.role} />)}
+                    {this.items.map(TodoListCollaboratorItems => <TodoListCollaboratorItem key={TodoListCollaboratorItems.key}
+                        userid={TodoListCollaboratorItems.data.user_id} todolistid={this.props.data.id} name={TodoListCollaboratorItems.data.name}
+                        role={TodoListCollaboratorItems.data.role} />)}
                 </span>
                 <Button onClick={() => this.DeleteList(this.props.data.id)}> Delete </Button>
             </div>
