@@ -3,6 +3,55 @@ import ReactDOM from 'react-dom';
 import { Button } from 'reactstrap';
 import Axios from 'axios';
 
+class TodoListCollaboratorItem extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    async changeRole(TodoListID,UserID,role){
+
+        let ChangeRole_promise = await Axios({
+            method: 'put',
+            url: '/api/ToDoListUser/' + TodoListID,
+            data: {
+                user_id: UserID,
+                role: role
+            },
+        })
+    }
+    
+    render() {
+
+        
+
+        var role_text
+
+        switch(this.props.role){
+            case "1":
+                role_text = "read right";
+                break;
+            case "2":
+                role_text = "write/read right";
+                break;
+        }
+
+        
+        return (
+            <span>
+            <h4>{this.props.name} has {role_text}</h4>
+            {this.props.role == 1&&
+            <Button onClick={this.changeRole(this.props.todolistid,this.props.userid,"2")}>Give write right</Button>
+            }
+            {this.props.role == 2&&
+            <Button onClick={this.changeRole(this.props.todolistid,this.props.userid,"1")}>Remove write right</Button>
+            }
+             <Button onClick={this.changeRole(this.props.todolistid,this.props.userid,"0")}>Remove collaborator</Button>
+            </span>
+        )
+    }
+
+}
+
 class TodoListPreviewItem extends Component {
     constructor(props) {
         super(props);
@@ -122,6 +171,14 @@ class TodoListPreviewItem extends Component {
 
     }
     render() {
+        var TodolistUser = [{ name: "pd",user_id: "1" , role: "2" }, { name: "le roi",user_id: "1", role: "3" }] // debug list
+
+        var items = [];
+        for (var i = 0; i < TodolistUser.length; i++) {
+            if (TodolistUser[i].role != "3") { // do not display the owner of the list
+                items.push({ id: i, data: TodolistUser[i] })
+            }
+        }
         return (
             <div className="card">
                 <div className="card-body" onClick={() => this.redirectToList(this.props.data.id)} style={{ cursor: 'pointer' }}>
@@ -135,6 +192,9 @@ class TodoListPreviewItem extends Component {
                     <input type="radio" ref="CollaboratorRole" name={"CollaboratorSetting" + this.props.index} value="edit" />
                     <label for="edit">Read/Write</label>
                     <Button onClick={() => this.AddCollaborator(this.props.data.id)}>Add Collaborator </Button>
+                    {items.map(TodoListCollaboratorItems => <TodoListCollaboratorItem key={TodoListCollaboratorItems.id} 
+                    userid={TodoListCollaboratorItems.data.user_id} todolistid={this.props.id} name={TodoListCollaboratorItems.data.name} 
+                    role={TodoListCollaboratorItems.data.role} />)}
                 </span>
                 <Button onClick={() => this.DeleteList(this.props.data.id)}> Delete </Button>
             </div>
