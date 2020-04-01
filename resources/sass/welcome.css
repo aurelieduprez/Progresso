@@ -2,7 +2,8 @@
 :root { 
     --title-color: #000000;
     --link-color: #000000;
-    --link-color-hover: #282828;
+    --link-color-hover: #FFFFFF;
+    --link-border-color: #000000;
     --welcome-bg-image : url("./../../resources/images/light-theme-background.jpg")
 }
 
@@ -10,7 +11,8 @@
 [data-theme="dark"] {
     --title-color: #FFFFFF;
     --link-color: #FFFFFF;
-    --link-color-hover: #CCCCCC;
+    --link-color-hover: #000000;
+    --link-border-color: #FFFFFF;
     --welcome-bg-image : url("./../../resources/images/dark-theme-background.jpg")
 }
 
@@ -27,6 +29,8 @@ body{
 }
 
 .boxTitle {
+    position: absolute;
+    top: 15%;
     transform: translateY(-50%);
     text-align: center;
     color: var(--title-color);
@@ -39,18 +43,36 @@ body{
 .subtitle {
     font-size: 32px;
 }
-.links > a {
-    color: var(--link-color);
-    padding: 0 25px;
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: .1rem;
-    text-decoration: none;
-    text-transform: uppercase;
+
+.links {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    transform: translateY(33%);
 }
 
-.links > a:hover{
-    color: var(--link-color-hover);
+.welcome-link {
+    color: var(--link-color) !important;
+
+    display: inline-block;
+
+    width: 150px;
+    margin: 10px;
+    padding: 10px 5px;
+
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: .1rem;
+    text-transform: uppercase;
+    border: 3px solid var(--link-border-color);
+    border-radius: 5px;
+}
+
+.welcome-link:hover{
+    color: var(--link-color-hover) !important;
+    background-color: var(--link-border-color);
+    transition: 0.2s;
 }
 
 

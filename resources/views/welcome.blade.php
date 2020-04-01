@@ -22,15 +22,20 @@
             <p class="text-switch">Dark Mode</p>
         </div>
 
-            @if (Route::has('login'))
-                <div class="top-right links">
+        @if (Route::has('login'))
+                <div class="links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <span id="boxHome">
+                            <a href="{{ url('/home') }}" class="welcome-link">Home</a>
+                        </span>
                     @else
-                        <a href="{{ route('login') }}">Login</a>
-
+                        <span id="boxLogin">
+                            <a href="{{ route('login') }}" class="welcome-link">Login</a>    
+                        </span>
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
+                        <span id="boxRegister">
+                            <a href="{{ route('register') }}" class="welcome-link">Register</a>
+                        </span>
                         @endif
                     @endauth
                 </div>
@@ -49,14 +54,6 @@
 
 
         <script>
-            const prefersColorSchemeDark = window.matchMedia('(prefers-color-scheme: dark)');
-            if (prefersColorSchemeDark.matches) {
-            console.log(prefersColorSchemeDark, "OUIé")
-            }else {
-                console.log(prefersColorSchemeDark, "TA GUELE")
-            }
-            console.log(prefersColorSchemeDark)
-
             const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
 
             toggleSwitch.addEventListener('change', switchTheme, false);
@@ -65,12 +62,10 @@
                 if (e.target.checked) {
                     document.documentElement.setAttribute('data-theme', 'dark');
                     localStorage.setItem('theme', 'dark');
-                    console.log("blackface")
                 }
                 else {
                     document.documentElement.setAttribute('data-theme', 'light');
                     localStorage.setItem('theme', 'light');
-                    console.log("white privilege")
                 }    
             }
 
