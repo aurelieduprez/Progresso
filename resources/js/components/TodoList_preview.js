@@ -16,7 +16,6 @@ class TodoListPreviewItem extends Component {
         var CollaboratorEmail = this.refs.CollaboratorEmail.value;
         var CollaboratorRole = this.refs.CollaboratorRole.checked;
 
-        console.log("email : " + CollaboratorEmail + " todolist id : " + id)
         try {
             let GetId_promise = await Axios({
                 method: 'post',
@@ -25,8 +24,6 @@ class TodoListPreviewItem extends Component {
                     email: CollaboratorEmail
                 },
             })
-            console.log("result1 : " + GetId_promise.data.id)
-            console.log("role : " + CollaboratorRole)
 
             if (!CollaboratorRole) {
                 CollaboratorRole = 1;
@@ -46,7 +43,6 @@ class TodoListPreviewItem extends Component {
                 let currentRole;
                 for (var i = 0; i < GetRoleList_promise.data.length; i++) {
                     if (GetRoleList_promise.data[i].user_id == GetId_promise.data.id) {
-                        console.log("Have Role")
                         AlreadyHaveRole = true;
                         currentRole = GetRoleList_promise.data[i].role
                         break;
@@ -64,7 +60,6 @@ class TodoListPreviewItem extends Component {
                         },
                     })
                     alert("Collaborator added ! ")
-                    console.log("result2 : " + createRole_promise.data)
                 }
                 else {
                     if (currentRole != CollaboratorRole) {
@@ -77,7 +72,6 @@ class TodoListPreviewItem extends Component {
                             },
                         })
                         alert("Collaborator added ! ")
-                        console.log("result2 : " + ChangeRole_promise.data)
                     }
                     else {
                         alert("Collaborator has already this role ! ")
@@ -151,16 +145,14 @@ class TodoListPreview extends Component {
             })
         }
         catch (e) {
-            console.log(e)
+            console.error(e)
         }
         let TodoLists = []
-        console.warn(todolist_promise.data)
         for (var i = 0; i < todolist_promise.data.length; i++) {
             var todolist_info = await Axios({
                 method: 'get',
                 url: 'http://127.0.0.1:8000/api/ToDoList/' + todolist_promise.data[i].id,
             })
-            console.warn("id " + todolist_promise.data[i].id + " obj: " + todolist_info)
             var todo_number = 0;
             for (var j = 0; j < todolist_info.data.todo.length; j++) {
                 if (todolist_info.data.todo[j].state == 0) { // if the current item isn't done
@@ -183,7 +175,6 @@ class TodoListPreview extends Component {
         for (var i = 0; i < this.state.todoLists.length; i++) {
             items.push({ id: i, data: this.state.todoLists[i] })
         }
-        console.log(items)
         return (
             <div>
                 {items.map(TodoListPreviewItems => <TodoListPreviewItem removeList={this.removeList} index={TodoListPreviewItems.id} key={TodoListPreviewItems.id} data={TodoListPreviewItems.data} />)}
