@@ -15,8 +15,8 @@ class TodoApp extends React.Component {
   // Define attribute & function of TodoApp
   constructor(props) {
     super(props);
-    this.isNew = true;
-    this.TodoListID;
+    this.isNew = true; // by default the todolist is a new one
+    this.TodoListID; // the id of the current todolist
     this.handleChangeTitle = this.handleChangeTitle.bind(this);
     this.addItem = this.addItem.bind(this);
     this.removeItem = this.removeItem.bind(this);
@@ -29,30 +29,32 @@ class TodoApp extends React.Component {
   }
 
   async saveItem() {
-    if (this.isNew) {
-      let createList_promise = await Axios({
-        method: 'post',
-        url: '/api/ToDoList',
-        data: {
-          title: this.state.ListName,
-          closed: '0',
-          content: this.state.todoItems
-        },
-      })
-      console.log(createList_promise)
+    if (this.isNew) { // if this is a new todolist
+      // register it
       try {
+        // create an entry in our db
+        let createList_promise = await Axios({
+          method: 'post',
+          url: '/api/ToDoList',
+          data: {
+            title: this.state.ListName,
+            closed: '0',
+            content: this.state.todoItems
+          },
+        })
+        // setup user role for this todolist
         let createRole_promise = await Axios({
           method: 'post',
           url: '/api/ToDoListUser',
           data: {
             to_do_list_id: createList_promise.data.id,
-            role :"3"
+            role: "3"
           },
         })
+        // if succeed redirect user to the todolist page
+        document.location.href = "/todolist/" + createList_promise.data.id;
       }
-      catch (e) { console.log(e) }
-      console.log(this.state.todoItems)
-      document.location.href = "/todolist/" + createList_promise.data.id;
+      catch (e) { console.error("Error while saving a new todolist ! " + e) }
     }
     else {
       if (this.state.ListName !== "") {
@@ -128,7 +130,6 @@ class TodoApp extends React.Component {
     var Done_nb = 0; // number of done task to delete
     let Done_index; // index in the list of the first done item
     for (var i = 0; i < todoItems.length; i++) {
-      console.log(" i = " + i + "todoItems length = " + todoItems_list.length)
       if (todoItems_list[i].done == true && todoItems_list[i].title == undefined) {
         Done_nb++;
       }
@@ -141,7 +142,7 @@ class TodoApp extends React.Component {
         if (!this.isNew) {
           var deleteItem_promise = await Axios({
             method: 'delete',
-            url: 'http://127.0.0.1:8000/api/ToDoList/items/' + todoItems[Done_index+i].id,
+            url: 'http://127.0.0.1:8000/api/ToDoList/items/' + todoItems[Done_index + i].id,
           })
         }
       }
@@ -150,12 +151,7 @@ class TodoApp extends React.Component {
   }
 
   UncheckALL() {
-    console.log("remove all called")
-    console.log(" i = " + i + "todoItems length = " + todoItems.length)
-    console.log("todoitem : " + todoItems)
     for (var i = 0; i < todoItems.length; i++) {
-      console.log("for : " + i)
-      console.log("todoItems[i] : " + todoItems[i])
       if (todoItems[i].done == true && todoItems[i].title == undefined) {
         let todo = todoItems[i]
         todoItems.splice(i, 1);
@@ -193,7 +189,6 @@ class TodoApp extends React.Component {
           method: 'get',
           url: 'http://127.0.0.1:8000/api/ToDoList/' + this.TodoListID,
         })
-        console.log(todolist.data)
       }
       catch (e) { // if request fail
         // redirect user to /todolist/new
