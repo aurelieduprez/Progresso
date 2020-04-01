@@ -116,10 +116,10 @@ class TodoListPreviewItem extends Component {
                 </div>
                 <span>
                     <input type="text" ref="CollaboratorEmail" className="form-control" placeholder="add a new collaborator..." />
-                    <input type="radio" name="CollaboratorSetting" value="readOnly" defaultChecked />
+                    <input type="radio" name={"CollaboratorSetting"+this.props.index} value="readOnly" defaultChecked />
                     <label for="readOnly">Read Only</label>
-                    <input type="radio" ref="CollaboratorRole" name="CollaboratorSetting" value="edit" />
-                    <label for="edit">edit rights</label>
+                    <input type="radio" ref="CollaboratorRole" name={"CollaboratorSetting"+this.props.index} value="edit" />
+                    <label for="edit">Read/Write</label>
                     <Button onClick={() => this.AddCollaborator(this.props.data.id)}>Add Collaborator </Button>
                 </span>
                 <Button onClick={() => this.DeleteList(this.props.data.id)}> Delete </Button>
