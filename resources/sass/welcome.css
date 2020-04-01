@@ -2,6 +2,7 @@
 :root { 
     --title-color: #000000;
     --link-color: #000000;
+    --link-color-hover: #282828;
     --welcome-bg-image : url("./../../resources/images/light-theme-background.jpg")
 }
 
@@ -9,6 +10,7 @@
 [data-theme="dark"] {
     --title-color: #FFFFFF;
     --link-color: #FFFFFF;
+    --link-color-hover: #CCCCCC;
     --welcome-bg-image : url("./../../resources/images/dark-theme-background.jpg")
 }
 
@@ -40,12 +42,17 @@ body{
 .links > a {
     color: var(--link-color);
     padding: 0 25px;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 600;
     letter-spacing: .1rem;
     text-decoration: none;
     text-transform: uppercase;
 }
+
+.links > a:hover{
+    color: var(--link-color-hover);
+}
+
 
 
 .full-height {

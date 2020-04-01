@@ -11,7 +11,7 @@
         <link href="{{ asset('css/app.css') }}"  rel="stylesheet">
 
     </head>
-    <body class="light-theme">
+    <body>
         <div class="flex-center position-ref full-height">
 
         <div class="theme-switch-wrapper">
@@ -19,7 +19,7 @@
                 <input type="checkbox" id="checkbox" />
                 <div class="slider round"></div>
             </label>
-            <p class="text-switch">Enable Dark Mode!</p>
+            <p class="text-switch">Dark Mode</p>
         </div>
 
             @if (Route::has('login'))
@@ -36,9 +36,9 @@
                 </div>
             @endif
 
-            <div class = "boxTitle light-theme">
+            <div class = "boxTitle">
                 <div class="title">
-                    Titre du site
+                    Progresso
                 </div>
                 <div class="subtitle">
                     for your easy to-do lists
