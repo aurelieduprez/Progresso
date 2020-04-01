@@ -11,8 +11,17 @@
         <link href="{{ asset('css/app.css') }}"  rel="stylesheet">
 
     </head>
-    <body class="dark-theme">
+    <body class="light-theme">
         <div class="flex-center position-ref full-height">
+
+        <div class="theme-switch-wrapper">
+            <label class="theme-switch" for="checkbox">
+                <input type="checkbox" id="checkbox" />
+                <div class="slider round"></div>
+            </label>
+            <p class="text-switch">Enable Dark Mode!</p>
+        </div>
+
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
@@ -26,8 +35,54 @@
                     @endauth
                 </div>
             @endif
-                <div id="example"></div>
+
+            <div class = "boxTitle light-theme">
+                <div class="title">
+                    Titre du site
+                </div>
+                <div class="subtitle">
+                    for your easy to-do lists
+                </div>
             </div>
         </div>
+
+
+
+        <script>
+            const prefersColorSchemeDark = window.matchMedia('(prefers-color-scheme: dark)');
+            if (prefersColorSchemeDark.matches) {
+            console.log(prefersColorSchemeDark, "OUIé")
+            }else {
+                console.log(prefersColorSchemeDark, "TA GUELE")
+            }
+            console.log(prefersColorSchemeDark)
+
+            const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+
+            toggleSwitch.addEventListener('change', switchTheme, false);
+
+            function switchTheme(e) {
+                if (e.target.checked) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                    console.log("blackface")
+                }
+                else {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                    console.log("white privilege")
+                }    
+            }
+
+            const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+
+            if (currentTheme) {
+                document.documentElement.setAttribute('data-theme', currentTheme);
+
+                if (currentTheme === 'dark') {
+                    toggleSwitch.checked = true;
+                }
+            }
+        </script>
     </body>
 </html>
