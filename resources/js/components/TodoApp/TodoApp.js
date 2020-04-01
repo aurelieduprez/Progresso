@@ -56,8 +56,9 @@ class TodoApp extends React.Component {
       }
       catch (e) { console.error("Error while saving a new todolist ! " + e) }
     }
-    else {
-      if (this.state.ListName !== "") {
+    else { // if this isn't a new todolist
+      if (this.state.ListName !== "") { // and his title isn't empty
+        // update the current todolist
         Axios({
           method: 'put',
           url: 'http://127.0.0.1:8000/api/ToDoList/' + this.TodoListID,
@@ -72,22 +73,26 @@ class TodoApp extends React.Component {
   }
 
   componentDidUpdate() {
+    // when is not a new todolist 
+    // Update the todolist every time something change
     if (!this.isNew) {
       this.saveItem()
     }
   }
 
 
-  handleChangeTitle(title) {
+  handleChangeTitle(title) { // change title in component state
     this.setState({ ListName: title });
   }
-  changeMode(NewMode) {
+
+  changeMode(NewMode) { // change current todolist mode ("all","todo only","done only")
     this.setState({ mode: NewMode });
   }
 
   async addItem(todoItem) {
 
-    if (!this.isNew) {
+    if (!this.isNew) { // if this isn't a new todolist
+      // add a new entry in todolistitem
       var createItem_promise = await Axios({
         method: 'post',
         url: '/api/ToDoList/' + this.TodoListID + '/items',
@@ -96,32 +101,37 @@ class TodoApp extends React.Component {
           content: todoItem.newItemValue
         },
       })
+      // add the item to todoItems array
       todoItems.unshift({
-        id: createItem_promise.data,
+        id: createItem_promise.data, // add him is id
         index: todoItems.length + 1,
         value: todoItem.newItemValue,
         done: false
       });
     }
-    else {
+    else { // if this is a new todolist
+      // add the item to todoItems array
       todoItems.unshift({
         index: todoItems.length + 1,
         value: todoItem.newItemValue,
         done: false
       });
     }
-
+    // update state
     this.setState({ todoItems: todoItems });
   }
   async removeItem(itemIndex) {
-    if (!this.isNew) {
+    if (!this.isNew) { // if this isn't a new todolist
+      // delete the item entry in TodolistItem
       var deleteItem_promise = await Axios({
         method: 'delete',
         url: 'http://127.0.0.1:8000/api/ToDoList/items/' + todoItems[itemIndex].id,
       })
     }
-    console.warn(todoItems[itemIndex].id)
+    // delete the item from todoItems array
     todoItems.splice(itemIndex, 1);
+
+    //update state
     this.setState({ todoItems: todoItems });
   }
 
@@ -152,7 +162,7 @@ class TodoApp extends React.Component {
 
   UncheckALL() {
     for (var i = 0; i < todoItems.length; i++) {
-      if (todoItems[i].done == true && todoItems[i].title == undefined) {
+      if (todoItems[i].done == true && todoItems[i].title == undefined) { // skip if title
         let todo = todoItems[i]
         todoItems.splice(i, 1);
         // insert a new one with same value at the end of the array
@@ -161,7 +171,6 @@ class TodoApp extends React.Component {
         this.setState({ todoItems: todoItems });
       }
     }
-    // this.setState({ todoItems: todoItems });
   }
 
   markTodoDone(itemIndex) {
@@ -191,6 +200,7 @@ class TodoApp extends React.Component {
         })
       }
       catch (e) { // if request fail
+        alert("Todolist id : "+this.TodoListID+" do not exist or you don't have the rights access... redirecting")
         // redirect user to /todolist/new
         document.location.href = "/todolist/new";
       }
