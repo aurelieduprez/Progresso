@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\API\MailController;
 use Illuminate\Http\Request;
 
 use App\ToDoListUser;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+
+
 //use App\User;
 class ToDoListUserController extends Controller
 {
@@ -37,6 +40,16 @@ class ToDoListUserController extends Controller
                 'to_do_list_id' => $request->input('to_do_list_id'),
                 'role' => $request->input('role')
             ]);
+
+            $details = [
+                'title' => 'Progresso, your online to-do list.',
+                'body' => "You received an invitation to get in a new To-do list. Click the following link to enter : http://localhost:8000/ToDoList/" + $request->input('to_do_list_id')
+            ];
+        
+           
+        
+            \Mail::to(Auth::user()->email)->send(new \App\Mail\sendingMail($details));
+            dd("Email is Sent.");
         }
         else{
         ToDoListUser::create([

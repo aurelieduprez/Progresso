@@ -42,14 +42,14 @@ class MailController extends Controller
 
 
 
-    public function emailInvitation(){
+    public function emailInvitation($id){
 
 
         $details = [
 
             'title' => 'Progresso, your online to-do list.',
     
-            'body' => "You received an invitation to get in a new To-do list. Click the following link to enter : "
+            'body' => "You received an invitation to get in a new To-do list. Click the following link to enter : http://localhost:8000/ToDoList/" + $id
     
         ];
     
