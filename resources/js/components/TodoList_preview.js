@@ -135,7 +135,7 @@ class TodoListPreview extends Component {
         this.state = { todoLists: [] };
         this.removeList = this.removeList.bind(this);
     }
-    async UNSAFE_componentWillMount() {
+    async componentWillMount() {
         // let TodoLists = [{ TodoNumber: 5, ListName: "Course" },{ TodoNumber: 7, ListName: "online-survey" }]
         // get todolist info here
         try {
