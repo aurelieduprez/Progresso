@@ -64,5 +64,14 @@ Route::namespace('API')->group(function () {
     Route::put('api/ToDoListUser/{id}', 'ToDoListUserController@update');
 
     //Route::apiResource('ToDoListUser', 'api\ToDoListUserController');
+
+    //Route email sign up
+    Route::get('api/sendMail/1','MailController@emailSignup');
+
+    //Route email invitation
+    Route::get('api/sendMail/2', 'MailController@emailInvitation'); 
 });
+
+
+
 
