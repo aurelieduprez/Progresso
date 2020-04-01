@@ -41,15 +41,13 @@ class ToDoListUserController extends Controller
                 'role' => $request->input('role')
             ]);
 
+            // send invitation mail
             $details = [
-                'title' => 'Progresso, your online to-do list.',
-                'body' => "You received an invitation to get in a new To-do list. Click the following link to enter : http://localhost:8000/ToDoList/" + $request->input('to_do_list_id')
+            'title' => 'Progresso, your online to-do list.',
+            'body' => "You received an invitation to get in a new To-do list. Click the following link to enter : http://localhost:8000/todolist/".$request->input('to_do_list_id')
             ];
-        
-           
-        
             \Mail::to(Auth::user()->email)->send(new \App\Mail\sendingMail($details));
-            dd("Email is Sent.");
+           
         }
         else{
         ToDoListUser::create([
