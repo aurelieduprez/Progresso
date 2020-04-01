@@ -43,7 +43,6 @@ class TodoListPreviewItem extends Component {
                     method: 'get',
                     url: 'api/ToDoListUser/' + id,
                 })
-
                 // init some temp var
                 let AlreadyHaveRole = false;
                 let currentRole;
@@ -66,7 +65,8 @@ class TodoListPreviewItem extends Component {
                         data: {
                             to_do_list_id: id,
                             user_id: GetId_promise.data.id,
-                            role: CollaboratorRole
+                            role: CollaboratorRole,
+                            email: CollaboratorEmail
                         },
                     })
                     alert("Collaborator added ! ") // success
