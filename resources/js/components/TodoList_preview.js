@@ -13,11 +13,14 @@ class TodoListPreviewItem extends Component {
     }
 
     async AddCollaborator(id) {
+
+        // Get info about the request (input values)
         var CollaboratorEmail = this.refs.CollaboratorEmail.value;
         var CollaboratorRole = this.refs.CollaboratorRole.checked;
 
-        try {
-            let GetId_promise = await Axios({
+        try { // try the whole collaborator adding process
+
+            let GetId_promise = await Axios({ // get collaborator id from his email adress
                 method: 'post',
                 url: 'api/ToDoListUser/get',
                 data: {
@@ -25,6 +28,7 @@ class TodoListPreviewItem extends Component {
                 },
             })
 
+            // change radio input value in role value
             if (!CollaboratorRole) {
                 CollaboratorRole = 1;
             }
@@ -32,24 +36,30 @@ class TodoListPreviewItem extends Component {
                 CollaboratorRole = 2;
             }
 
+
             if (GetId_promise.data.id != undefined) { // if user exist
 
-                let GetRoleList_promise = await Axios({
+                let GetRoleList_promise = await Axios({ // get the role list of the current todolist
                     method: 'get',
                     url: 'api/ToDoListUser/' + id,
                 })
 
+                // init some temp var
                 let AlreadyHaveRole = false;
                 let currentRole;
-                for (var i = 0; i < GetRoleList_promise.data.length; i++) {
+                // for the length of the list of role of the current todolist
+                for (let i = 0; i < GetRoleList_promise.data.length; i++) {
+                    // if the user_id of the user we wanna add is already in this list
                     if (GetRoleList_promise.data[i].user_id == GetId_promise.data.id) {
+                        // that mean that user already have a role
                         AlreadyHaveRole = true;
-                        currentRole = GetRoleList_promise.data[i].role
+                        currentRole = GetRoleList_promise.data[i].role // get his current role
                         break;
                     }
                 }
 
-                if (!AlreadyHaveRole) {
+                if (!AlreadyHaveRole) { // if he didn't have a role in this todolist
+                    // add him
                     let createRole_promise = await Axios({
                         method: 'post',
                         url: '/api/ToDoListUser',
@@ -59,10 +69,11 @@ class TodoListPreviewItem extends Component {
                             role: CollaboratorRole
                         },
                     })
-                    alert("Collaborator added ! ")
+                    alert("Collaborator added ! ") // success
                 }
-                else {
-                    if (currentRole != CollaboratorRole) {
+                else { // if he did have a role in this todolist
+                    if (currentRole != CollaboratorRole) { // check if he has the same role that we want to add to him
+                        // if not change his current role
                         let ChangeRole_promise = await Axios({
                             method: 'put',
                             url: '/api/ToDoListUser/' + id,
@@ -71,18 +82,19 @@ class TodoListPreviewItem extends Component {
                                 role: CollaboratorRole
                             },
                         })
-                        alert("Collaborator added ! ")
+                        alert("Collaborator added ! ") // success
                     }
                     else {
+                        // alert user that the collaborator he want to add has already this role
                         alert("Collaborator has already this role ! ")
                     }
                 }
             }
-            else {
+            else { // if Collaborator ID is undefined
                 alert("User do not exist !")
             }
         }
-        catch (e) {
+        catch (e) { // if collaborator adding process fail somewhere
             alert("Error while adding collaborator !")
         }
 
@@ -91,21 +103,23 @@ class TodoListPreviewItem extends Component {
     async DeleteList(id) {
         // waiting the list is deleted
         try {
-            // waiting the list is deleted
+            // delete the todolist
             let delete_list = await Axios({
                 method: 'delete',
                 url: 'http://127.0.0.1:8000/api/ToDoList/' + id
             })
-
+            // clear all roles about this todolist
             let delete_roles = await Axios({
                 method: 'delete',
                 url: 'http://127.0.0.1:8000/api/ToDoListUser/' + id
             })
+            // remove the list component when it's done
+            this.props.removeList(this.props.index);
         }
         catch (e) {
-            console.error(e)
+            console.error("error while deleting a list ! " + e)
         }
-        this.props.removeList(this.props.index);
+
     }
     render() {
         return (
@@ -116,9 +130,9 @@ class TodoListPreviewItem extends Component {
                 </div>
                 <span>
                     <input type="text" ref="CollaboratorEmail" className="form-control" placeholder="add a new collaborator..." />
-                    <input type="radio" name={"CollaboratorSetting"+this.props.index} value="readOnly" defaultChecked />
+                    <input type="radio" name={"CollaboratorSetting" + this.props.index} value="readOnly" defaultChecked />
                     <label for="readOnly">Read Only</label>
-                    <input type="radio" ref="CollaboratorRole" name={"CollaboratorSetting"+this.props.index} value="edit" />
+                    <input type="radio" ref="CollaboratorRole" name={"CollaboratorSetting" + this.props.index} value="edit" />
                     <label for="edit">Read/Write</label>
                     <Button onClick={() => this.AddCollaborator(this.props.data.id)}>Add Collaborator </Button>
                 </span>
@@ -136,9 +150,9 @@ class TodoListPreview extends Component {
         this.removeList = this.removeList.bind(this);
     }
     async componentWillMount() {
-        // let TodoLists = [{ TodoNumber: 5, ListName: "Course" },{ TodoNumber: 7, ListName: "online-survey" }]
         // get todolist info here
         try {
+            // get all todolist where the current user has access
             var todolist_promise = await Axios({
                 method: 'get',
                 url: 'http://127.0.0.1:8000/api/ToDoList/',
@@ -148,20 +162,24 @@ class TodoListPreview extends Component {
             console.error(e)
         }
         let TodoLists = []
+        // for all todolist get the number of remaining todos
         for (var i = 0; i < todolist_promise.data.length; i++) {
+            // get content of the todolist
             var todolist_info = await Axios({
                 method: 'get',
                 url: 'http://127.0.0.1:8000/api/ToDoList/' + todolist_promise.data[i].id,
             })
             var todo_number = 0;
+            // count how many todos are not done
             for (var j = 0; j < todolist_info.data.todo.length; j++) {
                 if (todolist_info.data.todo[j].state == 0) { // if the current item isn't done
                     todo_number++;
                 }
             }
+            // push new item to array
             TodoLists.push({ TodoNumber: todo_number, ListName: todolist_promise.data[i].title, id: todolist_promise.data[i].id })
+            this.setState({ todoLists: TodoLists }); // update state
         }
-        this.setState({ todoLists: TodoLists });
     }
 
     removeList(index) {
