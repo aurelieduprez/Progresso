@@ -56,8 +56,23 @@ class ToDoListUserController extends Controller
      */
     public function show($id)
     {
-        $myToDoListUser = ToDoListUser::where('to_do_list_id', $id)->get();   
+        $myToDoListUser = ToDoListUser::where('to_do_list_id', $id)->get();
         return $myToDoListUser;
+    }
+
+    public function GetUsers($id)
+    {
+        $toreturn = [];
+        $myToDoListUser = ToDoListUser::where('to_do_list_id', $id)->get();
+
+        for($i = 0; $i < count ($myToDoListUser) ; $i++){
+        $user = User::where('id',$myToDoListUser[$i]->user_id)->first();
+        $profile = ["name"=>$user->name,"role"=>$myToDoListUser[$i]->role];
+        array_push($toreturn,$profile);
+        }
+
+
+        return ($toreturn) ;
     }
 
     /**

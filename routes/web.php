@@ -63,6 +63,7 @@ Route::namespace('API')->group(function () {
     Route::get('api/ToDoListUser/{id}', 'ToDoListUserController@show');
     Route::put('api/ToDoListUser/{id}', 'ToDoListUserController@update');
 
-    //Route::apiResource('ToDoListUser', 'api\ToDoListUserController');
+    Route::get('api/ToDoList/{id}/user', 'ToDoListUserController@GetUsers');
+
 });
 
