@@ -4,7 +4,11 @@
 
 # HOW TO RUN THIS PROJECT
 
-PHP 7.3.12 version used in this project
+
++ Requirements: 
+PHP 7.3.12 
+Node version 12.14.1
+Laravel 7.1 
 
 + If you have linux installed, please modify your .env with your DB credentials and run the setup.sh.
         ..* Then go to http://localhost:8000/ to visit our to-do list website
