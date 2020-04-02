@@ -10,7 +10,7 @@ class TodoListCollaboratorItem extends Component {
     }
 
     async changeRole(TodoListID, UserID, role) {
-        
+
         let ChangeRole_promise = await Axios({
             method: 'put',
             url: '/api/ToDoListUser/' + TodoListID,
@@ -63,8 +63,9 @@ class TodoListCollaboratorItem extends Component {
 class TodoListPreviewItem extends Component {
     constructor(props) {
         super(props);
-        this.state = { CollabLists: [] };
+        this.state = { CollabLists: [], role_text: "" };
         this.removeCollab = this.removeCollab.bind(this);
+        this.CurrentUserRole = "0";
     }
 
     redirectToList(id) {
@@ -190,21 +191,53 @@ class TodoListPreviewItem extends Component {
     }
 
     async componentWillMount() {
-        var TodolistUser = await Axios({
-            method: 'get',
-            url: 'http://127.0.0.1:8000/api/ToDoList/' + this.props.data.id + '/user'
-        })
-        let default_index = 0;
-        var TodolistUser_clean = [];
-        for (var i = 0; i < TodolistUser.data.length; i++) {
-            if (TodolistUser.data[i].role != "3" && TodolistUser.data[i].role != "0") { // do not display the owner of the list and people that got removed
-                TodolistUser_clean.push({ data: TodolistUser.data[i] })
-            }
+        try {
+            var CurrentUserRole_promise = await Axios({
+                method: 'get',
+                url: 'api/ToDoListUser/' + this.props.data.id + '/role'
+            })
+            this.CurrentUserRole = CurrentUserRole_promise.data;
         }
-        for (var i = 0; i < TodolistUser_clean.length; i++) {
-            let CollabLists = this.state.CollabLists;
-            CollabLists.push({ index: i, data: TodolistUser_clean[i].data })
-            this.setState({ CollabLists: CollabLists })
+        catch (e) {
+            console.error("error while trying to get current user role ! " + e)
+        }
+        console.warn("role : " + this.CurrentUserRole)
+
+        var text
+        switch (this.CurrentUserRole) {
+            case 1:
+                text = "You have read right on this todolist ! ";
+                this.setState({ role_text: text })
+                break;
+            case 2:
+                text = "You have write/read right on this todolist ! ";
+                this.setState({ role_text: text })
+                break;
+            case 3:
+                text = "You are the owner of this todolist !";
+                this.setState({ role_text: text })
+                break;
+            default:
+                text = "error please refresh..."
+                this.setState({ role_text: text })
+        }
+
+        if (this.CurrentUserRole == "3") {
+            var TodolistUser = await Axios({
+                method: 'get',
+                url: 'http://127.0.0.1:8000/api/ToDoList/' + this.props.data.id + '/user'
+            })
+            var TodolistUser_clean = [];
+            for (var i = 0; i < TodolistUser.data.length; i++) {
+                if (TodolistUser.data[i].role != "3" && TodolistUser.data[i].role != "0") { // do not display the owner of the list and people that got removed
+                    TodolistUser_clean.push({ data: TodolistUser.data[i] })
+                }
+            }
+            for (var i = 0; i < TodolistUser_clean.length; i++) {
+                let CollabLists = this.state.CollabLists;
+                CollabLists.push({ index: i, data: TodolistUser_clean[i].data })
+                this.setState({ CollabLists: CollabLists })
+            }
         }
     }
 
@@ -219,21 +252,30 @@ class TodoListPreviewItem extends Component {
                     <h1>{this.props.data.ListName}</h1>
                     <h2>{this.props.data.TodoNumber} Todos</h2>
                 </div>
-                <span>
-                    <input type="text" ref="CollaboratorEmail" className="form-control" placeholder="add a new collaborator..." />
-                    <input type="radio" name={"CollaboratorSetting" + this.props.index} value="readOnly" defaultChecked />
-                    <label for="readOnly">Read Only</label>
-                    <input type="radio" ref="CollaboratorRole" name={"CollaboratorSetting" + this.props.index} value="edit" />
-                    <label for="edit">Read/Write</label>
-                    <Button onClick={() => this.AddCollaborator(this.props.data.id)}>Add Collaborator </Button>
+                <h4>{this.state.role_text}</h4>
+                {this.CurrentUserRole == "3" &&
+                    <span>
+                        <input type="text" ref="CollaboratorEmail" className="form-control" placeholder="add a new collaborator..." />
+                        <input type="radio" name={"CollaboratorSetting" + this.props.index} value="readOnly" defaultChecked />
+                        <label for="readOnly">Read Only</label>
+                        <input type="radio" ref="CollaboratorRole" name={"CollaboratorSetting" + this.props.index} value="edit" />
+                        <label for="edit">Read/Write</label>
 
-                    {items.map(TodoListCollaboratorItems =>
-                        <TodoListCollaboratorItem index={TodoListCollaboratorItems.index} key={TodoListCollaboratorItems.index}
-                            removeCollab={this.removeCollab} userid={TodoListCollaboratorItems.data.user_id} todolistid={this.props.data.id}
-                            name={TodoListCollaboratorItems.data.name} role={TodoListCollaboratorItems.data.role} />)}
+                        <Button onClick={() => this.AddCollaborator(this.props.data.id)}>Add Collaborator </Button>
 
-                </span>
-                <Button onClick={() => this.DeleteList(this.props.data.id)}> Delete this list </Button>
+                        {items.map(TodoListCollaboratorItems =>
+                            <TodoListCollaboratorItem index={TodoListCollaboratorItems.index} key={TodoListCollaboratorItems.index}
+                                removeCollab={this.removeCollab} userid={TodoListCollaboratorItems.data.user_id} todolistid={this.props.data.id}
+                                name={TodoListCollaboratorItems.data.name} role={TodoListCollaboratorItems.data.role} />)}
+
+                    </span>
+                }
+                {this.CurrentUserRole == "3" &&
+                    <Button onClick={() => this.DeleteList(this.props.data.id)}> Delete this list </Button>
+                }
+                {this.CurrentUserRole == "2" &&
+                    <Button onClick={() => this.DeleteList(this.props.data.id)}> Delete this list </Button>
+                }
             </div>
         )
     };

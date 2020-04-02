@@ -72,6 +72,21 @@ class ToDoListUserController extends Controller
         return $myToDoListUser;
     }
 
+    public function currentRole($id)
+    {
+        $myToDoListUser = ToDoListUser::where('to_do_list_id', $id)->get();
+        Auth::user()->id;
+        for($i = 0;$i < count ($myToDoListUser) ; $i++){
+            if($myToDoListUser[$i]->user_id == Auth::user()->id){
+                $user_role = $myToDoListUser[$i]->role;
+                break; 
+            }
+        }
+        return $user_role;
+    }
+
+    
+
     public function GetUsers($id)
     {
         $toreturn = [];
