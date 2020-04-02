@@ -183,6 +183,12 @@ class TodoApp extends React.Component {
   async markTodoDone(itemIndex) {
     // delete items
     let todo = todoItems[itemIndex];
+    todoItems.splice(itemIndex, 1);
+    // insert a new one with same value at the end of the array
+    todo.done = !todo.done;
+    todo.done ? todoItems.push(todo) : todoItems.unshift(todo);
+    this.setState({ todoItems: todoItems });
+
     if (!this.isNew) {
       try {
         let DoneToggle_promise = await Axios({
@@ -194,13 +200,6 @@ class TodoApp extends React.Component {
         alert("Fail to update todo status ! " + e)
       }
     }
-    todoItems.splice(itemIndex, 1);
-    // insert a new one with same value at the end of the array
-    todo.done = !todo.done;
-    todo.done ? todoItems.push(todo) : todoItems.unshift(todo);
-    this.setState({ todoItems: todoItems });
-
-
   }
 
   async componentWillMount() {
