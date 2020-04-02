@@ -122,12 +122,6 @@ class TodoApp extends React.Component {
     this.setState({ todoItems: todoItems });
   }
   async removeItem(itemIndex) {
-    // delete the item from todoItems array
-    todoItems.splice(itemIndex, 1);
-
-    //update state
-    this.setState({ todoItems: todoItems });
-
     if (!this.isNew) { // if this isn't a new todolist
     // delete the item entry in TodolistItem
     var deleteItem_promise = await Axios({
@@ -135,6 +129,11 @@ class TodoApp extends React.Component {
       url: 'http://127.0.0.1:8000/api/ToDoList/items/' + todoItems[itemIndex].id,
     })
   }
+   // delete the item from todoItems array
+   todoItems.splice(itemIndex, 1);
+
+   //update state
+   this.setState({ todoItems: todoItems });
   }
 
   async removeAllDoneItem() {
