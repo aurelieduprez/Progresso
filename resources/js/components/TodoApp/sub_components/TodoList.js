@@ -8,7 +8,7 @@ class TodoList extends React.Component {
       var items = this.props.items.map((item, index) => {
         return (
           <div id="todo">
-            <TodoListItem key={index} item={item} index={index} removeItem={this.props.removeItem} markTodoDone={this.props.markTodoDone} />
+            <TodoListItem userole={this.props.userole} key={index} item={item} index={index} removeItem={this.props.removeItem} markTodoDone={this.props.markTodoDone} />
           </div>
         );
       });
@@ -22,7 +22,7 @@ class TodoList extends React.Component {
         if (item.done) {
           return (
             <div id="todo">
-              <TodoListItem key={index} item={item} index={index} removeItem={this.props.removeItem} markTodoDone={this.props.markTodoDone} />
+              <TodoListItem userole={this.props.userole} key={index} item={item} index={index} removeItem={this.props.removeItem} markTodoDone={this.props.markTodoDone} />
             </div>
           );
         }
@@ -37,7 +37,7 @@ class TodoList extends React.Component {
         if (!item.done) {
           return (
             <div id="todo">
-              <TodoListItem key={index} item={item} index={index} removeItem={this.props.removeItem} markTodoDone={this.props.markTodoDone} />
+              <TodoListItem userole={this.props.userole} key={index} item={item} index={index} removeItem={this.props.removeItem} markTodoDone={this.props.markTodoDone} />
             </div>
           );
         }

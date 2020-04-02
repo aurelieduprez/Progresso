@@ -9,6 +9,7 @@ import TodoList from './sub_components/TodoList'
 import NewTodo from './sub_components/NewTodo'
 import SaveTodoList from './sub_components/SaveTodoList'
 import Axios from 'axios';
+import { Input } from 'reactstrap';
 var todoItems = [];
 
 class TodoApp extends React.Component {
@@ -25,6 +26,7 @@ class TodoApp extends React.Component {
     this.changeMode = this.changeMode.bind(this);
     this.removeAllDoneItem = this.removeAllDoneItem.bind(this);
     this.UncheckALL = this.UncheckALL.bind(this);
+    this.CurrentUserRole = "1";
     this.state = { todoItems: todoItems, mode: "all", ListName: "" };
   }
 
@@ -188,6 +190,7 @@ class TodoApp extends React.Component {
     var lastURLSegment = pageURL.substr(pageURL.lastIndexOf('/') + 1);
     this.TodoListID = lastURLSegment
     if (lastURLSegment == "new") { // if it's a new todo list
+      this.CurrentUserRole = "3"; // make current user the owner of the list
       todoItems.push({ index: 1, value: "Done", title: true, done: true });
       this.setState({ todoItems: todoItems });
     }
@@ -200,7 +203,7 @@ class TodoApp extends React.Component {
         })
       }
       catch (e) { // if request fail
-        alert("Todolist id : "+this.TodoListID+" do not exist or you don't have the rights access... redirecting")
+        alert("Todolist id : " + this.TodoListID + " do not exist or you don't have the rights access... redirecting")
         // redirect user to /todolist/new
         document.location.href = "/todolist/new";
       }
@@ -226,24 +229,43 @@ class TodoApp extends React.Component {
           todoItems.push(item); // add it to the todoItems array (state)
         }
       }
+      try {
+        var CurrentUserRole_promise = await Axios({
+          method: 'get',
+          url: 'http://127.0.0.1:8000/api/ToDoListUser/' + this.TodoListID + '/role'
+        })
+        this.CurrentUserRole = CurrentUserRole_promise.data;
+      }
+      catch (e) {
+        console.error("error while trying to get current user role ! " + e)
+      }
+      console.warn("role : " + this.CurrentUserRole)
+
       // update todolist title & todolist content 
-      this.setState({ ListName: todolist.data.title , todoItems: todoItems });
+      this.setState({ ListName: todolist.data.title, todoItems: todoItems });
     }
   }
 
   render() {
     return (
       <div id="main" className="card">
-        <TodoListTitle handleChangeTitle={this.handleChangeTitle} title={this.state.ListName} />
-        {!this.isNew &&
-          <DeleteListButton TodoListID={this.TodoListID}></DeleteListButton>
+        {this.CurrentUserRole == "2" || this.CurrentUserRole == "3" ?
+          <TodoListTitle handleChangeTitle={this.handleChangeTitle} title={this.state.ListName} />
+          : <Input value={this.state.ListName} disabled></Input>
+        }
+        {this.isNew != true & this.CurrentUserRole == "3" ?
+          <DeleteListButton TodoListID={this.TodoListID}></DeleteListButton> : null
         }
         <TodoListModeButton changeMode={this.changeMode} />
         {this.state.mode == "all" &&
           <>
             <h2>Todo</h2>
-            <UncheckALL UncheckALL={this.UncheckALL} />
-            <DeleteAllDoneButton removeAllDoneItem={this.removeAllDoneItem} />
+            {this.CurrentUserRole == "2" || this.CurrentUserRole == "3" ?
+              <>
+                <UncheckALL UncheckALL={this.UncheckALL} />
+                <DeleteAllDoneButton removeAllDoneItem={this.removeAllDoneItem} />
+              </> : null
+            }
           </>
         }
         {this.state.mode == "TodoOnly" &&
@@ -251,14 +273,19 @@ class TodoApp extends React.Component {
         }
         {this.state.mode == "DoneOnly" &&
           <>
-            <UncheckALL UncheckALL={this.UncheckALL} />
-            <DeleteAllDoneButton removeAllDoneItem={this.removeAllDoneItem} />
+            {this.CurrentUserRole == "2" || this.CurrentUserRole == "3" ?
+              <>
+                <UncheckALL UncheckALL={this.UncheckALL} />
+                <DeleteAllDoneButton removeAllDoneItem={this.removeAllDoneItem} />
+              </> : null
+            }
           </>
-
         }
 
-        <TodoList mode={this.state.mode} items={this.props.initItems} removeItem={this.removeItem} markTodoDone={this.markTodoDone} />
-        <NewTodo addItem={this.addItem} />
+        <TodoList userole={this.CurrentUserRole} mode={this.state.mode} items={this.props.initItems} removeItem={this.removeItem} markTodoDone={this.markTodoDone} />
+        {this.CurrentUserRole == "2" || this.CurrentUserRole == "3" ?
+          <NewTodo addItem={this.addItem} /> : null
+        }
         {this.isNew &&
           <SaveTodoList save={this.saveItem} />
         }

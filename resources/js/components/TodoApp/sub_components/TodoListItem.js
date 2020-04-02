@@ -30,6 +30,8 @@ class TodoListItem extends React.Component {
           <li className="list-group-item card">
             <div className={todoClass}>
               {this.props.item.value}
+              {this.props.userole == "2" || this.props.userole == "3" ?
+              <>
               {this.props.item.done == 1 &&
                 <Button className="glyphicon glyphicon-ok icon" aria-hidden="true" onClick={this.onClickDone}>undone</Button>
               }
@@ -38,6 +40,8 @@ class TodoListItem extends React.Component {
               }
 
               <Button type="button" className="close" onClick={this.onClickDelete}>&times;</Button>
+              </>:null
+              }
             </div>
           </li>
         }
