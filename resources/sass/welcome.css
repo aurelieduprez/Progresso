@@ -1,26 +1,55 @@
 /* Light Theme Colors */ 
 :root { 
+    /* Welcome Page */
     --title-color: #000000;
     --link-color: #000000;
     --link-color-hover: #FFFFFF;
     --link-border-color: #000000;
-    --welcome-bg-image : url("./../../resources/images/light-theme-background.jpg")
+
+
+    /* Other Pages */
+    /* Backgrounds */
+    --background-image : url("./../images/light-theme-background.jpg");
+    --main-background-color: #EEEEEE;
+    
+    /* Navbars */
+    --navbar-link-color: #000000;
+    --navbar-link-color-hover : #222222;
+
+    /* Text */
+    --text: #000000;
+
 }
 
 /* Dark Theme Colors */
 [data-theme="dark"] {
+    /* Welcome Page */
     --title-color: #FFFFFF;
     --link-color: #FFFFFF;
     --link-color-hover: #000000;
     --link-border-color: #FFFFFF;
-    --welcome-bg-image : url("./../../resources/images/dark-theme-background.jpg")
+
+    /* Other Pages */
+    /* Backgrounds */
+    --background-image : url("./../images/dark-theme-background.jpg");
+    --main-background-color: #272A3D;
+
+    /* Navbars */
+    --navbar-link-color: #FFFFFF;
+    --navbar-link-color-hover : #CCCCCC;
+
+    /* Text */
+    --text: #FFFFFF
+
 }
 
 
-
+* { /* Une transition "smooth" pour tous les éléments */
+    transition: 0.2s;
+}
 
 body{
-    background: var(--welcome-bg-image) no-repeat center center fixed;
+    background: var(--background-image) no-repeat center center fixed;
     background-size: cover;
     font-family: 'Nunito', sans-serif;
     font-weight: 100;
@@ -28,6 +57,19 @@ body{
     margin: 0;
 }
 
+
+/* Welcome Page */
+.full-height {
+    height: 100%;
+}
+
+.flex-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+/* Title & subtitle */
 .boxTitle {
     position: absolute;
     top: 15%;
@@ -38,23 +80,20 @@ body{
 
 .title {
     font-size: 84px;
+    transition: 0s !important;
 }
 
 .subtitle {
     font-size: 32px;
+    transition: 0s !important;
 }
 
-.links {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-around;
-    transform: translateY(33%);
-}
-
+/* Login & Register links */
 .welcome-link {
     color: var(--link-color) !important;
 
     display: inline-block;
+    transform: translateY(33%);
 
     width: 150px;
     margin: 10px;
@@ -72,34 +111,58 @@ body{
 .welcome-link:hover{
     color: var(--link-color-hover) !important;
     background-color: var(--link-border-color);
-    transition: 0.2s;
 }
 
-
-
-.full-height {
-    height: 100%;
+ /* Navbar */
+.nav-bar {
+    background-color: var(--main-background-color) !important;
 }
 
-.flex-center {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-}
-
-.position-ref {
-    position: relative;
-}
-
-.top-right {
-    position: absolute;
-    right: 10px;
-    top: 18px;
-}
-
-.content {
+.nav-link {
+    color: var(--navbar-link-color) !important;
+    font-size: 16px !important;
     text-align: center;
+    min-width: 100px;
+    margin: 5px 10px;
+    border: 2px solid var(--link-border-color) !important;
+    border-radius: 10px;
 }
+.nav-link:hover {
+    color: var(--navbar-link-color-hover) !important;
+}
+
+.navbar-brand {
+    color: var(--navbar-link-color) !important;
+
+}
+.navbar-brand:hover {
+    color: var(--navbar-link-color-hover) !important;
+}
+
+/* Card */
+.card {
+    margin-top: 45%;
+    transform: translateY(-50%);
+    background-color: var(--main-background-color) !important;
+}
+
+.card-header {
+    color: var(--text) !important;
+    text-transform: uppercase;
+    font-size: 22px;
+    text-align: center;
+    border-bottom: 1px solid var(--link-border-color) !important;
+}
+
+/* Form */
+.form-group label { /* it means all of the <label> inside an element with the class "form-group" */
+    color: var(--text) !important;
+}
+
+.form-control { /* text inputs */
+    background-color: rgba(0, 0, 0, 0.2) !important;
+}
+
 
 
 
@@ -110,10 +173,14 @@ body{
 .theme-switch-wrapper {
     display: flex;
     align-items: center;
-    position: absolute;
-    top: 5px;
-    left : 10px;
 }
+
+#switch-welcome {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
 .theme-switch {
     display: inline-block;
     height: 34px;

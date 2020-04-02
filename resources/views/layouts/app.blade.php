@@ -21,7 +21,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm" style="background-color:#2b49ec !important">
+        <nav class="navbar navbar-expand-md navbar-light shadow-sm nav-bar" >
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -67,9 +67,18 @@
                                 </div>
                             </li>
                         @endguest
+
+
+
                     </ul>
                 </div>
             </div>
+             <div class="theme-switch-wrapper">
+            <label class="theme-switch" for="checkbox">
+                <input type="checkbox" id="checkbox" />
+                <div class="slider round"></div>
+            </label>
+        </div>
         </nav>
 
         <main class="py-4">
