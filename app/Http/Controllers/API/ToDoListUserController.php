@@ -40,14 +40,17 @@ class ToDoListUserController extends Controller
                 'to_do_list_id' => $request->input('to_do_list_id'),
                 'role' => $request->input('role')
             ]);
-
-            // send invitation mail
-            $details = [
-                'title' => 'Progresso, your online to-do list.',
-                'body' => "You received an invitation to get in a new To-do list. Click the following link to enter : http://localhost:8000/todolist/" . $request->input('to_do_list_id')
-            ];
-            $email = $request->input('email');
-            \Mail::to($email)->send(new \App\Mail\sendingMail($details));
+            try {
+                // send invitation mail
+                $details = [
+                    'title' => 'Progresso, your online to-do list.',
+                    'body' => "You received an invitation to get in a new To-do list. Click the following link to enter : http://localhost:8000/todolist/" . $request->input('to_do_list_id')
+                ];
+                $email = $request->input('email');
+                \Mail::to($email)->send(new \App\Mail\sendingMail($details));
+            } catch (\Throwable $th) {
+                // Do nothing 
+            }
         } else {
             ToDoListUser::create([
                 'user_id' =>  Auth::user()->id,
@@ -108,11 +111,9 @@ class ToDoListUserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if($request->input('user_id') == "CurrentUser"){
+        if ($request->input('user_id') == "CurrentUser") {
             $myToDoListUser = ToDoListUser::where('to_do_list_id', $id)->where('user_id', Auth::id())->first();
-        }
-        
-        else{
+        } else {
             $myToDoListUser = ToDoListUser::where('to_do_list_id', $id)->where('user_id', $request->input('user_id'))->first();
         }
         $myToDoListUser->role =  $request->input('role');

@@ -64,20 +64,26 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $details = [
 
-            'title' => 'Progresso, your online to-do list.',
-    
-            'body' => $data['name'] . ", thank you for signing up ! 
-            Let's organise your buzy work days.
-            We think computers should help you manage your projects, so you don't forget what's important.
-            Progresso reunites all your task-lists in your Home Page and allows you to easily share them with your team."
+        try {
+            $details = [
 
-        ];
+                'title' => 'Progresso, your online to-do list.',
+
+                'body' => $data['name'] . ", thank you for signing up ! 
+                Let's organise your buzy work days.
+                We think computers should help you manage your projects, so you don't forget what's important.
+                Progresso reunites all your task-lists in your Home Page and allows you to easily share them with your team."
+
+            ];
 
 
 
-        \Mail::to($data['email'])->send(new \App\Mail\sendingMail($details));
+            \Mail::to($data['email'])->send(new \App\Mail\sendingMail($details));
+        } catch (\Throwable $th) {
+            // do nothing
+        }
+
 
         return User::create([
             'name' => $data['name'],
