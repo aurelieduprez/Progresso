@@ -234,6 +234,11 @@ class TodoApp extends React.Component {
         // redirect user to /todolist/new
         document.location.href = "/todolist/new";
       }
+      if(todolist.data == "Access Denied"){ // if access denied
+        alert("Todolist id : " + this.TodoListID + " do not exist or you don't have the rights access... redirecting")
+        // redirect user to /todolist/new
+        document.location.href = "/todolist/new";
+      }
       // setup vars
       var contentList = [] // list of our content to push to todoItems state
       var todos_data = todolist.data.todo; // shortcut for easier reading

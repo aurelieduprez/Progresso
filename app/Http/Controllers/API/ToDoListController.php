@@ -56,7 +56,7 @@ class ToDoListController extends Controller
         if ($user_role != false && $user_role->role != 0) {
             return response($toreturn, 200);
         } else {
-            return response('', 401);
+            return response('Access Denied', 200);
         }
     }
 
