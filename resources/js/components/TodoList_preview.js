@@ -172,6 +172,20 @@ class TodoListPreviewItem extends Component {
 
     }
 
+    async QuitList(TodoListID){
+
+            let ChangeRole_promise = await Axios({
+                method: 'put',
+                url: '/api/ToDoListUser/' + TodoListID,
+                data: {
+                    user_id: "CurrentUser",
+                    role: "0"
+                },
+            })
+
+            this.props.removeList(this.props.index);
+    }
+
     async DeleteList(id) {
         // waiting the list is deleted
         try {
@@ -279,7 +293,10 @@ class TodoListPreviewItem extends Component {
                         <Button onClick={() => this.DeleteList(this.props.data.id)}> Delete this list </Button>
                     }
                     {this.CurrentUserRole == "2" &&
-                        <Button onClick={() => this.DeleteList(this.props.data.id)}> Delete this list </Button>
+                        <Button onClick={() => this.QuitList(this.props.data.id)}>Quit list</Button>
+                    }
+                    {this.CurrentUserRole == "1" &&
+                        <Button onClick={() => this.QuitList(this.props.data.id)}>Quit list</Button>
                     }
                 </div>
             )

@@ -73,7 +73,6 @@ class ToDoListUserController extends Controller
     public function currentRole($id)
     {
         $myToDoListUser = ToDoListUser::where('to_do_list_id', $id)->get();
-        Auth::user()->id;
         for ($i = 0; $i < count($myToDoListUser); $i++) {
             if ($myToDoListUser[$i]->user_id == Auth::user()->id) {
                 $user_role = $myToDoListUser[$i]->role;
@@ -109,7 +108,13 @@ class ToDoListUserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $myToDoListUser = ToDoListUser::where('to_do_list_id', $id)->where('user_id', $request->input('user_id'))->first();
+        if($request->input('user_id') == "CurrentUser"){
+            $myToDoListUser = ToDoListUser::where('to_do_list_id', $id)->where('user_id', Auth::id())->first();
+        }
+        
+        else{
+            $myToDoListUser = ToDoListUser::where('to_do_list_id', $id)->where('user_id', $request->input('user_id'))->first();
+        }
         $myToDoListUser->role =  $request->input('role');
         $myToDoListUser->save();
         return response(true, 200);
