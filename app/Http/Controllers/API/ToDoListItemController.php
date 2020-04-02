@@ -78,4 +78,19 @@ class ToDoListItemController extends Controller
         $myToDoListItem->delete();
         return response(true, 200);
     }
+    
+    public function doneToggle($id)
+    {
+        $myToDoListItem = ToDoListItem::where('id', $id)->first();
+        if($myToDoListItem->state){
+            $myToDoListItem->state = 0;
+            $myToDoListItem->save();
+        }
+        else{
+            $myToDoListItem->state = 1;
+            $myToDoListItem->save();
+        }
+        
+        return response(true, 200);
+    }
 }

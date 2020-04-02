@@ -67,7 +67,6 @@ class TodoApp extends React.Component {
           data: {
             title: this.state.ListName,
             closed: '0',
-            content: this.state.todoItems
           },
         })
       }
@@ -162,12 +161,18 @@ class TodoApp extends React.Component {
     this.setState({ todoItems: todoItems_list });
   }
 
-  UncheckALL() {
+  async UncheckALL() {
     for (var i = 0; i < todoItems.length; i++) {
       if (todoItems[i].done == true && todoItems[i].title == undefined) { // skip if title
         let todo = todoItems[i]
+        if (!this.isNew) {
+          let DoneToggle_promise = await Axios({
+            method: 'put',
+            url: 'http://127.0.0.1:8000/api/items/' + todo.id,
+          })
+        }
         todoItems.splice(i, 1);
-        // insert a new one with same value at the end of the array
+        // insert a new one with same value at the begining of the array
         todo.done = false;
         todoItems.unshift(todo);
         this.setState({ todoItems: todoItems });
@@ -175,14 +180,27 @@ class TodoApp extends React.Component {
     }
   }
 
-  markTodoDone(itemIndex) {
+  async markTodoDone(itemIndex) {
     // delete items
-    var todo = todoItems[itemIndex];
+    let todo = todoItems[itemIndex];
+    if (!this.isNew) {
+      try {
+        let DoneToggle_promise = await Axios({
+          method: 'put',
+          url: 'http://127.0.0.1:8000/api/items/' + todo.id,
+        })
+      }
+      catch (e) {
+        alert("Fail to update todo status ! " + e)
+      }
+    }
     todoItems.splice(itemIndex, 1);
     // insert a new one with same value at the end of the array
     todo.done = !todo.done;
     todo.done ? todoItems.push(todo) : todoItems.unshift(todo);
     this.setState({ todoItems: todoItems });
+
+
   }
 
   async componentWillMount() {
@@ -239,7 +257,6 @@ class TodoApp extends React.Component {
       catch (e) {
         console.error("error while trying to get current user role ! " + e)
       }
-      console.warn("role : " + this.CurrentUserRole)
 
       // update todolist title & todolist content 
       this.setState({ ListName: todolist.data.title, todoItems: todoItems });
