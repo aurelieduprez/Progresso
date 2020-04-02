@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\ToDoListItem;
 use App\ToDoList;
+use App\ToDoListUser;
 use App\User;
 
 class ToDoListController extends Controller
@@ -49,7 +50,12 @@ class ToDoListController extends Controller
         if ( $todolist == NULL || $items == NULL){
             return response('', 404);
         }
-        return response($toreturn, 200);
+        $user_role = ToDoListUser::where('user_id',Auth::id())->where('to_do_list_id',$id)->first();
+
+        if($user_role != false && $user_role->role != 0){return response($toreturn, 200);}
+        else{return response('',401);}
+
+        
     }
 
 
