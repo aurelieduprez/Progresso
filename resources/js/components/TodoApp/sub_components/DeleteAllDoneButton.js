@@ -7,7 +7,7 @@ class DeleteAllDoneButton extends React.Component {
   }
   render() {
     return (
-      <Button onClick={() => { this.props.removeAllDoneItem() }}>deleteAllDone</Button>
+      <Button className="button-action" onClick={() => { this.props.removeAllDoneItem() }}>Delete all Done tasks</Button>
     )
   }
 }

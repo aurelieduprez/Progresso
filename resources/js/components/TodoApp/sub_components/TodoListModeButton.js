@@ -7,10 +7,13 @@ class TodoListModeButton extends React.Component {
   }
   render() {
     return (
-      <div id="ModeButtonDiv">
-        <Button onClick={() => { this.props.changeMode("all") }}>All</Button>
-        <Button onClick={() => { this.props.changeMode("TodoOnly") }}>TodoOnly</Button>
-        <Button onClick={() => { this.props.changeMode("DoneOnly") }}>DoneOnly</Button>
+      <div className="display-mode no-transition">
+        Display Mode : 
+        <div id="ModeButtonDiv">
+          <Button className="ModeButton" onClick={() => { this.props.changeMode("all") }}>All</Button>
+          <Button className="ModeButton" onClick={() => { this.props.changeMode("TodoOnly") }}>Todo Only</Button>
+          <Button className="ModeButton" onClick={() => { this.props.changeMode("DoneOnly") }}>Done Only</Button>
+        </div>
       </div>
     )
 

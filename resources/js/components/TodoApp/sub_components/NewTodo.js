@@ -23,8 +23,8 @@ class NewTodo extends React.Component {
   render() {
     return (
       <form ref="NewItemForm" onSubmit={this.onSubmit} className="form-inline">
-        <input type="text" ref="itemName" className="form-control" placeholder="add a new todo..." />
-        <button type="submit" className="btn btn-default">Add</button>
+        <input type="text" ref="itemName" className="form-control input-add" placeholder="add a new todo..." />
+        <button type="submit" className="btn btn-secondary button-add">Add</button>
       </form>
     );
   }

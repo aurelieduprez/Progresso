@@ -45,13 +45,17 @@ class TodoListCollaboratorItem extends Component {
         }
 
         return (
-            <span>
-                <h4>{this.props.name} has {role_text}</h4>
+            <span className="no-transition" >
+                <span className="no-transition">User {this.props.name} has {role_text}</span>
                 {this.state.role == 1 &&
-                    <Button onClick={() => { this.changeRole(this.props.todolistid, this.props.userid, "2") }}>Give write right</Button>
+                    <span className="no-transition">
+                    <Button onClick={() => { this.changeRole(this.props.todolistid, this.props.userid, "2") }}>Add write right</Button>
+                    </span>
                 }
                 {this.state.role == 2 &&
+                    <span className="no-transition">
                     <Button onClick={() => { this.changeRole(this.props.todolistid, this.props.userid, "1") }}>Remove write right</Button>
+                    </span>
                 }
                 <Button onClick={() => { this.changeRole(this.props.todolistid, this.props.userid, "0") }}>Remove collaborator</Button>
             </span>
@@ -267,30 +271,37 @@ class TodoListPreviewItem extends Component {
         if (this.CurrentUserRole != "0") { // if user has access to the todolist 
             return (
                 <div className="card card-single-list">
-                    <div className="card-body" onClick={() => this.redirectToList(this.props.data.id)} style={{ cursor: 'pointer' }}>
-                        <h1>{this.props.data.ListName}</h1>
-                        <h2>{this.props.data.TodoNumber} Todos</h2>
+                    <div className="card-body list-title" onClick={() => this.redirectToList(this.props.data.id)} style={{ cursor: 'pointer' }}>
+                        <h1 className="no-transition">{this.props.data.ListName}</h1>
+                        <h3 className="no-transition">{this.props.data.TodoNumber} To-do(s)</h3>
                     </div>
-                    <h4>{this.state.role_text}</h4>
+                    <div className="role-text no-transition">{this.state.role_text}</div>
                     {this.CurrentUserRole == "3" &&
-                        <span>
-                            <input type="text" ref="CollaboratorEmail" className="form-control" placeholder="add a new collaborator..." />
-                            <input type="radio" name={"CollaboratorSetting" + this.props.index} value="readOnly" defaultChecked />
-                            <label for="readOnly">Read Only</label>
-                            <input type="radio" ref="CollaboratorRole" name={"CollaboratorSetting" + this.props.index} value="edit" />
-                            <label for="edit">Read/Write</label>
-
-                            <Button onClick={() => this.AddCollaborator(this.props.data.id)}>Add Collaborator </Button>
-
+                        <div className="section-collab no-transition">
+                            <span>
+                                <input type="text" ref="CollaboratorEmail" className="form-control text-input-add-collab" placeholder="New collaborator (email)" />
+                            </span>
+                            <span className="no-transition">
+                                <input className="no-transition" id="readOnly" type="radio" name={"CollaboratorSetting" + this.props.index} value="readOnly" defaultChecked />
+                                <label className="no-transition" for="readOnly">Read Only</label>
+                            </span>
+                            <span className="no-transition">
+                                <input className="no-transition" id="edit" type="radio" ref="CollaboratorRole" name={"CollaboratorSetting" + this.props.index} value="edit" />
+                                <label className="no-transition" for="edit">Read/Write</label>
+                            </span>
+                            <span className="no-transition">
+                                <Button onClick={() => this.AddCollaborator(this.props.data.id)}>Add Collaborator </Button>
+                            </span>
+                            <div className="other-user no-transition">
                             {items.map(TodoListCollaboratorItems =>
                                 <TodoListCollaboratorItem index={TodoListCollaboratorItems.index} key={TodoListCollaboratorItems.index}
                                     removeCollab={this.removeCollab} userid={TodoListCollaboratorItems.data.user_id} todolistid={this.props.data.id}
                                     name={TodoListCollaboratorItems.data.name} role={TodoListCollaboratorItems.data.role} />)}
-
-                        </span>
+                            </div>
+                        </div>
                     }
                     {this.CurrentUserRole == "3" &&
-                        <Button onClick={() => this.DeleteList(this.props.data.id)}> Delete this list </Button>
+                        <Button className="delete-quit-list" onClick={() => this.DeleteList(this.props.data.id)}> Delete this list </Button>
                     }
                     {this.CurrentUserRole == "2" &&
                         <Button onClick={() => this.QuitList(this.props.data.id)}>Quit list</Button>

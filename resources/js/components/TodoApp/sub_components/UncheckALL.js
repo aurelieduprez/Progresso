@@ -7,7 +7,7 @@ class UncheckALL extends React.Component {
   }
   render() {
     return (
-      <Button onClick={() => { this.props.UncheckALL() }}>UncheckALL</Button>
+      <Button className="button-action" onClick={() => { this.props.UncheckALL() }}>Uncheck all Done tasks</Button>
     )
   }
 }
