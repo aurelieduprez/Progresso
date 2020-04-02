@@ -18,6 +18,13 @@
 
     /* Text */
     --text: #000000;
+    --text-input-border-color: #333333;
+    --text-input-shadow-color: rgba(0,0,0,0.1);
+    --text-input-background-color: rgba(255,255,255,1);
+    
+    /* Dropdown */
+    --dropdown-background-color: #CCCCCC;
+    --dropdown-item-hover: rgba(0,0,0,0.15);
 
 }
 
@@ -39,7 +46,14 @@
     --navbar-link-color-hover : #CCCCCC;
 
     /* Text */
-    --text: #FFFFFF
+    --text: #FFFFFF;
+    --text-input-border-color: #CCCCCC;
+    --text-input-shadow-color: rgba(255,255,255,0.1);
+    --text-input-background-color: rgba(0,0,0,0.2);
+
+    /* Dropdown */
+    --dropdown-background-color: #31416b;
+    --dropdown-item-hover: rgba(0,0,0,0.15);
 
 }
 
@@ -140,10 +154,9 @@ body{
 }
 
 /* Card */
-.card {
+.card-auth {
     margin-top: 45%;
     transform: translateY(-50%);
-    background-color: var(--main-background-color) !important;
 }
 
 .card-header {
@@ -154,17 +167,56 @@ body{
     border-bottom: 1px solid var(--link-border-color) !important;
 }
 
+.card {
+    background-color: var(--main-background-color) !important;
+}
+
+
 /* Form */
 .form-group label { /* it means all of the <label> inside an element with the class "form-group" */
     color: var(--text) !important;
 }
 
 .form-control { /* text inputs */
-    background-color: rgba(0, 0, 0, 0.2) !important;
+    background-color: var(--text-input-background-color) !important;
+    color: var(--text) !important;
+    border-color: var(--text-input-border-color) !important;
 }
 
+.form-control:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem var(--text-input-shadow-color) !important;
+  }
 
+.custom-control-label { /* so we can't select the "Remember Me" text */
+    user-select: none;
+}
 
+.btn-primary {
+    color: var(--text) !important;
+    background-color: rgba(0, 0, 0, 0.25) !important;
+    border: 1px solid var(--text-input-border-color) !important;
+}
+.btn-primary:focus,
+.btn-primary.focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Dropdown menu (logged) */
+.dropdown-menu {
+    background-color: var(--dropdown-background-color) !important;
+}
+
+.dropdown-item {
+    color: var(--text) !important;
+}
+.dropdown-item:hover {
+    background-color: var(--dropdown-item-hover) !important;
+}
+
+#testte {
+    background-color: red !important;
+}
 
 
 

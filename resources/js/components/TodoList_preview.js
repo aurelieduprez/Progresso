@@ -335,7 +335,7 @@ class TodoListPreview extends Component {
         return (
             <div>
                 {items.map(TodoListPreviewItems => <TodoListPreviewItem removeList={this.removeList} index={TodoListPreviewItems.id} key={TodoListPreviewItems.id} data={TodoListPreviewItems.data} />)}
-                <Button onClick={() => { document.location.href = "/todolist/new" }}>+</Button>
+                <Button onClick={() => { document.location.href = "/todolist/new" }}>New list</Button>
             </div>
         )
     };
