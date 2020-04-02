@@ -270,23 +270,26 @@ class TodoApp extends React.Component {
           <TodoListTitle handleChangeTitle={this.handleChangeTitle} title={this.state.ListName} />
           : <Input value={this.state.ListName} disabled></Input>
         }
-        {this.isNew != true & this.CurrentUserRole == "3" ?
-          <DeleteListButton TodoListID={this.TodoListID}></DeleteListButton> : null
-        }
         <TodoListModeButton changeMode={this.changeMode} />
         {this.state.mode == "all" &&
           <>
-            <h2>Todo</h2>
+            
             {this.CurrentUserRole == "2" || this.CurrentUserRole == "3" ?
               <>
+              <div className="actions no-transition">Actions :</div>
+              <div id="ActionButtonDiv" className="no-transition">
                 <UncheckALL UncheckALL={this.UncheckALL} />
                 <DeleteAllDoneButton removeAllDoneItem={this.removeAllDoneItem} />
+              </div>
               </> : null
             }
+
+
+            <h2 className="no-transition section-todo-done">Todo</h2>
           </>
         }
         {this.state.mode == "TodoOnly" &&
-          <h2>Todo</h2>
+          <h2 className="no-transition">Todo</h2>
         }
         {this.state.mode == "DoneOnly" &&
           <>
@@ -305,6 +308,9 @@ class TodoApp extends React.Component {
         }
         {this.isNew &&
           <SaveTodoList save={this.saveItem} />
+        }
+        {this.isNew != true & this.CurrentUserRole == "3" ?
+          <DeleteListButton TodoListID={this.TodoListID}></DeleteListButton> : null
         }
       </div>
     );

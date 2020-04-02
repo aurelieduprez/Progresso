@@ -28,6 +28,7 @@
 
     /* Home */
     --card-single-list-background-color: rgba(0,0,0,0.05);
+    --card-list-title-border-color: #333333;
 
 
 
@@ -62,11 +63,18 @@
 
     /* Home */
     --card-single-list-background-color: rgba(255,255,255,0.05);
+    --card-list-title-border-color: #CCCCCC;
+
+
 }
 
 
 * { /* Une transition "smooth" pour tous les éléments */
-    transition: 0.2s;
+    transition: 0.2s !important;
+}
+
+.no-transition {
+    transition: 0s !important;
 }
 
 body{
@@ -76,6 +84,7 @@ body{
     font-weight: 100;
     height: 100vh;
     margin: 0;
+    
 }
 
 
@@ -210,6 +219,7 @@ body{
 }
 
 /* Dropdown menu (logged) */
+
 .dropdown-menu {
     background-color: var(--dropdown-background-color) !important;
 }
@@ -221,10 +231,135 @@ body{
     background-color: var(--dropdown-item-hover) !important;
 }
 
+/* Home */
 .card-single-list {
-    background-color: var(--card-single-list-background-color) !important;
-    margin: 10px !important;
+    margin-bottom: 25px !important;
+    padding-bottom: 25px;
+    color: var(--text);
+    transition: 0.2s !important;
+    border: none !important;
 }
+
+.list-title {
+    transition: 0s !important;
+    border: 1px solid var(--card-list-title-border-color) !important;
+    background-color: var(--card-single-list-background-color) !important;
+    border-radius: 10px !important;
+}
+
+.btn-secondary {
+    color: var(--text) !important;
+    background-color: rgba(0, 0, 0, 0.25) !important;
+    border: 1px solid var(--text-input-border-color) !important;
+}
+.btn-primary:focus,
+.btn-primary.focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.4) !important;
+}
+
+.role-text {
+    font-size: 20px !important;
+}
+
+.text-input-add-collab {
+    width: 100% !important;
+}
+
+.section-collab{
+    margin-top: 10px !important;
+    text-align: justify;
+    align-items: center;
+    justify-content: center;
+}
+
+.section-collab span{
+    margin-right: 20px;
+    display: inline-block;
+}
+
+.other-user {
+    display: block;
+    margin-top: 10px; 
+}
+
+.delete-quit-list {
+    margin-top: 10px !important;
+}
+
+/* New Todolist */
+
+#main {
+    padding: 1.25rem;
+    color: var(--text)
+}
+
+.form-edit-title {
+    margin-bottom: 10px;
+}
+
+.display-mode {
+    text-align: center;
+}
+
+#ModeButtonDiv {
+    margin: 10px auto !important; 
+    display: flex; 
+    justify-content: space-between;
+    width : 60%;
+}
+
+.ModeButton {
+    width: 30%;
+}
+
+.actions {
+    text-align: center;
+}
+
+#ActionButtonDiv {
+    margin: 10px auto !important; 
+    display: flex; 
+    justify-content: space-between;
+    width : 90%;
+}
+
+.button-action {
+    width: 45%;
+}
+
+.section-todo-done {
+    margin: 10px 0 5px 0 !important;
+}
+
+button.close {
+    border: none !important;
+    background: none !important;
+    float: right !important;
+    width: 10% !important;
+}
+
+.done, .undone {
+    display: flex; 
+    justify-content: space-between;
+    width: 90% !important;
+}
+
+.list-group-item {
+    display: flex !important;
+    flex-flow: row wrap !important;
+    background-color: var(--card-single-list-background-color) !important;
+}
+
+.button-set-to {
+    width: 150px !important;    
+}
+
+.button-add, .input-add{
+    margin: 30px 15px 10px 0px ;
+}
+
+
+
 
 
 
