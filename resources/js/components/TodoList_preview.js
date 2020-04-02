@@ -247,8 +247,8 @@ class TodoListPreviewItem extends Component {
             items.push({ index: i, data: this.state.CollabLists[i].data })
         }
         return (
-            <div className="card">
-                <div className="card-body" onClick={() => this.redirectToList(this.props.data.id)} style={{ cursor: 'pointer' }}>
+            <div className="card card-single-list" >
+                <div className="card-body"  onClick={() => this.redirectToList(this.props.data.id)} style={{ cursor: 'pointer' }}>
                     <h1>{this.props.data.ListName}</h1>
                     <h2>{this.props.data.TodoNumber} Todos</h2>
                 </div>

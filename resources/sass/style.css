@@ -26,6 +26,11 @@
     --dropdown-background-color: #CCCCCC;
     --dropdown-item-hover: rgba(0,0,0,0.15);
 
+    /* Home */
+    --card-single-list-background-color: rgba(0,0,0,0.05);
+
+
+
 }
 
 /* Dark Theme Colors */
@@ -55,6 +60,8 @@
     --dropdown-background-color: #31416b;
     --dropdown-item-hover: rgba(0,0,0,0.15);
 
+    /* Home */
+    --card-single-list-background-color: rgba(255,255,255,0.05);
 }
 
 
@@ -214,8 +221,9 @@ body{
     background-color: var(--dropdown-item-hover) !important;
 }
 
-#testte {
-    background-color: red !important;
+.card-single-list {
+    background-color: var(--card-single-list-background-color) !important;
+    margin: 10px !important;
 }
 
 
