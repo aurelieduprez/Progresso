@@ -6,9 +6,10 @@
 
 
 + Requirements: 
-PHP 7.3.12 
-Node version 12.14.1
-Laravel 7.1 
+    - PHP 7.3.12 
+    - Node version 12.14.1
+    - Laravel 7.1 
+    - Composer 1.9.3
 
 + If you have linux installed, please modify your .env with your DB credentials and run the setup.sh.
         ..* Then go to http://localhost:8000/ to visit our to-do list website
