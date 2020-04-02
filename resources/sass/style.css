@@ -1,0 +1,298 @@
+/* Light Theme Colors */ 
+:root { 
+    /* Welcome Page */
+    --title-color: #000000;
+    --link-color: #000000;
+    --link-color-hover: #FFFFFF;
+    --link-border-color: #000000;
+
+
+    /* Other Pages */
+    /* Backgrounds */
+    --background-image : url("./../images/light-theme-background.jpg");
+    --main-background-color: #EEEEEE;
+    
+    /* Navbars */
+    --navbar-link-color: #000000;
+    --navbar-link-color-hover : #222222;
+
+    /* Text */
+    --text: #000000;
+    --text-input-border-color: #333333;
+    --text-input-shadow-color: rgba(0,0,0,0.1);
+    --text-input-background-color: rgba(255,255,255,1);
+    
+    /* Dropdown */
+    --dropdown-background-color: #CCCCCC;
+    --dropdown-item-hover: rgba(0,0,0,0.15);
+
+    /* Home */
+    --card-single-list-background-color: rgba(0,0,0,0.05);
+
+
+
+}
+
+/* Dark Theme Colors */
+[data-theme="dark"] {
+    /* Welcome Page */
+    --title-color: #FFFFFF;
+    --link-color: #FFFFFF;
+    --link-color-hover: #000000;
+    --link-border-color: #FFFFFF;
+
+    /* Other Pages */
+    /* Backgrounds */
+    --background-image : url("./../images/dark-theme-background.jpg");
+    --main-background-color: #272A3D;
+
+    /* Navbars */
+    --navbar-link-color: #FFFFFF;
+    --navbar-link-color-hover : #CCCCCC;
+
+    /* Text */
+    --text: #FFFFFF;
+    --text-input-border-color: #CCCCCC;
+    --text-input-shadow-color: rgba(255,255,255,0.1);
+    --text-input-background-color: rgba(0,0,0,0.2);
+
+    /* Dropdown */
+    --dropdown-background-color: #31416b;
+    --dropdown-item-hover: rgba(0,0,0,0.15);
+
+    /* Home */
+    --card-single-list-background-color: rgba(255,255,255,0.05);
+}
+
+
+* { /* Une transition "smooth" pour tous les éléments */
+    transition: 0.2s;
+}
+
+body{
+    background: var(--background-image) no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 100;
+    height: 100vh;
+    margin: 0;
+}
+
+
+/* Welcome Page */
+.full-height {
+    height: 100%;
+}
+
+.flex-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+/* Title & subtitle */
+.boxTitle {
+    position: absolute;
+    top: 15%;
+    transform: translateY(-50%);
+    text-align: center;
+    color: var(--title-color);
+}
+
+.title {
+    font-size: 84px;
+    transition: 0s !important;
+}
+
+.subtitle {
+    font-size: 32px;
+    transition: 0s !important;
+}
+
+/* Login & Register links */
+.welcome-link {
+    color: var(--link-color) !important;
+
+    display: inline-block;
+    transform: translateY(33%);
+
+    width: 150px;
+    margin: 10px;
+    padding: 10px 5px;
+
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: .1rem;
+    text-transform: uppercase;
+    border: 3px solid var(--link-border-color);
+    border-radius: 5px;
+}
+
+.welcome-link:hover{
+    color: var(--link-color-hover) !important;
+    background-color: var(--link-border-color);
+}
+
+ /* Navbar */
+.nav-bar {
+    background-color: var(--main-background-color) !important;
+}
+
+.nav-link {
+    color: var(--navbar-link-color) !important;
+    font-size: 16px !important;
+    text-align: center;
+    min-width: 100px;
+    margin: 5px 10px;
+    border: 2px solid var(--link-border-color) !important;
+    border-radius: 10px;
+}
+.nav-link:hover {
+    color: var(--navbar-link-color-hover) !important;
+}
+
+.navbar-brand {
+    color: var(--navbar-link-color) !important;
+
+}
+.navbar-brand:hover {
+    color: var(--navbar-link-color-hover) !important;
+}
+
+/* Card */
+.card-auth {
+    margin-top: 45%;
+    transform: translateY(-50%);
+}
+
+.card-header {
+    color: var(--text) !important;
+    text-transform: uppercase;
+    font-size: 22px;
+    text-align: center;
+    border-bottom: 1px solid var(--link-border-color) !important;
+}
+
+.card {
+    background-color: var(--main-background-color) !important;
+}
+
+
+/* Form */
+.form-group label { /* it means all of the <label> inside an element with the class "form-group" */
+    color: var(--text) !important;
+}
+
+.form-control { /* text inputs */
+    background-color: var(--text-input-background-color) !important;
+    color: var(--text) !important;
+    border-color: var(--text-input-border-color) !important;
+}
+
+.form-control:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem var(--text-input-shadow-color) !important;
+  }
+
+.custom-control-label { /* so we can't select the "Remember Me" text */
+    user-select: none;
+}
+
+.btn-primary {
+    color: var(--text) !important;
+    background-color: rgba(0, 0, 0, 0.25) !important;
+    border: 1px solid var(--text-input-border-color) !important;
+}
+.btn-primary:focus,
+.btn-primary.focus {
+  box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Dropdown menu (logged) */
+.dropdown-menu {
+    background-color: var(--dropdown-background-color) !important;
+}
+
+.dropdown-item {
+    color: var(--text) !important;
+}
+.dropdown-item:hover {
+    background-color: var(--dropdown-item-hover) !important;
+}
+
+.card-single-list {
+    background-color: var(--card-single-list-background-color) !important;
+    margin: 10px !important;
+}
+
+
+
+
+/* switch theme style */
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+#switch-welcome {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.theme-switch {
+    display: inline-block;
+    height: 34px;
+    position: relative;
+    width: 60px;
+}
+
+.theme-switch input {
+    display:none;
+}
+
+.text-switch {
+    font-size : 16px;
+    font-weight: bold;
+    color: black;
+}
+
+.slider {
+    background-color: #ccc;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .2s;
+}
+
+.slider:before {
+    background-color: #fff;
+    bottom: 4px;
+    content: "";
+    height: 26px;
+    left: 4px;
+    position: absolute;
+    transition: .2s;
+    width: 26px;
+}
+
+input:checked + .slider {
+    background-color: #66bb6a;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+  

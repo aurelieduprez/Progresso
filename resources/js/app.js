@@ -15,3 +15,5 @@ require('./bootstrap');
 require('./components/Example');
 require('./components/TodoApp/TodoApp')
 require('./components/TodoList_preview')
+
+require('./SwitchTheme')

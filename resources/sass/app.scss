@@ -1,11 +1,11 @@
 // Fonts
-//@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Nunito');
 
 // Variables
 //@import 'variables';
 
 // Bootstrap
-//@import '~bootstrap/scss/bootstrap';
+@import '~bootstrap/scss/bootstrap';
 
-@import './black-dashboard-react.scss';
-@import './welcome.css'
+//@import './black-dashboard-react.scss';
+@import './style.css'

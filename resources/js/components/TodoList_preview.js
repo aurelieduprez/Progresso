@@ -266,7 +266,7 @@ class TodoListPreviewItem extends Component {
         }
         if (this.CurrentUserRole != "0") { // if user has access to the todolist 
             return (
-                <div className="card">
+                <div className="card card-single-list">
                     <div className="card-body" onClick={() => this.redirectToList(this.props.data.id)} style={{ cursor: 'pointer' }}>
                         <h1>{this.props.data.ListName}</h1>
                         <h2>{this.props.data.TodoNumber} Todos</h2>
@@ -359,7 +359,7 @@ class TodoListPreview extends Component {
         return (
             <div>
                 {items.map(TodoListPreviewItems => <TodoListPreviewItem removeList={this.removeList} index={TodoListPreviewItems.id} key={TodoListPreviewItems.id} data={TodoListPreviewItems.data} />)}
-                <Button onClick={() => { document.location.href = "/todolist/new" }}>+</Button>
+                <Button onClick={() => { document.location.href = "/todolist/new" }}>New list</Button>
             </div>
         )
     };
