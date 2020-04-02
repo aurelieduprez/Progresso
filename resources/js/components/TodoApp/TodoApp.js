@@ -122,24 +122,26 @@ class TodoApp extends React.Component {
     this.setState({ todoItems: todoItems });
   }
   async removeItem(itemIndex) {
-    if (!this.isNew) { // if this isn't a new todolist
-      // delete the item entry in TodolistItem
-      var deleteItem_promise = await Axios({
-        method: 'delete',
-        url: 'http://127.0.0.1:8000/api/ToDoList/items/' + todoItems[itemIndex].id,
-      })
-    }
     // delete the item from todoItems array
     todoItems.splice(itemIndex, 1);
 
     //update state
     this.setState({ todoItems: todoItems });
+
+    if (!this.isNew) { // if this isn't a new todolist
+    // delete the item entry in TodolistItem
+    var deleteItem_promise = await Axios({
+      method: 'delete',
+      url: 'http://127.0.0.1:8000/api/ToDoList/items/' + todoItems[itemIndex].id,
+    })
+  }
   }
 
   async removeAllDoneItem() {
     let todoItems_list = this.state.todoItems
     var Done_nb = 0; // number of done task to delete
     let Done_index; // index in the list of the first done item
+    var todoDeleted = [];
     for (var i = 0; i < todoItems.length; i++) {
       if (todoItems_list[i].done == true && todoItems_list[i].title == undefined) {
         Done_nb++;
@@ -150,19 +152,22 @@ class TodoApp extends React.Component {
     }
     if (Done_nb > 0) // if there at least one done task to delete
       for (var i = 0; i < Done_nb; i++) {
-        if (!this.isNew) {
-          var deleteItem_promise = await Axios({
-            method: 'delete',
-            url: 'http://127.0.0.1:8000/api/ToDoList/items/' + todoItems[Done_index + i].id,
-          })
-        }
+        todoDeleted.push(todoItems[Done_index + i].id)
       }
     todoItems_list.splice(Done_index, Done_nb) // delete all done task
     this.setState({ todoItems: todoItems_list });
+    if (!this.isNew) {
+    for (var i = 0; i < todoDeleted.length; i++) {
+      var deleteItem_promise = await Axios({
+        method: 'delete',
+        url: 'http://127.0.0.1:8000/api/ToDoList/items/' + todoDeleted[i],
+      })
+    }
+  }
   }
 
   async UncheckALL() {
-    var todoToUnCheck =[]
+    var todoToUnCheck = []
     for (var i = 0; i < todoItems.length; i++) {
       if (todoItems[i].done == true && todoItems[i].title == undefined) { // skip if title
         let todo = todoItems[i]
@@ -174,7 +179,7 @@ class TodoApp extends React.Component {
         this.setState({ todoItems: todoItems });
       }
     }
-    
+
     for (var i = 0; i < todoToUnCheck.length; i++) {
       if (!this.isNew) {
         let DoneToggle_promise = await Axios({
