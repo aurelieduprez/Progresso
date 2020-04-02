@@ -28,13 +28,13 @@ class ToDoListItemController extends Controller
     public function store(Request $request)
     {
 
-           $item =  ToDoListItem::create([
-                'to_do_list_id' => $request->input('id'),
-                'content' => $request->input('content'),
-                'state' => "0"
-            ]);
+        $item =  ToDoListItem::create([
+            'to_do_list_id' => $request->input('id'),
+            'content' => $request->input('content'),
+            'state' => "0"
+        ]);
 
-        return response()->json($item->id, 200); 
+        return response()->json($item->id, 200);
     }
 
     /**
@@ -44,9 +44,8 @@ class ToDoListItemController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        {
-            $myToDoListItem = ToDoListItem::find($id);   
+    { {
+            $myToDoListItem = ToDoListItem::find($id);
             return $myToDoListItem;
         }
     }
@@ -64,7 +63,7 @@ class ToDoListItemController extends Controller
         $myToDoListItem->content = $request->input('content');
         $myToDoListItem->state = $request->input('state');
         $myToDoListItem->save();
-        return response()->json(["content" => $request->input('content')], 200); 
+        return response()->json(["content" => $request->input('content')], 200);
     }
 
     /**
@@ -75,8 +74,8 @@ class ToDoListItemController extends Controller
      */
     public function destroy($id)
     {
-        $myToDoListItem = ToDoListItem::where('id',$id);
+        $myToDoListItem = ToDoListItem::where('id', $id);
         $myToDoListItem->delete();
-        return response(true,200); 
+        return response(true, 200);
     }
 }

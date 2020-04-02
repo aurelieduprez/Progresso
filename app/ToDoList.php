@@ -1,15 +1,16 @@
 <?php
 
 namespace App;
+
 use Illuminate\Database\Eloquent\Model;
 use App\ToDoListItem;
 
 
 class ToDoList extends Model
 {
-    protected $fillable = ['title', 'closed', 'user_id' ];
+    protected $fillable = ['title', 'closed', 'user_id'];
 
-      public function items()
+    public function items()
     {
         return $this->hasMany('App\ToDoListItem');
     }
@@ -18,7 +19,4 @@ class ToDoList extends Model
     {
         return $this->belongsToMany('App\User');
     }
-
-
 }
-

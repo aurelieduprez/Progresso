@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\API;
+
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\Controller;
@@ -43,19 +44,20 @@ class ToDoListController extends Controller
 
         $toreturn =
             [
-              "title"   => $todolist->title,
-              "todo" => $items
+                "title"   => $todolist->title,
+                "todo" => $items
             ];
 
-        if ( $todolist == NULL || $items == NULL){
+        if ($todolist == NULL || $items == NULL) {
             return response('', 404);
         }
-        $user_role = ToDoListUser::where('user_id',Auth::id())->where('to_do_list_id',$id)->first();
+        $user_role = ToDoListUser::where('user_id', Auth::id())->where('to_do_list_id', $id)->first();
 
-        if($user_role != false && $user_role->role != 0){return response($toreturn, 200);}
-        else{return response('',401);}
-
-        
+        if ($user_role != false && $user_role->role != 0) {
+            return response($toreturn, 200);
+        } else {
+            return response('', 401);
+        }
     }
 
 
@@ -75,16 +77,16 @@ class ToDoListController extends Controller
             'closed' => false,
             'user_id' => Auth::id()
         ]);
-        
+
         $request_object = (object) $request->input('content');
-                
+
         for ($i = 0; $i < count($request->input('content')); $i++) {
-            if(!property_exists(((object) $request_object->{$i}), 'title')) {
-            ToDoListItem::create([
-                'to_do_list_id' => $todo->id,
-                'content' => ((object) $request_object->{$i})->value,
-                'state' => ((object) $request_object->{$i})->done
-            ]);
+            if (!property_exists(((object) $request_object->{$i}), 'title')) {
+                ToDoListItem::create([
+                    'to_do_list_id' => $todo->id,
+                    'content' => ((object) $request_object->{$i})->value,
+                    'state' => ((object) $request_object->{$i})->done
+                ]);
             }
         }
         return response()->json($todo, 200);
@@ -99,7 +101,7 @@ class ToDoListController extends Controller
      */
     public function show($id)
     {
-        $myToDoList = ToDoList::find($id);   
+        $myToDoList = ToDoList::find($id);
         return $myToDoList;
     }
 
@@ -113,7 +115,7 @@ class ToDoListController extends Controller
     public function update(Request $request, $id)
     {
         $myToDoList = ToDoList::find($id);
-        if ( $myToDoList == NULL){
+        if ($myToDoList == NULL) {
             return response('', 404);
         }
         $myToDoList->title = $request->input('title');
@@ -121,22 +123,24 @@ class ToDoListController extends Controller
         $myToDoList->save();
 
         $myItems = ToDoListItem::where('to_do_list_id', $id)->get();
-        if ( $myItems == NULL){
+        if ($myItems == NULL) {
             return response("", 404);
-
         }
 
         $request_object = (object) $request->input('content');
         for ($i = 0; $i < count($myItems); $i++) {
-            if(!property_exists(((object) $request_object->{$i}), 'title')) {
-            $myItems{$i}->content =((object) $request_object->{$i})->value;
-            $myItems{$i}->state = ((object) $request_object->{$i})->done;
-            $myItems{$i}->save();
+            if (!property_exists(((object) $request_object->{$i}), 'title')) {
+                $myItems{
+                $i}->content = ((object) $request_object->{$i})->value;
+                $myItems{
+                $i}->state = ((object) $request_object->{$i})->done;
+                $myItems{
+                $i}->save();
             }
         }
 
 
-        return response()->json($myItems, 200); 
+        return response()->json($myItems, 200);
     }
 
     /**
@@ -148,14 +152,10 @@ class ToDoListController extends Controller
     public function destroy(Request $request, $id)
     {
         $myToDoList = ToDoList::find($id);
-        if ( $myToDoList == NULL){
+        if ($myToDoList == NULL) {
             return response('', 404);
         }
         $myToDoList->delete();
-        return response(''); 
+        return response('');
     }
-
-
-
-
 }

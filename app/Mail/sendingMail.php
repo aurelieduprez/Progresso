@@ -30,10 +30,6 @@ class sendingMail extends Mailable
     {
         return $this->subject('Progresso, your online To-Do list')
 
-                    ->view('emails.sendingEmails');
+            ->view('emails.sendingEmails');
     }
-
-
-
-    
 }
