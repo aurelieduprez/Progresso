@@ -67,8 +67,8 @@ class RegisterController extends Controller
         $details = [
 
             'title' => 'Progresso, your online to-do list.',
-
-            'body' => "Thank you for signing up ! 
+    
+            'body' => $data['name'] . ", thank you for signing up ! 
             Let's organise your buzy work days.
             We think computers should help you manage your projects, so you don't forget what's important.
             Progresso reunites all your task-lists in your Home Page and allows you to easily share them with your team."

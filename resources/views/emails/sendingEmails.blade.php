@@ -15,13 +15,13 @@
 
     <h1>{{ $details['title'] }}</h1>
 
-    <h2> Hi there, </br></br></h2>
+    <p> Hi 
 
-    <h4><p>{{ $details['body'] }}</p>
+    {{ $details['body'] }}</p>
 
-   
+    </br></br>
 
-    <p>Cheers, </br> the Progresso Team</p></h4>
+    <p>Cheers, </br> the Progresso Team</p>
 
 </body>
 
