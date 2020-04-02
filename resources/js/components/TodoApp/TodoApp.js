@@ -162,20 +162,25 @@ class TodoApp extends React.Component {
   }
 
   async UncheckALL() {
+    var todoToUnCheck =[]
     for (var i = 0; i < todoItems.length; i++) {
       if (todoItems[i].done == true && todoItems[i].title == undefined) { // skip if title
         let todo = todoItems[i]
-        if (!this.isNew) {
-          let DoneToggle_promise = await Axios({
-            method: 'put',
-            url: 'http://127.0.0.1:8000/api/items/' + todo.id,
-          })
-        }
+        todoToUnCheck.push(todo.id)
         todoItems.splice(i, 1);
         // insert a new one with same value at the begining of the array
         todo.done = false;
         todoItems.unshift(todo);
         this.setState({ todoItems: todoItems });
+      }
+    }
+    
+    for (var i = 0; i < todoToUnCheck.length; i++) {
+      if (!this.isNew) {
+        let DoneToggle_promise = await Axios({
+          method: 'put',
+          url: 'http://127.0.0.1:8000/api/items/' + todoToUnCheck[i],
+        })
       }
     }
   }
