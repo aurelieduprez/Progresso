@@ -172,18 +172,18 @@ class TodoListPreviewItem extends Component {
 
     }
 
-    async QuitList(TodoListID){
+    async QuitList(TodoListID) {
 
-            let ChangeRole_promise = await Axios({
-                method: 'put',
-                url: '/api/ToDoListUser/' + TodoListID,
-                data: {
-                    user_id: "CurrentUser",
-                    role: "0"
-                },
-            })
+        let ChangeRole_promise = await Axios({
+            method: 'put',
+            url: '/api/ToDoListUser/' + TodoListID,
+            data: {
+                user_id: "CurrentUser",
+                role: "0"
+            },
+        })
 
-            this.props.removeList(this.props.index);
+        this.props.removeList(this.props.index);
     }
 
     async DeleteList(id) {
@@ -314,17 +314,14 @@ class TodoListPreview extends Component {
     }
     async componentWillMount() {
         // get todolist info here
-        try {
-            // get all todolist where the current user has access
-            var todolist_promise = await Axios({
-                method: 'get',
-                url: 'http://127.0.0.1:8000/api/ToDoList/',
-            })
-        }
-        catch (e) {
-            console.error(e)
-        }
+        // get all todolist where the current user has access
+        var todolist_promise = await Axios({
+            method: 'get',
+            url: 'http://127.0.0.1:8000/api/ToDoList/',
+        })
+
         let TodoLists = []
+        console.warn(todolist_promise)
         // for all todolist get the number of remaining todos
         for (var i = 0; i < todolist_promise.data.length; i++) {
             // get content of the todolist
@@ -332,16 +329,19 @@ class TodoListPreview extends Component {
                 method: 'get',
                 url: 'http://127.0.0.1:8000/api/ToDoList/' + todolist_promise.data[i].id,
             })
-            var todo_number = 0;
-            // count how many todos are not done
-            for (var j = 0; j < todolist_info.data.todo.length; j++) {
-                if (todolist_info.data.todo[j].state == 0) { // if the current item isn't done
-                    todo_number++;
+            console.warn(todolist_info)
+            if (todolist_info.data != "Access Denied") {
+                var todo_number = 0;
+                // count how many todos are not done
+                for (var j = 0; j < todolist_info.data.todo.length; j++) {
+                    if (todolist_info.data.todo[j].state == 0) { // if the current item isn't done
+                        todo_number++;
+                    }
                 }
+                // push new item to array
+                TodoLists.push({ TodoNumber: todo_number, ListName: todolist_promise.data[i].title, id: todolist_promise.data[i].id })
+                this.setState({ todoLists: TodoLists }); // update state
             }
-            // push new item to array
-            TodoLists.push({ TodoNumber: todo_number, ListName: todolist_promise.data[i].title, id: todolist_promise.data[i].id })
-            this.setState({ todoLists: TodoLists }); // update state
         }
     }
 
